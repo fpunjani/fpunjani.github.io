@@ -666,7 +666,7 @@
     <!-- Pixelated Background -->
     <div class="pixelate-bg">
         <canvas></canvas>
-        <img src="../dp/panamabeach.jpg" alt="Background" style="display: none;">
+        <img alt="Background" style="display: none;">
     </div>
     <div class="bg-overlay"></div>
     <div class="grid-bg"></div>
@@ -884,6 +884,12 @@
                 this.canvas = this.container.querySelector('canvas');
                 this.ctx = this.canvas.getContext('2d');
                 this.img = this.container.querySelector('img');
+                this.hasSetup = false;
+                this.srcCandidates = [
+                    './panamabeach.jpg',      // same folder (GitHub Pages root or local flat)
+                    '../dp/panamabeach.jpg',   // sibling dp folder (local current layout)
+                    '/panamabeach.jpg'         // root fallback
+                ];
                 
                 // Pixelation settings
                 this.maxPixelSize = 50;  // Most pixelated (at top)
@@ -894,14 +900,29 @@
             }
 
             init() {
-                if (this.img.complete && this.img.naturalWidth > 0) {
+                const tryNext = () => {
+                    if (this.hasSetup) return;
+                    const next = this.srcCandidates.shift();
+                    if (!next) {
+                        console.error('Failed to load any background image candidate.');
+                        return;
+                    }
+                    this.img.src = next;
+                };
+
+                this.img.onload = () => {
+                    if (this.hasSetup) return;
+                    this.hasSetup = true;
                     this.setup();
-                } else {
-                    this.img.onload = () => this.setup();
-                    this.img.onerror = () => {
-                        console.error('Failed to load background image:', this.img.src);
-                    };
-                }
+                };
+
+                this.img.onerror = () => {
+                    // Try the next candidate if available
+                    tryNext();
+                };
+
+                // Kick off first attempt
+                tryNext();
             }
 
             setup() {
