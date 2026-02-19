@@ -666,7 +666,7 @@
     <!-- Pixelated Background -->
     <div class="pixelate-bg">
         <canvas></canvas>
-        <img src="./panamabeach.jpg" alt="Background" style="display: none;">
+        <img src="../dp/panamabeach.jpg" alt="Background" style="display: none;">
     </div>
     <div class="bg-overlay"></div>
     <div class="grid-bg"></div>
@@ -714,7 +714,7 @@
                 </div>
 
                 <p class="bio-text">
-                    Backend engineer and site reliability practitioner at Manulife. I build resilient microservices, drive observability improvements, and automate incident response for critical banking workflows. CS &amp; Film Studies grad — when I'm not engineering systems, I'm behind a camera.
+                    Backend engineer and site reliability practitioner at Manulife Financial. I build resilient microservices, drive observability improvements, and automate incident response for critical banking workflows. CS &amp; Film Studies grad — when I'm not engineering systems, I'm behind a camera.
                 </p>
 
                 <div class="tech-columns">
@@ -888,7 +888,7 @@
                 // Pixelation settings
                 this.maxPixelSize = 50;  // Most pixelated (at top)
                 this.minPixelSize = 1;   // Fully clear at the end
-                this.scrollRange = 2500; // Balanced scroll for full reveal
+                this.scrollRange = 2500; // Desktop baseline; recalculated for mobile in computeScrollRange()
                 
                 this.init();
             }
@@ -905,7 +905,7 @@
             }
 
             setup() {
-                // Set canvas size
+                // Set canvas size and scroll range
                 this.resize();
                 
                 // Initial draw
@@ -922,6 +922,15 @@
             resize() {
                 this.canvas.width = window.innerWidth * window.devicePixelRatio;
                 this.canvas.height = window.innerHeight * window.devicePixelRatio;
+
+                // Recompute scroll range so mobile gets a longer reveal; keep desktop baseline via min
+                this.computeScrollRange();
+            }
+
+            computeScrollRange() {
+                const totalScrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+                // Use 75% of available scroll to finish the reveal, but never less than the desktop baseline
+                this.scrollRange = Math.max(2500, totalScrollable * 0.75);
             }
 
             updatePixelation() {
@@ -1035,4 +1044,3 @@
     </script>
 </body>
 </html>
-
