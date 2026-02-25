@@ -525,6 +525,8 @@
         .contact-links {
             display: flex;
             gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
         }
 
         .contact-link {
@@ -659,6 +661,308 @@
         .project-card:hover .arrow-icon {
             animation: stopMotionArrow 0.5s steps(6) infinite;
         }
+
+        /* Diwali-style random site button */
+        .diwali-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diwali-btn:disabled {
+            opacity: 0.7;
+            cursor: wait;
+        }
+
+        .diwali-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .diwali-overlay.is-animated {
+            opacity: 1;
+        }
+
+        .diwali-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 20%;
+            border-radius: 999px;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            background:
+                radial-gradient(circle, rgba(255, 165, 0, 0.25), transparent 60%),
+                radial-gradient(circle, rgba(255, 90, 0, 0.22), transparent 65%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            animation: none;
+        }
+
+        .diwali-overlay.is-animated::before {
+            opacity: 1;
+            animation: pulseHalo 2.6s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
+        }
+
+        .diwali-stage {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: min(360px, 85vw);
+            height: min(280px, 60vh);
+        }
+
+        .diwali-comic-caption {
+            position: absolute;
+            inset: auto 50% -48px;
+            transform: translateX(-50%);
+            padding: 12px 28px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(18, 12, 36, 0.85);
+            color: #ffd166;
+            font-size: 13px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-weight: 600;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .diwali-overlay.is-animated .diwali-comic-caption {
+            opacity: 1;
+            animation: comedicCaption 1.2s ease-in-out infinite;
+        }
+
+        .diwali-cracker {
+            position: absolute;
+            left: 50%;
+            top: 48%;
+            transform: translate(-50%, -50%) rotate(-9deg);
+            width: 220px;
+            height: 100px;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
+            animation: crackerIdle 0.45s steps(2) infinite;
+        }
+
+        .cracker-body {
+            position: absolute;
+            right: 0;
+            top: 22px;
+            width: 150px;
+            height: 56px;
+            border-radius: 12px;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #ff6f3d 0 18px,
+                    #ffd166 18px 30px,
+                    #f94144 30px 44px
+                );
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .cracker-cap {
+            position: absolute;
+            right: -10px;
+            top: 18px;
+            width: 22px;
+            height: 64px;
+            border-radius: 8px;
+            background: #f9f2e7;
+            border: 3px solid rgba(0, 0, 0, 0.15);
+        }
+
+        .cracker-fuse {
+            position: absolute;
+            left: 4px;
+            top: 44px;
+            width: 72px;
+            height: 8px;
+            border-radius: 8px;
+            background: #c6b08b;
+            transform-origin: left center;
+        }
+
+        .fuse-spark {
+            position: absolute;
+            left: 64px;
+            top: 40px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff8c9 10%, #ffb703 45%, #ff4d00 70%);
+            box-shadow: 0 0 10px rgba(255, 166, 0, 0.9);
+            animation: sparkDance 0.28s steps(2) infinite;
+        }
+
+        .diwali-cracker.fuse-burning .fuse-spark {
+            animation: sparkDance 0.24s steps(2) infinite, burnFuse 1.9s linear forwards;
+        }
+
+        .diwali-cracker.fuse-burning .cracker-fuse {
+            animation: fuseShrink 1.9s linear forwards;
+        }
+
+        .boom-cloud {
+            position: absolute;
+            left: 65%;
+            top: 40%;
+            transform: translate(-50%, -50%) scale(0.2);
+            font-size: 52px;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #fff8c9;
+            text-shadow:
+                0 0 14px rgba(255, 166, 0, 0.9),
+                0 0 35px rgba(255, 70, 0, 0.7);
+            opacity: 0;
+            white-space: nowrap;
+        }
+
+        .diwali-cracker.is-boom .cracker-body,
+        .diwali-cracker.is-boom .cracker-cap,
+        .diwali-cracker.is-boom .cracker-fuse,
+        .diwali-cracker.is-boom .fuse-spark {
+            opacity: 0;
+            transform: scale(0.7);
+        }
+
+        .diwali-cracker.is-boom .boom-cloud {
+            animation: boomPop 0.7s cubic-bezier(0.2, 1.4, 0.3, 1) forwards;
+        }
+
+        @keyframes pulseHalo {
+            0% {
+                transform: scale(0.92);
+                opacity: 0.25;
+            }
+            50% {
+                transform: scale(1.08);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(0.92);
+                opacity: 0.25;
+            }
+        }
+
+        @keyframes comedicCaption {
+            0% {
+                transform: translate(-50%, 0) scale(0.9);
+                opacity: 0.6;
+            }
+            50% {
+                transform: translate(-50%, -12px) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, 0) scale(0.95);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes crackerIdle {
+            0% {
+                transform: translate(-50%, -50%) rotate(-9deg);
+            }
+            50% {
+                transform: translate(-50%, -48%) rotate(-7deg);
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(-9deg);
+            }
+        }
+
+        @keyframes sparkDance {
+            0% {
+                transform: translate(0, 0) scale(0.9);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(2px, -2px) scale(1.15);
+                opacity: 1;
+            }
+        }
+
+        @keyframes burnFuse {
+            0% {
+                left: 64px;
+            }
+            100% {
+                left: 6px;
+            }
+        }
+
+        @keyframes fuseShrink {
+            0% {
+                width: 72px;
+                opacity: 1;
+            }
+            100% {
+                width: 8px;
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes boomPop {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.2);
+            }
+            35% {
+                opacity: 1;
+                transform: translate(-50%, -56%) scale(1.15);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -70%) scale(1.45);
+            }
+        }
+
+        .diwali-particle {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--size, 8px);
+            height: var(--size, 8px);
+            border-radius: 999px;
+            background: var(--color, #ffd166);
+            opacity: 0;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 12px rgba(255, 190, 90, 0.65);
+            animation: diwaliBurst var(--duration, 850ms) cubic-bezier(0.12, 0.68, 0.25, 0.98) forwards;
+        }
+
+        @keyframes diwaliBurst {
+            0% {
+                opacity: 0;
+                transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%)) scale(0.35);
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translate(
+                    calc(var(--x) + var(--dx) - 50%),
+                    calc(var(--y) + var(--dy) - 50%)
+                ) scale(1);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .diwali-particle {
+                animation: none;
+                opacity: 0;
+            }
+            .diwali-cracker,
+            .diwali-overlay.is-animated .diwali-comic-caption {
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -670,6 +974,18 @@
     </div>
     <div class="bg-overlay"></div>
     <div class="grid-bg"></div>
+    <div class="diwali-overlay" aria-hidden="true">
+        <div class="diwali-stage">
+            <div class="diwali-cracker" id="diwali-cracker">
+                <span class="cracker-body"></span>
+                <span class="cracker-cap"></span>
+                <span class="cracker-fuse"></span>
+                <span class="fuse-spark"></span>
+                <span class="boom-cloud">BOOM!</span>
+            </div>
+            <div class="diwali-comic-caption" id="diwali-caption">Lighting the fuse...</div>
+        </div>
+    </div>
 
     <!-- Top Navigation -->
     <nav class="top-nav" role="navigation">
@@ -864,6 +1180,9 @@
             <div class="contact-links">
                 <a href="mailto:farishpunjani@gmail.com" class="contact-link">Email ↗</a>
                 <a href="https://linkedin.com/in/farishh" target="_blank" class="contact-link">LinkedIn ↗</a>
+                <button id="random-site-btn" type="button" class="stop-motion-btn diwali-btn">
+                    Random Site <span class="btn-arrow">→</span>
+                </button>
             </div>
         </section>
 
@@ -1060,6 +1379,126 @@
         if (topNav) {
             window.addEventListener('scroll', () => {
                 topNav.classList.toggle('scrolled', window.scrollY > 50);
+            });
+        }
+
+        // ===== RANDOM SITE + DIWALI BURST =====
+        const randomSites = [
+            'https://www.wikipedia.org',
+            'https://archive.org',
+            'https://www.nasa.gov'
+        ];
+        const navigationDelay = 2400;
+
+        const randomSiteButton = document.getElementById('random-site-btn');
+        const diwaliOverlay = document.querySelector('.diwali-overlay');
+        const diwaliCracker = document.getElementById('diwali-cracker');
+        const diwaliCaption = document.getElementById('diwali-caption');
+        let animationFrameTicker = null;
+        let captionTicker = null;
+
+        function launchDiwaliBurst(x, y) {
+            if (!diwaliOverlay) return;
+
+            const colors = ['#ff8f00', '#ff5a5f', '#f9c74f', '#ffd166', '#f8961e', '#ef476f'];
+            const particleCount = 44;
+
+            for (let i = 0; i < particleCount; i += 1) {
+                const particle = document.createElement('span');
+                const angle = (Math.PI * 2 * i) / particleCount + (Math.random() * 0.32);
+                const distance = 80 + Math.random() * 130;
+                const dx = Math.cos(angle) * distance;
+                const dy = Math.sin(angle) * distance;
+                const size = 5 + Math.random() * 7;
+                const duration = 650 + Math.random() * 450;
+
+                particle.className = 'diwali-particle';
+                particle.style.setProperty('--x', `${x}px`);
+                particle.style.setProperty('--y', `${y}px`);
+                particle.style.setProperty('--dx', `${dx}px`);
+                particle.style.setProperty('--dy', `${dy}px`);
+                particle.style.setProperty('--size', `${size}px`);
+                particle.style.setProperty('--duration', `${duration}ms`);
+                particle.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+
+                diwaliOverlay.appendChild(particle);
+                window.setTimeout(() => particle.remove(), duration + 60);
+            }
+        }
+
+        function startComicalAnimation(x, y) {
+            if (!diwaliOverlay || !diwaliCracker || !diwaliCaption) return;
+            diwaliOverlay.classList.add('is-animated');
+            diwaliCracker.classList.remove('is-boom');
+            diwaliCracker.classList.remove('fuse-burning');
+            void diwaliCracker.offsetWidth;
+            diwaliCracker.classList.add('fuse-burning');
+            diwaliCaption.textContent = 'Lighting the fuse...';
+
+            // Periodic spark showers while the fuse burns.
+            animationFrameTicker = window.setInterval(() => {
+                const shakeX = x + ((Math.random() - 0.5) * 26);
+                const shakeY = y + ((Math.random() - 0.5) * 14);
+                launchDiwaliBurst(shakeX, shakeY);
+            }, 320);
+
+            captionTicker = window.setTimeout(() => {
+                diwaliCaption.textContent = 'Uh oh... stand back!';
+            }, 1200);
+        }
+
+        function triggerBoom(x, y) {
+            if (!diwaliCracker || !diwaliCaption) return;
+            diwaliCaption.textContent = 'BOOM. Happy Diwali!';
+            diwaliCracker.classList.add('is-boom');
+            launchDiwaliBurst(x, y);
+            launchDiwaliBurst(x + 30, y - 12);
+            launchDiwaliBurst(x - 30, y + 18);
+        }
+
+        function stopComicalAnimation() {
+            if (!diwaliOverlay || !diwaliCracker) return;
+            diwaliOverlay.classList.remove('is-animated');
+            diwaliCracker.classList.remove('fuse-burning');
+            diwaliCracker.classList.remove('is-boom');
+            if (animationFrameTicker) {
+                clearInterval(animationFrameTicker);
+                animationFrameTicker = null;
+            }
+            if (captionTicker) {
+                clearTimeout(captionTicker);
+                captionTicker = null;
+            }
+        }
+
+        if (randomSiteButton) {
+            randomSiteButton.addEventListener('click', () => {
+                if (!randomSites.length) return;
+
+                const rect = randomSiteButton.getBoundingClientRect();
+                const originX = rect.left + (rect.width / 2);
+                const originY = rect.top + (rect.height / 2);
+                const url = randomSites[Math.floor(Math.random() * randomSites.length)];
+
+                randomSiteButton.disabled = true;
+                startComicalAnimation(originX, originY);
+
+                const boomAt = Math.max(400, navigationDelay - 650);
+                window.setTimeout(() => triggerBoom(originX, originY), boomAt);
+
+                window.setTimeout(() => {
+                    stopComicalAnimation();
+                    const newTab = window.open(url, '_blank', 'noopener,noreferrer');
+                    if (!newTab && diwaliCaption && diwaliOverlay) {
+                        // Popup blocked: keep user on page and show an actionable hint.
+                        diwaliOverlay.classList.add('is-animated');
+                        diwaliCaption.textContent = 'Popup blocked. Please allow popups and click again.';
+                        window.setTimeout(() => {
+                            diwaliOverlay.classList.remove('is-animated');
+                        }, 1800);
+                    }
+                    randomSiteButton.disabled = false;
+                }, navigationDelay);
             });
         }
     </script>
