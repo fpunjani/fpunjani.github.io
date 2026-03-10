@@ -662,307 +662,107 @@
             animation: stopMotionArrow 0.5s steps(6) infinite;
         }
 
-        /* Diwali-style random site button */
-        .diwali-btn {
-            position: relative;
-            overflow: hidden;
+        /* ===== ROCKET ANIMATION OVERLAY ===== */
+        .rocket-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+        .rocket-overlay.active {
+            pointer-events: all;
+            opacity: 1;
+        }
+        .rocket-overlay canvas {
+            width: 100%;
+            height: 100%;
         }
 
-        .diwali-btn:disabled {
-            opacity: 0.7;
+        /* focus ring */
+        .circular-reveal:focus-visible {
+            outline: 3px solid #ff9800;
+            outline-offset: 4px;
+        }
+
+        .circular-reveal[data-state="fusing"] {
             cursor: wait;
         }
 
-        .diwali-overlay {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 2000;
-            opacity: 0;
-            transition: opacity 0.2s ease;
-        }
-
-        .diwali-overlay.is-animated {
-            opacity: 1;
-        }
-
-        .diwali-overlay::before {
-            content: '';
-            position: absolute;
-            inset: 20%;
-            border-radius: 999px;
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            background:
-                radial-gradient(circle, rgba(255, 165, 0, 0.25), transparent 60%),
-                radial-gradient(circle, rgba(255, 90, 0, 0.22), transparent 65%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            animation: none;
-        }
-
-        .diwali-overlay.is-animated::before {
-            opacity: 1;
-            animation: pulseHalo 2.6s cubic-bezier(0.2, 0.8, 0.3, 1) infinite;
-        }
-
-        .diwali-stage {
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: min(360px, 85vw);
-            height: min(280px, 60vh);
-        }
-
-        .diwali-comic-caption {
-            position: absolute;
-            inset: auto 50% -48px;
-            transform: translateX(-50%);
-            padding: 12px 28px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: rgba(18, 12, 36, 0.85);
-            color: #ffd166;
-            font-size: 13px;
-            letter-spacing: 0.08em;
-            text-transform: uppercase;
-            font-weight: 600;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .diwali-overlay.is-animated .diwali-comic-caption {
-            opacity: 1;
-            animation: comedicCaption 1.2s ease-in-out infinite;
-        }
-
-        .diwali-cracker {
-            position: absolute;
-            left: 50%;
-            top: 48%;
-            transform: translate(-50%, -50%) rotate(-9deg);
-            width: 220px;
-            height: 100px;
-            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.35));
-            animation: crackerIdle 0.45s steps(2) infinite;
-        }
-
-        .cracker-body {
-            position: absolute;
-            right: 0;
-            top: 22px;
-            width: 150px;
-            height: 56px;
-            border-radius: 12px;
-            background:
-                repeating-linear-gradient(
-                    90deg,
-                    #ff6f3d 0 18px,
-                    #ffd166 18px 30px,
-                    #f94144 30px 44px
-                );
-            border: 3px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .cracker-cap {
-            position: absolute;
-            right: -10px;
-            top: 18px;
-            width: 22px;
-            height: 64px;
-            border-radius: 8px;
-            background: #f9f2e7;
-            border: 3px solid rgba(0, 0, 0, 0.15);
-        }
-
-        .cracker-fuse {
-            position: absolute;
-            left: 4px;
-            top: 44px;
-            width: 72px;
-            height: 8px;
-            border-radius: 8px;
-            background: #c6b08b;
-            transform-origin: left center;
-        }
-
-        .fuse-spark {
-            position: absolute;
-            left: 64px;
-            top: 40px;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #fff8c9 10%, #ffb703 45%, #ff4d00 70%);
-            box-shadow: 0 0 10px rgba(255, 166, 0, 0.9);
-            animation: sparkDance 0.28s steps(2) infinite;
-        }
-
-        .diwali-cracker.fuse-burning .fuse-spark {
-            animation: sparkDance 0.24s steps(2) infinite, burnFuse 1.9s linear forwards;
-        }
-
-        .diwali-cracker.fuse-burning .cracker-fuse {
-            animation: fuseShrink 1.9s linear forwards;
-        }
-
-        .boom-cloud {
-            position: absolute;
-            left: 65%;
-            top: 40%;
-            transform: translate(-50%, -50%) scale(0.2);
-            font-size: 52px;
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            color: #fff8c9;
-            text-shadow:
-                0 0 14px rgba(255, 166, 0, 0.9),
-                0 0 35px rgba(255, 70, 0, 0.7);
-            opacity: 0;
-            white-space: nowrap;
-        }
-
-        .diwali-cracker.is-boom .cracker-body,
-        .diwali-cracker.is-boom .cracker-cap,
-        .diwali-cracker.is-boom .cracker-fuse,
-        .diwali-cracker.is-boom .fuse-spark {
-            opacity: 0;
-            transform: scale(0.7);
-        }
-
-        .diwali-cracker.is-boom .boom-cloud {
-            animation: boomPop 0.7s cubic-bezier(0.2, 1.4, 0.3, 1) forwards;
-        }
-
-        @keyframes pulseHalo {
-            0% {
-                transform: scale(0.92);
-                opacity: 0.25;
-            }
-            50% {
-                transform: scale(1.08);
-                opacity: 0.6;
-            }
-            100% {
-                transform: scale(0.92);
-                opacity: 0.25;
-            }
-        }
-
-        @keyframes comedicCaption {
-            0% {
-                transform: translate(-50%, 0) scale(0.9);
-                opacity: 0.6;
-            }
-            50% {
-                transform: translate(-50%, -12px) scale(1);
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, 0) scale(0.95);
-                opacity: 0.7;
-            }
-        }
-
-        @keyframes crackerIdle {
-            0% {
-                transform: translate(-50%, -50%) rotate(-9deg);
-            }
-            50% {
-                transform: translate(-50%, -48%) rotate(-7deg);
-            }
-            100% {
-                transform: translate(-50%, -50%) rotate(-9deg);
-            }
-        }
-
-        @keyframes sparkDance {
-            0% {
-                transform: translate(0, 0) scale(0.9);
-                opacity: 0.8;
-            }
-            100% {
-                transform: translate(2px, -2px) scale(1.15);
-                opacity: 1;
-            }
-        }
-
-        @keyframes burnFuse {
-            0% {
-                left: 64px;
-            }
-            100% {
-                left: 6px;
-            }
-        }
-
-        @keyframes fuseShrink {
-            0% {
-                width: 72px;
-                opacity: 1;
-            }
-            100% {
-                width: 8px;
-                opacity: 0.2;
-            }
-        }
-
-        @keyframes boomPop {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.2);
-            }
-            35% {
-                opacity: 1;
-                transform: translate(-50%, -56%) scale(1.15);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -70%) scale(1.45);
-            }
-        }
-
-        .diwali-particle {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: var(--size, 8px);
-            height: var(--size, 8px);
-            border-radius: 999px;
-            background: var(--color, #ffd166);
-            opacity: 0;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 12px rgba(255, 190, 90, 0.65);
-            animation: diwaliBurst var(--duration, 850ms) cubic-bezier(0.12, 0.68, 0.25, 0.98) forwards;
-        }
-
-        @keyframes diwaliBurst {
-            0% {
-                opacity: 0;
-                transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%)) scale(0.35);
-            }
-            20% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translate(
-                    calc(var(--x) + var(--dx) - 50%),
-                    calc(var(--y) + var(--dy) - 50%)
-                ) scale(1);
-            }
-        }
-
         @media (prefers-reduced-motion: reduce) {
-            .diwali-particle {
-                animation: none;
-                opacity: 0;
-            }
-            .diwali-cracker,
-            .diwali-overlay.is-animated .diwali-comic-caption {
-                animation: none;
-            }
+            .circular-reveal { animation: none !important; }
         }
+
+        /* ===== CIRCULAR REVEAL HEADING ===== */
+        @keyframes circularFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        .circular-reveal {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #e6e6e6;
+            box-shadow: 6px 6px 14px #bebebe, -6px -6px 14px #ffffff;
+            overflow: hidden;
+            animation: circularFloat 5s ease-in-out infinite;
+            transition: box-shadow 0.5s ease;
+            cursor: pointer;
+            z-index: 900;
+            flex-shrink: 0;
+        }
+        .circular-reveal:hover {
+            box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
+        }
+        .circular-inner-1 {
+            position: absolute;
+            inset: 2px;
+            border-radius: 50%;
+            background: #e6e6e6;
+            box-shadow: inset 4px 4px 8px #d1d1d1, inset -4px -4px 8px #ffffff;
+            pointer-events: none;
+        }
+        .circular-inner-2 {
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            background: #e6e6e6;
+            box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+            pointer-events: none;
+        }
+        .circular-center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            pointer-events: none;
+        }
+        .circular-center-inner {
+            padding: 6px 6px;
+            border-radius: 10px;
+            background: #e6e6e6;
+            text-align: center;
+            transition: opacity 0.3s ease;
+            box-shadow: inset 2px 2px 4px #d1d1d1, inset -2px -2px 4px #ffffff;
+        }
+        .circular-center-inner.hidden {
+            opacity: 0;
+        }
+        .circular-center-name {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #2d3436;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.3;
+        }
+
     </style>
 </head>
 <body>
@@ -974,17 +774,22 @@
     </div>
     <div class="bg-overlay"></div>
     <div class="grid-bg"></div>
-    <div class="diwali-overlay" aria-hidden="true">
-        <div class="diwali-stage">
-            <div class="diwali-cracker" id="diwali-cracker">
-                <span class="cracker-body"></span>
-                <span class="cracker-cap"></span>
-                <span class="cracker-fuse"></span>
-                <span class="fuse-spark"></span>
-                <span class="boom-cloud">BOOM!</span>
+
+    <!-- Random Site — Circular FAB (fixed bottom-right) -->
+    <div class="circular-reveal" id="circular-reveal"
+         role="button" tabindex="0" data-state="idle"
+         aria-label="Go to a random site" aria-pressed="false">
+        <div class="circular-inner-1"></div>
+        <div class="circular-inner-2"></div>
+        <div class="circular-center">
+            <div class="circular-center-inner" id="circular-center-text">
+                <span class="circular-center-name">बावा की<br>दुनिया</span>
             </div>
-            <div class="diwali-comic-caption" id="diwali-caption">Lighting the fuse...</div>
         </div>
+    </div>
+
+    <div class="rocket-overlay" id="rocket-overlay" aria-hidden="true">
+        <canvas id="rocket-canvas"></canvas>
     </div>
 
     <!-- Top Navigation -->
@@ -1180,9 +985,6 @@
             <div class="contact-links">
                 <a href="mailto:farishpunjani@gmail.com" class="contact-link">Email ↗</a>
                 <a href="https://linkedin.com/in/farishh" target="_blank" class="contact-link">LinkedIn ↗</a>
-                <button id="random-site-btn" type="button" class="stop-motion-btn diwali-btn">
-                    Random Site <span class="btn-arrow">→</span>
-                </button>
             </div>
         </section>
 
@@ -1382,125 +1184,746 @@
             });
         }
 
-        // ===== RANDOM SITE + DIWALI BURST =====
+        // ===== CARTOON ROCKET FAB =====
         const randomSites = [
             'https://www.wikipedia.org',
             'https://archive.org',
-            'https://www.nasa.gov'
+            'https://www.nasa.gov',
+            'https://neal.fun',
+            'https://www.bbc.com/future',
+            'https://pudding.cool'
         ];
-        const navigationDelay = 2400;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let fabState = 'idle';
 
-        const randomSiteButton = document.getElementById('random-site-btn');
-        const diwaliOverlay = document.querySelector('.diwali-overlay');
-        const diwaliCracker = document.getElementById('diwali-cracker');
-        const diwaliCaption = document.getElementById('diwali-caption');
-        let animationFrameTicker = null;
-        let captionTicker = null;
+        function setFabState(state) {
+            fabState = state;
+            const fab = document.getElementById('circular-reveal');
+            if (!fab) return;
+            fab.dataset.state = state;
+            fab.setAttribute('aria-pressed', state !== 'idle' ? 'true' : 'false');
+        }
 
-        function launchDiwaliBurst(x, y) {
-            if (!diwaliOverlay) return;
+        // ===== Cartoon Rocket Animation (Canvas) =====
+        function playRocketAnimation(onComplete) {
+            const overlay = document.getElementById('rocket-overlay');
+            const canvas = document.getElementById('rocket-canvas');
+            if (!overlay || !canvas) { onComplete(); return; }
+            const ctx = canvas.getContext('2d');
 
-            const colors = ['#ff8f00', '#ff5a5f', '#f9c74f', '#ffd166', '#f8961e', '#ef476f'];
-            const particleCount = 44;
+            canvas.width = window.innerWidth * window.devicePixelRatio;
+            canvas.height = window.innerHeight * window.devicePixelRatio;
+            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            const W = window.innerWidth;
+            const H = window.innerHeight;
 
-            for (let i = 0; i < particleCount; i += 1) {
-                const particle = document.createElement('span');
-                const angle = (Math.PI * 2 * i) / particleCount + (Math.random() * 0.32);
-                const distance = 80 + Math.random() * 130;
-                const dx = Math.cos(angle) * distance;
-                const dy = Math.sin(angle) * distance;
-                const size = 5 + Math.random() * 7;
-                const duration = 650 + Math.random() * 450;
+            overlay.classList.add('active');
 
-                particle.className = 'diwali-particle';
-                particle.style.setProperty('--x', `${x}px`);
-                particle.style.setProperty('--y', `${y}px`);
-                particle.style.setProperty('--dx', `${dx}px`);
-                particle.style.setProperty('--dy', `${dy}px`);
-                particle.style.setProperty('--size', `${size}px`);
-                particle.style.setProperty('--duration', `${duration}ms`);
-                particle.style.setProperty('--color', colors[Math.floor(Math.random() * colors.length)]);
+            // --- Drawing helpers (bold cartoon outlines) ---
+            const OUTLINE = '#1a1a2e';
+            const GROUND_Y = H * 0.82;
 
-                diwaliOverlay.appendChild(particle);
-                window.setTimeout(() => particle.remove(), duration + 60);
+            // Semi-transparent dark tint so characters pop against the portfolio
+            function drawTint(alpha) {
+                ctx.save();
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = '#0a0a2e';
+                ctx.fillRect(0, 0, W, H);
+                ctx.restore();
             }
-        }
 
-        function startComicalAnimation(x, y) {
-            if (!diwaliOverlay || !diwaliCracker || !diwaliCaption) return;
-            diwaliOverlay.classList.add('is-animated');
-            diwaliCracker.classList.remove('is-boom');
-            diwaliCracker.classList.remove('fuse-burning');
-            void diwaliCracker.offsetWidth;
-            diwaliCracker.classList.add('fuse-burning');
-            diwaliCaption.textContent = 'Lighting the fuse...';
-
-            // Periodic spark showers while the fuse burns.
-            animationFrameTicker = window.setInterval(() => {
-                const shakeX = x + ((Math.random() - 0.5) * 26);
-                const shakeY = y + ((Math.random() - 0.5) * 14);
-                launchDiwaliBurst(shakeX, shakeY);
-            }, 320);
-
-            captionTicker = window.setTimeout(() => {
-                diwaliCaption.textContent = 'Uh oh... stand back!';
-            }, 1200);
-        }
-
-        function triggerBoom(x, y) {
-            if (!diwaliCracker || !diwaliCaption) return;
-            diwaliCaption.textContent = 'BOOM. Happy Diwali!';
-            diwaliCracker.classList.add('is-boom');
-            launchDiwaliBurst(x, y);
-            launchDiwaliBurst(x + 30, y - 12);
-            launchDiwaliBurst(x - 30, y + 18);
-        }
-
-        function stopComicalAnimation() {
-            if (!diwaliOverlay || !diwaliCracker) return;
-            diwaliOverlay.classList.remove('is-animated');
-            diwaliCracker.classList.remove('fuse-burning');
-            diwaliCracker.classList.remove('is-boom');
-            if (animationFrameTicker) {
-                clearInterval(animationFrameTicker);
-                animationFrameTicker = null;
+            // Ground strip (semi-transparent so portfolio shows underneath)
+            function drawGround() {
+                ctx.save();
+                ctx.fillStyle = 'rgba(20, 50, 20, 0.7)';
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(0, GROUND_Y);
+                for (let x = 0; x <= W; x += 40) {
+                    ctx.lineTo(x, GROUND_Y - Math.sin(x * 0.03) * 8 - Math.cos(x * 0.07) * 4);
+                }
+                ctx.lineTo(W, H);
+                ctx.lineTo(0, H);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                // Grass tufts
+                ctx.strokeStyle = '#2d5a2d';
+                ctx.lineWidth = 2;
+                for (let i = 0; i < W; i += 25) {
+                    const gy = GROUND_Y - Math.sin(i * 0.03) * 8;
+                    ctx.beginPath();
+                    ctx.moveTo(i, gy);
+                    ctx.quadraticCurveTo(i - 4, gy - 12, i - 2, gy - 18);
+                    ctx.stroke();
+                    ctx.beginPath();
+                    ctx.moveTo(i, gy);
+                    ctx.quadraticCurveTo(i + 5, gy - 14, i + 3, gy - 20);
+                    ctx.stroke();
+                }
+                ctx.restore();
             }
-            if (captionTicker) {
-                clearTimeout(captionTicker);
-                captionTicker = null;
-            }
-        }
 
-        if (randomSiteButton) {
-            randomSiteButton.addEventListener('click', () => {
-                if (!randomSites.length) return;
+            // Bottle + Rocket firecracker
+            function drawBottleRocket(bx, by, fuseGlow) {
+                ctx.save();
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 3;
+                ctx.fillStyle = '#2d8a4e';
+                ctx.beginPath();
+                ctx.moveTo(bx - 14, by);
+                ctx.lineTo(bx - 16, by - 30);
+                ctx.quadraticCurveTo(bx - 16, by - 42, bx - 8, by - 44);
+                ctx.lineTo(bx - 6, by - 60);
+                ctx.lineTo(bx + 6, by - 60);
+                ctx.lineTo(bx + 8, by - 44);
+                ctx.quadraticCurveTo(bx + 16, by - 42, bx + 16, by - 30);
+                ctx.lineTo(bx + 14, by);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.fillStyle = 'rgba(255,255,255,0.15)';
+                ctx.fillRect(bx - 10, by - 38, 4, 20);
 
-                const rect = randomSiteButton.getBoundingClientRect();
-                const originX = rect.left + (rect.width / 2);
-                const originY = rect.top + (rect.height / 2);
-                const url = randomSites[Math.floor(Math.random() * randomSites.length)];
+                // Rocket stick
+                ctx.fillStyle = '#8B4513';
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 2;
+                ctx.fillRect(bx - 3, by - 115, 6, 60);
+                ctx.strokeRect(bx - 3, by - 115, 6, 60);
 
-                randomSiteButton.disabled = true;
-                startComicalAnimation(originX, originY);
+                // Rocket head
+                ctx.fillStyle = '#e63946';
+                ctx.beginPath();
+                ctx.moveTo(bx, by - 135);
+                ctx.lineTo(bx - 10, by - 115);
+                ctx.lineTo(bx + 10, by - 115);
+                ctx.closePath();
+                ctx.fill();
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
 
-                const boomAt = Math.max(400, navigationDelay - 650);
-                window.setTimeout(() => triggerBoom(originX, originY), boomAt);
+                // Rocket body
+                ctx.fillStyle = '#e63946';
+                ctx.fillRect(bx - 8, by - 115, 16, 24);
+                ctx.strokeRect(bx - 8, by - 115, 16, 24);
 
-                window.setTimeout(() => {
-                    stopComicalAnimation();
-                    const newTab = window.open(url, '_blank', 'noopener,noreferrer');
-                    if (!newTab && diwaliCaption && diwaliOverlay) {
-                        // Popup blocked: keep user on page and show an actionable hint.
-                        diwaliOverlay.classList.add('is-animated');
-                        diwaliCaption.textContent = 'Popup blocked. Please allow popups and click again.';
-                        window.setTimeout(() => {
-                            diwaliOverlay.classList.remove('is-animated');
-                        }, 1800);
+                // Gold band
+                ctx.fillStyle = '#ffd60a';
+                ctx.fillRect(bx - 9, by - 97, 18, 5);
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 1.5;
+                ctx.strokeRect(bx - 9, by - 97, 18, 5);
+
+                // Fuse
+                ctx.strokeStyle = fuseGlow > 0 ? '#ff6f00' : '#555';
+                ctx.lineWidth = fuseGlow > 0 ? 3 : 2;
+                ctx.beginPath();
+                ctx.moveTo(bx, by - 91);
+                ctx.quadraticCurveTo(bx + 10, by - 82, bx + 8, by - 74);
+                ctx.stroke();
+
+                if (fuseGlow > 0) {
+                    ctx.save();
+                    ctx.fillStyle = '#ffd60a';
+                    ctx.shadowColor = '#ff9800';
+                    ctx.shadowBlur = 15 + fuseGlow * 8;
+                    ctx.beginPath();
+                    ctx.arc(bx + 8, by - 74, 4 + fuseGlow * 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    for (let i = 0; i < 6; i++) {
+                        const a = Math.random() * Math.PI * 2;
+                        const d = 8 + Math.random() * 12;
+                        ctx.fillStyle = ['#ff6f00','#ffd60a','#ff4d6d','#ffb703'][i % 4];
+                        ctx.beginPath();
+                        ctx.arc(bx + 8 + Math.cos(a)*d, by - 74 + Math.sin(a)*d, 1.5 + Math.random()*2, 0, Math.PI*2);
+                        ctx.fill();
                     }
-                    randomSiteButton.disabled = false;
-                }, navigationDelay);
+                    ctx.restore();
+                }
+                ctx.restore();
+            }
+
+            // Cartoon kid
+            function drawKid(kx, ky, frame, armAngle) {
+                ctx.save();
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 3;
+                const legBob = Math.sin(frame * 0.3) * 3;
+                const bodyBob = Math.abs(Math.sin(frame * 0.3)) * 2;
+
+                // Legs
+                ctx.fillStyle = '#4a6fa5';
+                ctx.beginPath();
+                ctx.moveTo(kx - 6, ky - 28 + bodyBob);
+                ctx.lineTo(kx - 10 + legBob, ky);
+                ctx.lineTo(kx - 4 + legBob, ky);
+                ctx.lineTo(kx - 2, ky - 28 + bodyBob);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(kx + 2, ky - 28 + bodyBob);
+                ctx.lineTo(kx + 4 - legBob, ky);
+                ctx.lineTo(kx + 10 - legBob, ky);
+                ctx.lineTo(kx + 6, ky - 28 + bodyBob);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                // Shoes
+                ctx.fillStyle = '#2d3436';
+                ctx.beginPath();
+                ctx.ellipse(kx - 7 + legBob, ky + 2, 8, 4, 0, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+                ctx.beginPath();
+                ctx.ellipse(kx + 7 - legBob, ky + 2, 8, 4, 0, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+
+                // Body
+                ctx.fillStyle = '#f77f00';
+                ctx.beginPath();
+                ctx.moveTo(kx - 14, ky - 28 + bodyBob);
+                ctx.lineTo(kx - 12, ky - 56 + bodyBob);
+                ctx.quadraticCurveTo(kx, ky - 62 + bodyBob, kx + 12, ky - 56 + bodyBob);
+                ctx.lineTo(kx + 14, ky - 28 + bodyBob);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                // Arms
+                ctx.lineWidth = 5;
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = '#e5a56e';
+                ctx.beginPath();
+                ctx.moveTo(kx - 13, ky - 50 + bodyBob);
+                ctx.lineTo(kx - 24, ky - 36 + bodyBob);
+                ctx.stroke();
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(kx - 13, ky - 50 + bodyBob);
+                ctx.lineTo(kx - 24, ky - 36 + bodyBob);
+                ctx.stroke();
+
+                ctx.strokeStyle = '#e5a56e';
+                ctx.lineWidth = 5;
+                const armEndX = kx + 13 + Math.cos(armAngle) * 22;
+                const armEndY = ky - 50 + bodyBob + Math.sin(armAngle) * 22;
+                ctx.beginPath();
+                ctx.moveTo(kx + 13, ky - 50 + bodyBob);
+                ctx.lineTo(armEndX, armEndY);
+                ctx.stroke();
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(kx + 13, ky - 50 + bodyBob);
+                ctx.lineTo(armEndX, armEndY);
+                ctx.stroke();
+
+                // Matchstick
+                if (armAngle < 0) {
+                    ctx.save();
+                    ctx.strokeStyle = '#8B4513';
+                    ctx.lineWidth = 3;
+                    ctx.beginPath();
+                    ctx.moveTo(armEndX, armEndY);
+                    ctx.lineTo(armEndX + 14, armEndY - 8);
+                    ctx.stroke();
+                    ctx.fillStyle = '#e63946';
+                    ctx.beginPath();
+                    ctx.arc(armEndX + 16, armEndY - 9, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#ffd60a';
+                    ctx.shadowColor = '#ff9800';
+                    ctx.shadowBlur = 10;
+                    ctx.beginPath();
+                    ctx.moveTo(armEndX + 16, armEndY - 18);
+                    ctx.quadraticCurveTo(armEndX + 20, armEndY - 12, armEndX + 16, armEndY - 10);
+                    ctx.quadraticCurveTo(armEndX + 12, armEndY - 12, armEndX + 16, armEndY - 18);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // Head
+                ctx.lineWidth = 3;
+                ctx.strokeStyle = OUTLINE;
+                ctx.fillStyle = '#e5a56e';
+                ctx.beginPath();
+                ctx.arc(kx, ky - 70 + bodyBob, 16, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+
+                // Hair
+                ctx.fillStyle = '#1a1a2e';
+                ctx.beginPath();
+                ctx.moveTo(kx - 16, ky - 74 + bodyBob);
+                ctx.lineTo(kx - 12, ky - 90 + bodyBob);
+                ctx.lineTo(kx - 6, ky - 78 + bodyBob);
+                ctx.lineTo(kx, ky - 92 + bodyBob);
+                ctx.lineTo(kx + 6, ky - 78 + bodyBob);
+                ctx.lineTo(kx + 12, ky - 88 + bodyBob);
+                ctx.lineTo(kx + 16, ky - 74 + bodyBob);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                // Eyes
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.ellipse(kx - 6, ky - 72 + bodyBob, 5, 6, 0, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+                ctx.beginPath();
+                ctx.ellipse(kx + 6, ky - 72 + bodyBob, 5, 6, 0, 0, Math.PI * 2);
+                ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#1a1a2e';
+                ctx.beginPath();
+                ctx.arc(kx - 4, ky - 71 + bodyBob, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(kx + 8, ky - 71 + bodyBob, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = '#fff';
+                ctx.beginPath();
+                ctx.arc(kx - 5, ky - 73 + bodyBob, 1.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(kx + 7, ky - 73 + bodyBob, 1.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Smile
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(kx, ky - 66 + bodyBob, 7, 0.1, Math.PI - 0.1);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // Flying rocket
+            function drawFlyingRocket(rx, ry, trail) {
+                ctx.save();
+                for (let i = trail.length - 1; i >= 0; i--) {
+                    const t = trail[i];
+                    const alpha = (i / trail.length) * 0.6;
+                    ctx.fillStyle = `rgba(255, 140, 0, ${alpha})`;
+                    ctx.shadowColor = '#ff6f00';
+                    ctx.shadowBlur = 20;
+                    ctx.beginPath();
+                    ctx.arc(t.x + (Math.random()-0.5)*8, t.y, 6 + (trail.length - i) * 0.4, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = `rgba(255, 215, 0, ${alpha * 0.6})`;
+                    ctx.beginPath();
+                    ctx.arc(t.x + (Math.random()-0.5)*6, t.y + 4, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                ctx.shadowBlur = 0;
+
+                ctx.strokeStyle = OUTLINE;
+                ctx.lineWidth = 3;
+                ctx.fillStyle = '#e63946';
+                ctx.beginPath();
+                ctx.moveTo(rx, ry - 30);
+                ctx.lineTo(rx - 12, ry - 10);
+                ctx.lineTo(rx + 12, ry - 10);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.fillStyle = '#e63946';
+                ctx.fillRect(rx - 10, ry - 10, 20, 30);
+                ctx.strokeRect(rx - 10, ry - 10, 20, 30);
+                ctx.fillStyle = '#ffd60a';
+                ctx.fillRect(rx - 11, ry + 10, 22, 6);
+                ctx.strokeRect(rx - 11, ry + 10, 22, 6);
+                ctx.fillStyle = '#264653';
+                ctx.beginPath();
+                ctx.moveTo(rx - 10, ry + 16);
+                ctx.lineTo(rx - 20, ry + 28);
+                ctx.lineTo(rx - 10, ry + 20);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(rx + 10, ry + 16);
+                ctx.lineTo(rx + 20, ry + 28);
+                ctx.lineTo(rx + 10, ry + 20);
+                ctx.closePath();
+                ctx.fill(); ctx.stroke();
+
+                ctx.fillStyle = '#ffd60a';
+                ctx.shadowColor = '#ff9800';
+                ctx.shadowBlur = 20;
+                const flicker = Math.random() * 8;
+                ctx.beginPath();
+                ctx.moveTo(rx - 8, ry + 20);
+                ctx.quadraticCurveTo(rx - 4, ry + 38 + flicker, rx, ry + 44 + flicker);
+                ctx.quadraticCurveTo(rx + 4, ry + 38 + flicker, rx + 8, ry + 20);
+                ctx.fill();
+                ctx.fillStyle = '#ff6f00';
+                ctx.beginPath();
+                ctx.moveTo(rx - 5, ry + 20);
+                ctx.quadraticCurveTo(rx - 2, ry + 32 + flicker, rx, ry + 36 + flicker);
+                ctx.quadraticCurveTo(rx + 2, ry + 32 + flicker, rx + 5, ry + 20);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // ===== PLAYFUL FIREWORK BURST =====
+            function drawEpicBurst(cx, cy, progress, particles, burstFrame) {
+                ctx.save();
+                
+                ctx.globalCompositeOperation = 'lighter';
+                
+                // Draw a core glow that flashes quickly and fades
+                if (progress < 0.25) {
+                    const glowAlpha = (1 - progress / 0.25);
+                    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, 180);
+                    grad.addColorStop(0, `rgba(255, 255, 255, ${glowAlpha})`);
+                    grad.addColorStop(0.2, `rgba(255, 220, 150, ${glowAlpha * 0.6})`);
+                    grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                    ctx.fillStyle = grad;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, 180, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                const dt = 1/60;
+
+                particles.forEach((p) => {
+                    // Update physics
+                    p.vx *= p.friction;
+                    p.vy *= p.friction;
+                    p.vy += p.gravity * dt;
+                    
+                    p.x += p.vx * dt;
+                    p.y += p.vy * dt;
+
+                    // Space opacity: use smaller history array
+                    p.history.push({x: p.x, y: p.y});
+                    if (p.history.length > 5) p.history.shift();
+
+                    // Calculate opacity based on progress. Used Math.pow easing out 
+                    // to keep particles fully visible longer while they travel the screen
+                    let alpha = Math.max(0, 1 - Math.pow(progress, 2.5));
+                    if (p.flicker && burstFrame % 4 < 2) alpha *= 0.4;
+
+                    if (alpha <= 0) return;
+
+                    // Draw trail
+                    if (p.history.length > 1) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.history[0].x, p.history[0].y);
+                        for (let j = 1; j < p.history.length; j++) {
+                            ctx.lineTo(p.history[j].x, p.history[j].y);
+                        }
+                        ctx.strokeStyle = p.color;
+                        ctx.globalAlpha = alpha * 0.8;
+                        ctx.lineWidth = p.size;
+                        ctx.lineCap = 'round';
+                        ctx.stroke();
+                    }
+
+                    // Draw particle head (removed shadowBlur for extreme performance boost)
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = '#fff';
+                    ctx.globalAlpha = alpha;
+                    ctx.fill();
+                });
+
+                ctx.restore();
+            }
+
+            // White flash takeover
+            function drawFlash(progress) {
+                ctx.save();
+                ctx.globalAlpha = progress;
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, W, H);
+                ctx.restore();
+            }
+
+            // --- Animation state ---
+            const bottleX = W * 0.55;
+            const bottleY = GROUND_Y;
+            const kidStartX = bottleX - 80;  // Balanced start position
+            const kidTargetX = bottleX - 40;
+            const epicColors = ['#ffdf00', '#ff8c00', '#ff0055', '#e600ff', '#00ffd5', '#ffffff'];
+            const explosionParticles = [];
+            // Optimize space/time: kept lower particle count but increased speed/spread
+            for (let i = 0; i < 150; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                // Massive speed burst to let particles shoot across the entire screen
+                const speed = Math.random() > 0.85 ? (Math.random() * 2000 + 800) : (Math.random() * 800 + 300); 
+                explosionParticles.push({
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: Math.random() * 2.5 + 2, // slightly larger
+                    color: epicColors[Math.floor(Math.random() * epicColors.length)],
+                    friction: 0.95 + Math.random() * 0.03, // less friction to let them glide outward
+                    gravity: 150 + Math.random() * 100, // natural gravity
+                    flicker: Math.random() > 0.5,
+                    history: [],
+                    x: 0,
+                    y: 0
+                });
+            }
+
+            let phase = 'walk';
+            let frame = 0;
+            let kidX = kidStartX;
+            let rocketY = bottleY - 100;
+            let rocketTrail = [];
+            let fuseTimer = 0;
+            let launchTimer = 0;
+            let explodeTimer = 0;
+            let flashTimer = 0;
+            let burstFrame = 0;
+            let armAngle = 0.4;
+            
+            // --- NEW: Background fireworks ---
+            let bgFireworks = [];
+            const dt = 1/60;
+            
+            function spawnBgFirework(isHeavy = false) {
+                const particles = [];
+                const color = epicColors[Math.floor(Math.random() * epicColors.length)];
+                const particleCount = isHeavy ? 40 : 20;
+                
+                for (let i = 0; i < particleCount; i++) { 
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * (isHeavy ? 400 : 200) + 100;
+                    particles.push({
+                        vx: Math.cos(angle) * speed,
+                        vy: Math.sin(angle) * speed,
+                        size: Math.random() * 1.5 + 1.0,
+                        color: Math.random() > 0.5 ? color : '#ffffff', 
+                        friction: 0.92,
+                        gravity: 100,
+                        x: 0,
+                        y: 0
+                    });
+                }
+                bgFireworks.push({
+                    x: Math.random() * W, 
+                    y: H, 
+                    vy: -(Math.random() * 10 + 15), 
+                    explodeHeight: H * 0.05 + Math.random() * (H * 0.6), 
+                    state: 'flying',
+                    timer: 0,
+                    particles: particles,
+                    trail: []
+                });
+            }
+
+            function processBgFireworks() {
+                ctx.save();
+                for (let i = bgFireworks.length - 1; i >= 0; i--) {
+                    let fw = bgFireworks[i];
+                    if (fw.state === 'flying') {
+                        fw.y += fw.vy;
+                        fw.trail.push({x: fw.x, y: fw.y});
+                        if (fw.trail.length > 5) fw.trail.shift();
+
+                        if (fw.trail.length > 1) {
+                            ctx.beginPath();
+                            ctx.moveTo(fw.trail[0].x, fw.trail[0].y);
+                            for (let j = 1; j < fw.trail.length; j++) {
+                                ctx.lineTo(fw.trail[j].x, fw.trail[j].y);
+                            }
+                            ctx.strokeStyle = '#ffa000';
+                            ctx.globalAlpha = 0.5;
+                            ctx.lineWidth = 2;
+                            ctx.stroke();
+                        }
+
+                        if (fw.y <= fw.explodeHeight) {
+                            fw.state = 'explode';
+                            fw.particles.forEach(p => { p.x = fw.x; p.y = fw.y; });
+                        }
+                    } else if (fw.state === 'explode') {
+                        fw.timer += dt;
+                        let progress = fw.timer / 0.8; 
+                        if (progress >= 1) {
+                            bgFireworks.splice(i, 1);
+                            continue;
+                        }
+                        
+                        ctx.globalCompositeOperation = 'lighter';
+                        fw.particles.forEach(p => {
+                            p.vx *= p.friction;
+                            p.vy *= p.friction;
+                            p.vy += p.gravity * dt;
+                            p.x += p.vx * dt;
+                            p.y += p.vy * dt;
+
+                            let alpha = Math.max(0, 1 - Math.pow(progress, 1.5));
+                            if (alpha > 0) {
+                                ctx.beginPath();
+                                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                                ctx.fillStyle = p.color;
+                                ctx.globalAlpha = alpha;
+                                ctx.fill();
+                            }
+                        });
+                        ctx.globalCompositeOperation = 'source-over';
+                    }
+                }
+                ctx.restore();
+            }
+
+            function tick() {
+                frame++;
+                ctx.clearRect(0, 0, W, H);
+                ctx.globalAlpha = 1;
+                ctx.shadowBlur = 0;
+
+                // Spawning logic for Diwali background effect based on phase
+                if (phase === 'walk' && Math.random() < 0.03) spawnBgFirework();
+                if (phase === 'light' && Math.random() < 0.08) spawnBgFirework();
+                if (phase === 'fuse' && Math.random() < 0.15) spawnBgFirework();
+                if (phase === 'launch' && Math.random() < 0.3) spawnBgFirework(Math.random() > 0.5);
+                if (phase === 'explode' && Math.random() < 0.35) spawnBgFirework(true);
+                if (phase === 'flash' && Math.random() < 0.2) spawnBgFirework();
+
+                if (phase === 'walk') {
+                    drawTint(0.55);
+                    drawGround();
+                    processBgFireworks();
+                    drawBottleRocket(bottleX, bottleY, 0);
+                    kidX += 6;  // Walk slightly slower than before but still brisk
+                    if (kidX >= kidTargetX) {
+                        kidX = kidTargetX;
+                        phase = 'light';
+                        frame = 0;
+                    }
+                    drawKid(kidX, GROUND_Y, frame, 0.4);
+                }
+                else if (phase === 'light') {
+                    drawTint(0.55);
+                    drawGround();
+                    processBgFireworks();
+                    drawBottleRocket(bottleX, bottleY, 0);
+                    armAngle = 0.4 - (Math.min(frame, 15) / 15) * 1.0;  // Moderate arm reach
+                    drawKid(kidX, GROUND_Y, 0, armAngle);
+                    if (frame > 18) {
+                        phase = 'fuse';
+                        frame = 0;
+                        fuseTimer = 0;
+                    }
+                }
+                else if (phase === 'fuse') {
+                    drawTint(0.55);
+                    drawGround();
+                    processBgFireworks();
+                    fuseTimer += 1/60;
+                    const glow = 0.5 + Math.sin(fuseTimer * 18) * 0.5;
+                    drawBottleRocket(bottleX, bottleY, glow);
+                    drawKid(kidX - fuseTimer * 70, GROUND_Y, frame, 0.4);  // Kid backs up
+                    if (fuseTimer > 0.6) {  // A balanced, medium fuse
+                        phase = 'launch';
+                        rocketY = bottleY - 100;
+                        launchTimer = 0;
+                    }
+                }
+                else if (phase === 'launch') {
+                    drawTint(0.55);
+                    drawGround();
+                    processBgFireworks();
+                    // Draw bottle only
+                    ctx.save();
+                    ctx.strokeStyle = OUTLINE;
+                    ctx.lineWidth = 3;
+                    ctx.fillStyle = '#2d8a4e';
+                    ctx.beginPath();
+                    ctx.moveTo(bottleX - 14, bottleY);
+                    ctx.lineTo(bottleX - 16, bottleY - 30);
+                    ctx.quadraticCurveTo(bottleX - 16, bottleY - 42, bottleX - 8, bottleY - 44);
+                    ctx.lineTo(bottleX - 6, bottleY - 60);
+                    ctx.lineTo(bottleX + 6, bottleY - 60);
+                    ctx.lineTo(bottleX + 8, bottleY - 44);
+                    ctx.quadraticCurveTo(bottleX + 16, bottleY - 42, bottleX + 16, bottleY - 30);
+                    ctx.lineTo(bottleX + 14, bottleY);
+                    ctx.closePath();
+                    ctx.fill(); ctx.stroke();
+                    ctx.restore();
+
+                    const kidBack = kidX - 60;
+                    drawKid(kidBack, GROUND_Y, 0, 0.4);
+
+                    launchTimer += 1/60;
+                    const accel = 1 + launchTimer * 8;  // Fast launch, but visible
+                    rocketY -= accel * 6;
+                    rocketTrail.push({ x: bottleX + (Math.random()-0.5)*3, y: rocketY + 25 });
+                    if (rocketTrail.length > 25) rocketTrail.shift();
+                    drawFlyingRocket(bottleX, rocketY, rocketTrail);
+
+                    if (rocketY < H * 0.4) {
+                        phase = 'explode';
+                        explodeTimer = 0;
+                        burstFrame = 0;
+                        explosionParticles.forEach(p => {
+                            p.x = bottleX;
+                            p.y = rocketY;
+                            p.history = [];
+                        });
+                    }
+                }
+                else if (phase === 'explode') {
+                    drawTint(0.3 + explodeTimer * 0.4);
+                    processBgFireworks();
+                    explodeTimer += 1/60;
+                    burstFrame++;
+                    const progress = Math.min(explodeTimer / 1.3, 1);
+                    drawEpicBurst(bottleX, rocketY, progress, explosionParticles, burstFrame);
+                    if (explodeTimer > 1.1) {
+                        phase = 'flash';
+                        flashTimer = 0;
+                    }
+                }
+                else if (phase === 'flash') {
+                    processBgFireworks();
+                    flashTimer += 1/60;
+                    burstFrame++;
+                    const progress = Math.min(flashTimer / 0.4, 1);
+                    drawEpicBurst(bottleX, rocketY, 1, explosionParticles, burstFrame);
+                    drawFlash(progress);
+                    if (flashTimer > 0.5) {
+                        overlay.classList.remove('active');
+                        onComplete();
+                        return;
+                    }
+                }
+
+                requestAnimationFrame(tick);
+            }
+
+            requestAnimationFrame(tick);
+        }
+
+        function triggerRandomSite() {
+            if (fabState !== 'idle' || !randomSites.length) return;
+            const url = randomSites[Math.floor(Math.random() * randomSites.length)];
+
+            if (prefersReducedMotion) {
+                setFabState('idle');
+                window.open(url, '_blank', 'noopener,noreferrer');
+                return;
+            }
+
+            setFabState('fusing');
+            playRocketAnimation(() => {
+                setFabState('idle');
+                window.open(url, '_blank', 'noopener,noreferrer');
             });
         }
+
+        // ===== FAB click/keyboard =====
+        (function initFab() {
+            const fab = document.getElementById('circular-reveal');
+            if (!fab) return;
+            fab.addEventListener('click', () => triggerRandomSite());
+            fab.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    triggerRandomSite();
+                }
+            });
+        })();
     </script>
 </body>
 </html>
