@@ -665,7 +665,12 @@
         /* ===== ROCKET ANIMATION OVERLAY ===== */
         .rocket-overlay {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
             z-index: 2000;
             pointer-events: none;
             opacity: 0;
@@ -714,6 +719,10 @@
             cursor: pointer;
             z-index: 900;
             flex-shrink: 0;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
         }
         .circular-reveal:hover {
             box-shadow: 10px 10px 20px #bebebe, -10px -10px 20px #ffffff;
@@ -1211,11 +1220,14 @@
             if (!overlay || !canvas) { onComplete(); return; }
             const ctx = canvas.getContext('2d');
 
-            canvas.width = window.innerWidth * window.devicePixelRatio;
-            canvas.height = window.innerHeight * window.devicePixelRatio;
-            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            // Cap DPR at 2 on mobile to avoid huge canvases that kill performance
+            const isMobile = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+            const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 2 : 3);
             const W = window.innerWidth;
             const H = window.innerHeight;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            ctx.scale(dpr, dpr);
 
             overlay.classList.add('active');
 
@@ -1644,18 +1656,18 @@
             const kidTargetX = bottleX - 40;
             const epicColors = ['#ffdf00', '#ff8c00', '#ff0055', '#e600ff', '#00ffd5', '#ffffff'];
             const explosionParticles = [];
-            // Optimize space/time: kept lower particle count but increased speed/spread
-            for (let i = 0; i < 150; i++) {
+            // Fewer particles on mobile for smooth 60fps
+            const particleCount = isMobile ? 60 : 150;
+            for (let i = 0; i < particleCount; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                // Massive speed burst to let particles shoot across the entire screen
                 const speed = Math.random() > 0.85 ? (Math.random() * 2000 + 800) : (Math.random() * 800 + 300); 
                 explosionParticles.push({
                     vx: Math.cos(angle) * speed,
                     vy: Math.sin(angle) * speed,
-                    size: Math.random() * 2.5 + 2, // slightly larger
+                    size: Math.random() * 2.5 + 2,
                     color: epicColors[Math.floor(Math.random() * epicColors.length)],
-                    friction: 0.95 + Math.random() * 0.03, // less friction to let them glide outward
-                    gravity: 150 + Math.random() * 100, // natural gravity
+                    friction: 0.95 + Math.random() * 0.03,
+                    gravity: 150 + Math.random() * 100,
                     flicker: Math.random() > 0.5,
                     history: [],
                     x: 0,
@@ -1682,7 +1694,7 @@
             function spawnBgFirework(isHeavy = false) {
                 const particles = [];
                 const color = epicColors[Math.floor(Math.random() * epicColors.length)];
-                const particleCount = isHeavy ? 40 : 20;
+                const particleCount = isMobile ? (isHeavy ? 15 : 8) : (isHeavy ? 40 : 20);
                 
                 for (let i = 0; i < particleCount; i++) { 
                     const angle = Math.random() * Math.PI * 2;
@@ -1773,12 +1785,14 @@
                 ctx.shadowBlur = 0;
 
                 // Spawning logic for Diwali background effect based on phase
-                if (phase === 'walk' && Math.random() < 0.03) spawnBgFirework();
-                if (phase === 'light' && Math.random() < 0.08) spawnBgFirework();
-                if (phase === 'fuse' && Math.random() < 0.15) spawnBgFirework();
-                if (phase === 'launch' && Math.random() < 0.3) spawnBgFirework(Math.random() > 0.5);
-                if (phase === 'explode' && Math.random() < 0.35) spawnBgFirework(true);
-                if (phase === 'flash' && Math.random() < 0.2) spawnBgFirework();
+                // Lower spawn rates on mobile for performance
+                const spawnRate = isMobile ? 0.4 : 1.0;
+                if (phase === 'walk' && Math.random() < 0.03 * spawnRate) spawnBgFirework();
+                if (phase === 'light' && Math.random() < 0.08 * spawnRate) spawnBgFirework();
+                if (phase === 'fuse' && Math.random() < 0.15 * spawnRate) spawnBgFirework();
+                if (phase === 'launch' && Math.random() < 0.3 * spawnRate) spawnBgFirework(Math.random() > 0.5);
+                if (phase === 'explode' && Math.random() < 0.35 * spawnRate) spawnBgFirework(true);
+                if (phase === 'flash' && Math.random() < 0.2 * spawnRate) spawnBgFirework();
 
                 if (phase === 'walk') {
                     drawTint(0.55);
