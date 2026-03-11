@@ -797,6 +797,9 @@
         </div>
     </div>
 
+    <!-- Hidden anchor for reliable cross-browser new-tab navigation after animation -->
+    <a id="nav-link" style="display:none" target="_blank" rel="noopener noreferrer"></a>
+
     <div class="rocket-overlay" id="rocket-overlay" aria-hidden="true">
         <canvas id="rocket-canvas"></canvas>
     </div>
@@ -1909,36 +1912,38 @@
             requestAnimationFrame(tick);
         }
 
+        function navigateToUrl(url) {
+            // Strategy 1: Try window.open (works on most desktop browsers)
+            const newWin = window.open(url, '_blank', 'noopener,noreferrer');
+            if (newWin) return;
+
+            // Strategy 2: Hidden anchor click (works in some browsers that block window.open)
+            const link = document.getElementById('nav-link');
+            if (link) {
+                link.href = url;
+                link.click();
+                link.href = '';
+                return;
+            }
+
+            // Strategy 3: Fallback — navigate current tab
+            window.location.href = url;
+        }
+
         function triggerRandomSite() {
             if (fabState !== 'idle' || !randomSites.length) return;
             const url = randomSites[Math.floor(Math.random() * randomSites.length)];
 
             if (prefersReducedMotion) {
                 setFabState('idle');
-                window.open(url, '_blank', 'noopener,noreferrer');
+                navigateToUrl(url);
                 return;
             }
 
             setFabState('fusing');
-
-            // On mobile, window.open after async animation gets blocked by popup blocker.
-            // So we pre-open a blank tab during the gesture, then refocus this window
-            // so the user watches the animation, then navigate the tab when done.
-            const isMobileBrowser = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window && window.innerWidth < 1024);
-            let pendingTab = null;
-            if (isMobileBrowser) {
-                pendingTab = window.open('about:blank', '_blank');
-                // Immediately bring focus back to this page so animation is visible
-                window.focus();
-            }
-
             playRocketAnimation(() => {
                 setFabState('idle');
-                if (pendingTab) {
-                    try { pendingTab.location.href = url; } catch(e) { /* cross-origin */ }
-                } else {
-                    window.open(url, '_blank', 'noopener,noreferrer');
-                }
+                navigateToUrl(url);
             });
         }
 
