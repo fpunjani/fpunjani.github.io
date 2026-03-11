@@ -1920,9 +1920,25 @@
             }
 
             setFabState('fusing');
+
+            // On mobile, window.open after async animation gets blocked by popup blocker.
+            // So we pre-open a blank tab during the gesture, then refocus this window
+            // so the user watches the animation, then navigate the tab when done.
+            const isMobileBrowser = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || ('ontouchstart' in window && window.innerWidth < 1024);
+            let pendingTab = null;
+            if (isMobileBrowser) {
+                pendingTab = window.open('about:blank', '_blank');
+                // Immediately bring focus back to this page so animation is visible
+                window.focus();
+            }
+
             playRocketAnimation(() => {
                 setFabState('idle');
-                window.open(url, '_blank', 'noopener,noreferrer');
+                if (pendingTab) {
+                    try { pendingTab.location.href = url; } catch(e) { /* cross-origin */ }
+                } else {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
             });
         }
 
