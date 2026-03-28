@@ -1229,6 +1229,7 @@
             'https://paperme.pixzens.com/en'
         ];
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isFirefox = /firefox/i.test(navigator.userAgent);
         let fabState = 'idle';
 
         function setFabState(state) {
@@ -1936,20 +1937,7 @@
         }
 
         function navigateToUrl(url) {
-            // Strategy 1: Try window.open (works on most desktop browsers)
-            const newWin = window.open(url, '_blank', 'noopener,noreferrer');
-            if (newWin) return;
-
-            // Strategy 2: Hidden anchor click (works in some browsers that block window.open)
-            const link = document.getElementById('nav-link');
-            if (link) {
-                link.href = url;
-                link.click();
-                link.href = '';
-                return;
-            }
-
-            // Strategy 3: Fallback — navigate current tab
+            // Keep navigation in the same tab so animation can finish first.
             window.location.href = url;
         }
 
@@ -1957,7 +1945,7 @@
             if (fabState !== 'idle' || !randomSites.length) return;
             const url = randomSites[Math.floor(Math.random() * randomSites.length)];
 
-            if (prefersReducedMotion) {
+            if (prefersReducedMotion && !isFirefox) {
                 setFabState('idle');
                 navigateToUrl(url);
                 return;
