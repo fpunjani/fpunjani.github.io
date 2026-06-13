@@ -1,0 +1,48 @@
+name: Add Bawa links
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/add-bawa-links.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add requested links to randomSites
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('index.html')
+          text = path.read_text(encoding='utf-8')
+
+          old = """            'https://www.bbc.com/future',
+            'https://pudding.cool'
+"""
+          new = """            'https://www.bbc.com/future',
+            'https://pudding.cool',
+            'https://www.ippractice.ca/patent-and-trademark-statistics/expiring-patents/',
+            'https://www.galactanet.com/writing.html'
+"""
+
+          if 'https://www.ippractice.ca/patent-and-trademark-statistics/expiring-patents/' not in text:
+              if old not in text:
+                  raise SystemExit('Expected randomSites block not found')
+              text = text.replace(old, new, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
+      - name: Remove this one-time workflow
+        run: rm -f .github/workflows/add-bawa-links.yml
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html .github/workflows/add-bawa-links.yml
+          git diff --cached --quiet || git commit -m "Add Bawa random links"
+          git push
