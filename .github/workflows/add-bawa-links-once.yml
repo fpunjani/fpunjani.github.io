@@ -1,3 +1,4 @@
+# Triggered once to add two links to the Bawa random-sites button.
 name: Add Bawa links once
 
 on:
