@@ -397,6 +397,20 @@
             border-color: rgba(129, 140, 248, 0.15);
         }
 
+        .project-card-featured {
+            border-color: rgba(129, 140, 248, 0.3);
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        .project-kicker {
+            margin-bottom: 6px;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
         .project-icon {
             width: 48px;
             height: 48px;
@@ -914,33 +928,27 @@
             <div class="project-grid">
                 <a
                     href="https://settleworth.co"
-                    class="project-card"
+                    class="project-card project-card-featured"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Visit SettleWorth"
                 >
                     <div class="project-icon project-icon-wordmark" aria-hidden="true">SW</div>
                     <div class="project-content">
+                        <div class="project-kicker">Featured project</div>
                         <h3>SettleWorth <span class="arrow-icon">↗</span></h3>
-                        <p>Privacy-first Canadian settlement discovery with verified listings, guided matching and production-grade reliability checks.</p>
+                        <p>Privacy-first Canadian settlement discovery with verified public listings, guided matching, clear deadlines and official-source handoffs, backed by production-grade reliability checks.</p>
                     </div>
                 </a>
 
-                <a href="#" class="project-card">
-                    <div class="project-icon">🌍</div>
+                <div class="project-card">
+                    <div class="project-icon">◎</div>
                     <div class="project-content">
-                        <h3>Locale <span class="arrow-icon">→</span></h3>
-                        <p>Lightweight localization tool for React applications.</p>
+                        <div class="project-kicker">Student capstone</div>
+                        <h3>Finovo <a class="arrow-icon" href="https://www.linkedin.com/company/finovofinancial/" target="_blank" rel="noopener" aria-label="Open Finovo on LinkedIn">↗</a></h3>
+                        <p>Student capstone project that built React financial calculators, improved front-end performance 5x, and contributed to testing and technical documentation.</p>
                     </div>
-                </a>
-
-                <a href="#" class="project-card">
-                    <div class="project-icon">✨</div>
-                    <div class="project-content">
-                        <h3>Taskly <span class="arrow-icon">→</span></h3>
-                        <p>Minimalist task management app with natural language processing.</p>
-                    </div>
-                </a>
+                </div>
             </div>
         </section>
 
