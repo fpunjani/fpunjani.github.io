@@ -1,16 +1,81 @@
-/* Focused hero/work tuning based on rendered-page review. Projects downward intentionally left structurally unchanged. */
+/* Focused hero/work tuning based on rendered desktop + iOS review. */
 
 :root {
-    --text-main: #FAFBFE;
-    --text-secondary: #E4E8F0;
-    --text-muted: #C1C8D6;
+    --text-main: #FFFFFF;
+    --text-secondary: #EEF1F7;
+    --text-muted: #C7CDD8;
 }
 
-/* Keep Project Baawa as an opening signature, without a persistent navigation bar. */
+/* Stable background stacking. Negative fixed z-index layers can disappear while
+   scrolling in iOS Safari, exposing the body's near-black fallback. */
+html,
+body {
+    background: #0B0D14;
+}
+
+body {
+    position: relative;
+    isolation: isolate;
+}
+
+.pixelate-bg {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 100svh;
+    z-index: 0 !important;
+    contain: none !important;
+    pointer-events: none;
+}
+
+.pixelate-bg canvas {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    filter: saturate(1.03) contrast(1.025) brightness(1.07) hue-rotate(-3deg) !important;
+}
+
+.bg-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    min-height: 100svh;
+    z-index: 1 !important;
+    pointer-events: none;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5, 7, 12, 0.10) 0%,
+            rgba(5, 7, 12, 0.12) 27%,
+            rgba(5, 7, 12, 0.31) 38%,
+            rgba(5, 7, 12, 0.54) 50%,
+            rgba(5, 7, 12, 0.66) 70%,
+            rgba(5, 7, 12, 0.70) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(5, 7, 12, 0.10) 0%,
+            rgba(5, 7, 12, 0.16) 52%,
+            rgba(5, 7, 12, 0.24) 100%
+        ) !important;
+    opacity: 1 !important;
+}
+
+main.container,
+.site-footer {
+    position: relative;
+    z-index: 2;
+}
+
+/* Project Baawa is an opening signature rather than persistent navigation. */
 .top-nav {
     position: absolute !important;
     top: 0;
     left: 0;
+    z-index: 3 !important;
     width: auto !important;
     padding: 22px 40px !important;
     background: none !important;
@@ -30,41 +95,23 @@
 }
 
 .nav-logo {
-    color: rgba(250, 251, 254, 0.82) !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.34);
+    color: rgba(255, 255, 255, 0.88) !important;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
 }
 
-/* Preserve the photograph while creating a stable reading field under the content. */
-.bg-overlay {
-    background:
-        linear-gradient(
-            90deg,
-            rgba(5, 7, 12, 0.04) 0%,
-            rgba(5, 7, 12, 0.05) 27%,
-            rgba(5, 7, 12, 0.20) 37%,
-            rgba(5, 7, 12, 0.43) 49%,
-            rgba(5, 7, 12, 0.61) 68%,
-            rgba(5, 7, 12, 0.68) 100%
-        ),
-        linear-gradient(
-            180deg,
-            rgba(5, 7, 12, 0.03) 0%,
-            rgba(5, 7, 12, 0.09) 48%,
-            rgba(5, 7, 12, 0.16) 100%
-        ) !important;
-    opacity: 1 !important;
+/* Section labels should belong to their section rather than leaving clipped
+   sticky remnants at the top of the viewport. */
+.section-layout:not(.hero) .sticky-title {
+    position: static !important;
+    top: auto !important;
 }
 
-.pixelate-bg canvas {
-    filter: saturate(1.05) contrast(1.015) brightness(1.22) hue-rotate(-3deg) !important;
-}
-
-/* The landing composition gets its own full viewport before Work begins. */
+/* Raise the desktop landing composition. */
 .hero {
-    min-height: calc(100svh - 92px);
-    align-content: center;
-    margin-bottom: 104px !important;
-    padding-top: 34px;
+    min-height: calc(100svh - 72px);
+    align-content: start !important;
+    padding-top: clamp(42px, 5.5vh, 68px) !important;
+    margin-bottom: 96px !important;
 }
 
 .hero .sticky-title {
@@ -72,83 +119,87 @@
     line-height: 1.08 !important;
     letter-spacing: -0.058em !important;
     color: #FFFFFF !important;
-    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.32) !important;
+    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.42) !important;
 }
 
 .hero-role {
     font-size: 23px !important;
     font-weight: 700 !important;
     color: #FFFFFF !important;
-    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.26);
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.40);
 }
 
 .hero .bio-text {
     max-width: 570px !important;
     font-size: 17.5px !important;
-    line-height: 1.62 !important;
+    line-height: 1.58 !important;
     font-weight: 500;
-    color: #EDF0F6 !important;
-    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.30);
+    color: #F6F7FB !important;
+    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.44);
 }
 
 .hero-intro {
     max-width: 610px !important;
-    padding-bottom: 24px !important;
+    padding-bottom: 22px !important;
 }
 
 .hero-meta {
-    padding-bottom: 24px !important;
+    padding-bottom: 22px !important;
 }
 
 .hero .info-item dt {
-    color: #C7CEDB !important;
+    color: #D1D6E0 !important;
 }
 
 .hero .info-item dd {
-    color: #FAFBFE !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.24);
+    color: #FFFFFF !important;
+    text-shadow: 0 1px 11px rgba(0, 0, 0, 0.36);
 }
 
 .hero .info-item .accent-value {
-    color: #D4D9FF !important;
+    color: #E0E3FF !important;
 }
 
 .hero .tech-category h2 {
-    color: #FAFBFE !important;
+    color: #FFFFFF !important;
     font-size: 15px !important;
 }
 
-.hero .tech-list li {
-    color: #E2E6EF !important;
-    font-size: 15.5px !important;
-    font-weight: 500;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
+.hero .tech-list {
+    gap: 9px !important;
 }
 
-/* Work should read crisply once the photograph has resolved. */
+.hero .tech-list li {
+    color: #F0F2F7 !important;
+    font-size: 15.5px !important;
+    font-weight: 500;
+    text-shadow: 0 1px 11px rgba(0, 0, 0, 0.34);
+}
+
+/* Work remains the resolved, highly legible professional record. */
 #work .role {
     color: #FFFFFF !important;
     font-size: 19.5px !important;
-    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.28);
+    text-shadow: 0 1px 13px rgba(0, 0, 0, 0.38);
 }
 
 #work .company {
-    color: #D7DBFF !important;
+    color: #E1E4FF !important;
     font-weight: 500;
-    text-shadow: 0 1px 11px rgba(0, 0, 0, 0.24);
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.34);
 }
 
 #work .timeline-date {
-    color: #C8CEDB !important;
+    color: #D3D7E1 !important;
     font-size: 13px !important;
-    text-shadow: 0 1px 9px rgba(0, 0, 0, 0.28);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
 }
 
 #work .description {
     max-width: 600px !important;
-    color: #E6E9F1 !important;
+    color: #F0F2F7 !important;
     font-weight: 500;
-    text-shadow: 0 1px 13px rgba(0, 0, 0, 0.30);
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.42);
 }
 
 #work .description strong {
@@ -160,39 +211,141 @@
 #projects .sticky-title,
 #writing .sticky-title,
 #connect .sticky-title {
-    color: #FAFBFE !important;
+    color: #FFFFFF !important;
 }
 
-/* The easter egg stays discoverable without becoming the brightest object on screen. */
+/* Bawa remains discoverable without sitting on top of the reading hierarchy. */
 .circular-reveal {
-    width: 78px !important;
-    height: 78px !important;
-    box-shadow: 2px 2px 7px rgba(0,0,0,0.22), -1px -1px 5px rgba(255,255,255,0.34) !important;
+    z-index: 1200 !important;
+    width: 74px !important;
+    height: 74px !important;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.22), -1px -1px 4px rgba(255,255,255,0.30) !important;
 }
 
 .circular-reveal:hover,
 .circular-reveal:focus-visible {
-    box-shadow: 5px 5px 13px rgba(0,0,0,0.26), -3px -3px 10px rgba(255,255,255,0.68) !important;
+    box-shadow: 5px 5px 12px rgba(0,0,0,0.27), -3px -3px 9px rgba(255,255,255,0.68) !important;
 }
 
 @media (max-width: 800px) {
+    /* A continuous, subdued photo layer on iOS: visible enough to keep the visual
+       identity, dark enough that full-width mobile copy stays effortless to read. */
+    .bg-overlay {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(5, 7, 12, 0.24) 0%,
+                rgba(5, 7, 12, 0.36) 48%,
+                rgba(5, 7, 12, 0.48) 100%
+            ),
+            linear-gradient(
+                90deg,
+                rgba(5, 7, 12, 0.11) 0%,
+                rgba(5, 7, 12, 0.28) 68%,
+                rgba(5, 7, 12, 0.36) 100%
+            ) !important;
+    }
+
+    .pixelate-bg canvas {
+        filter: saturate(1.02) contrast(1.02) brightness(1.04) hue-rotate(-2deg) !important;
+    }
+
     .top-nav {
-        padding: 18px 20px !important;
+        padding: 18px 18px !important;
+    }
+
+    .container {
+        padding-top: 58px !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
     }
 
     .hero {
-        min-height: auto;
-        padding-top: 54px;
-        margin-bottom: 82px !important;
+        min-height: auto !important;
+        align-content: start !important;
+        padding-top: 18px !important;
+        margin-bottom: 68px !important;
     }
 
     .hero .sticky-title {
-        font-size: clamp(46px, 12vw, 60px) !important;
+        font-size: clamp(38px, 10.5vw, 48px) !important;
+        line-height: 1.05 !important;
+        margin-bottom: 20px !important;
+    }
+
+    .hero-role {
+        font-size: 19px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .hero .bio-text {
+        font-size: 16.5px !important;
+        line-height: 1.55 !important;
+    }
+
+    .hero-intro {
+        padding-bottom: 18px !important;
+    }
+
+    .hero-meta,
+    .info-grid.hero-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 15px 18px !important;
+        padding-bottom: 18px !important;
+    }
+
+    .hero .info-item dt {
+        font-size: 11.5px !important;
+    }
+
+    .hero .info-item dd {
+        font-size: 15px !important;
+        line-height: 1.4 !important;
+    }
+
+    .hero .tech-columns {
+        margin-top: 0 !important;
+        gap: 22px !important;
+    }
+
+    .hero .tech-category h2 {
+        margin-bottom: 10px !important;
+        font-size: 14px !important;
+    }
+
+    .hero .tech-list {
+        gap: 7px !important;
+    }
+
+    .hero .tech-list li {
+        font-size: 14.5px !important;
+        line-height: 1.4 !important;
     }
 
     .circular-reveal {
-        width: 62px !important;
-        height: 62px !important;
+        width: 50px !important;
+        height: 50px !important;
+        right: 9px !important;
+        bottom: max(9px, env(safe-area-inset-bottom)) !important;
+        opacity: 0.90;
+        box-shadow: 1px 1px 4px rgba(0,0,0,0.20), -1px -1px 3px rgba(255,255,255,0.26) !important;
+    }
+
+    .circular-inner-2 { inset: 4px !important; }
+    .circular-center-name { font-size: 6.7px !important; }
+}
+
+@media (max-width: 440px) {
+    /* Keep the metadata compact instead of turning the hero into a long one-column
+       resume on phones. */
+    .hero-meta,
+    .info-grid.hero-meta {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 14px 16px !important;
+    }
+
+    .hero .info-item dd {
+        font-size: 14.5px !important;
     }
 }
 
