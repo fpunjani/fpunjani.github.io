@@ -1,55 +1,116 @@
-// Uneven pixel-to-photo transition.
-// The photograph is always present underneath the effect. Pixelation is strongest
-// over the open-image side and deliberately lighter under the reading column.
+// Cached, spatially composed pixel reveal.
+//
+// Expensive image resampling happens only on initial render and meaningful resize.
+// Scrolling only changes opacity on three already-rendered canvas layers, which keeps
+// pixel boundaries stable and lets the browser composite the effect on the GPU.
 (() => {
     if (typeof PixelateBackground === 'undefined') return;
 
     const BasePixelateBackground = PixelateBackground;
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+    const smoothstep = (edge0, edge1, value) => {
+        if (edge0 === edge1) return value >= edge1 ? 1 : 0;
+        const t = clamp((value - edge0) / (edge1 - edge0), 0, 1);
+        return t * t * (3 - 2 * t);
+    };
 
     PixelateBackground = class PortfolioPixelateBackground extends BasePixelateBackground {
         constructor() {
             super();
-            this.minPixelSize = 1;
-            this.maxPixelSize = window.innerWidth <= 800 ? 8 : 10;
-            this.resolveDistance = Math.max(window.innerHeight * 0.60, 420);
-            this.scrollRange = this.resolveDistance;
-            this.lastProgress = -1;
-
+            this.layers = null;
+            this.renderDpr = 1;
+            this.renderWidth = 0;
+            this.renderHeight = 0;
+            this.scrollFrame = 0;
+            this.resizeFrame = 0;
             this.smallBuffer = document.createElement('canvas');
             this.smallCtx = this.smallBuffer.getContext('2d');
-            this.pixelLayer = document.createElement('canvas');
-            this.pixelLayerCtx = this.pixelLayer.getContext('2d');
         }
 
-        computeScrollRange() {
-            this.maxPixelSize = window.innerWidth <= 800 ? 8 : 10;
-            this.resolveDistance = Math.max(window.innerHeight * 0.60, 420);
-            this.scrollRange = this.resolveDistance;
+        setup() {
+            this.createLayers();
+            this.renderLayers(true);
+            this.updateLayerOpacities();
+
+            window.addEventListener('scroll', () => this.scheduleOpacityUpdate(), { passive: true });
+            window.addEventListener('resize', () => this.scheduleResize(), { passive: true });
         }
 
-        updatePixelation() {
-            const progress = Math.min(Math.max(window.scrollY / this.scrollRange, 0), 1);
+        createLayers() {
+            if (this.layers) return;
 
-            // Once the image has fully resolved, keep the sharp frame and stop doing
-            // additional canvas work through the rest of the portfolio.
-            if (progress === 1 && this.lastProgress === 1) return;
-            this.lastProgress = progress;
+            this.canvas.classList.add('bg-layer', 'bg-sharp');
+            this.canvas.setAttribute('aria-hidden', 'true');
 
-            // Resolve decisively during the opening rather than dragging the mosaic
-            // through Work and Projects.
-            const resolve = 1 - Math.pow(1 - progress, 2.15);
-            const pixelSize = this.maxPixelSize - (this.maxPixelSize - this.minPixelSize) * resolve;
-            const pixelStrength = Math.pow(1 - progress, 1.35);
+            const makeLayer = (name) => {
+                const canvas = document.createElement('canvas');
+                canvas.className = `bg-layer bg-${name}`;
+                canvas.setAttribute('aria-hidden', 'true');
+                this.container.appendChild(canvas);
+                return {
+                    canvas,
+                    ctx: canvas.getContext('2d', { alpha: true })
+                };
+            };
 
-            this.drawUneven(pixelSize, pixelStrength);
+            this.layers = {
+                sharp: { canvas: this.canvas, ctx: this.ctx },
+                fine: makeLayer('fine'),
+                medium: makeLayer('medium'),
+                coarse: makeLayer('coarse')
+            };
         }
 
-        getCrop() {
-            const w = this.canvas.width;
-            const h = this.canvas.height;
+        scheduleOpacityUpdate() {
+            if (this.scrollFrame) return;
+            this.scrollFrame = requestAnimationFrame(() => {
+                this.scrollFrame = 0;
+                this.updateLayerOpacities();
+            });
+        }
+
+        scheduleResize() {
+            if (this.resizeFrame) cancelAnimationFrame(this.resizeFrame);
+            this.resizeFrame = requestAnimationFrame(() => {
+                this.resizeFrame = 0;
+                this.renderLayers(false);
+                this.updateLayerOpacities();
+            });
+        }
+
+        renderLayers(force = false) {
+            const cssW = Math.max(1, window.innerWidth);
+            const cssH = Math.max(1, document.documentElement.clientHeight || window.innerHeight);
+
+            // Mobile browser chrome causes small viewport-height changes while scrolling.
+            // Stretch the cached bitmap through those tiny changes; only rerender for a
+            // real layout change, orientation change, or meaningful height delta.
+            const widthChanged = Math.abs(cssW - this.renderWidth) > 2;
+            const heightChanged = Math.abs(cssH - this.renderHeight) > 140;
+            if (!force && !widthChanged && !heightChanged) return;
+
+            this.renderWidth = cssW;
+            this.renderHeight = cssH;
+            this.renderDpr = Math.min(window.devicePixelRatio || 1, cssW <= 800 ? 1.25 : 1.5);
+
+            const pixelW = Math.max(1, Math.round(cssW * this.renderDpr));
+            const pixelH = Math.max(1, Math.round(cssH * this.renderDpr));
+
+            Object.values(this.layers).forEach(({ canvas }) => {
+                canvas.width = pixelW;
+                canvas.height = pixelH;
+            });
+
+            const crop = this.getCrop(pixelW, pixelH);
+            this.renderSharp(crop, pixelW, pixelH);
+            this.renderPixelLayer(this.layers.fine, 3, 'fine', crop, cssW, cssH, pixelW, pixelH);
+            this.renderPixelLayer(this.layers.medium, 8, 'medium', crop, cssW, cssH, pixelW, pixelH);
+            this.renderPixelLayer(this.layers.coarse, 18, 'coarse', crop, cssW, cssH, pixelW, pixelH);
+        }
+
+        getCrop(targetW, targetH) {
             const imgRatio = this.img.naturalWidth / this.img.naturalHeight;
-            const canvasRatio = w / h;
-
+            const canvasRatio = targetW / targetH;
             let srcX = 0;
             let srcY = 0;
             let srcW = this.img.naturalWidth;
@@ -66,92 +127,144 @@
             return { srcX, srcY, srcW, srcH };
         }
 
-        drawUneven(pixelSize, pixelStrength) {
-            const w = this.canvas.width;
-            const h = this.canvas.height;
-            const dpr = window.devicePixelRatio || 1;
-            const cssW = Math.max(1, w / dpr);
-            const cssH = Math.max(1, h / dpr);
-            const { srcX, srcY, srcW, srcH } = this.getCrop();
-
-            this.ctx.clearRect(0, 0, w, h);
-
-            // The true photograph is the base layer from frame one. This makes the
-            // pixel effect feel like a veil that is lifting, instead of hiding the page.
-            this.ctx.save();
-            this.ctx.globalAlpha = 1;
-            this.ctx.imageSmoothingEnabled = true;
-            this.ctx.drawImage(
+        renderSharp(crop, targetW, targetH) {
+            const { ctx } = this.layers.sharp;
+            ctx.clearRect(0, 0, targetW, targetH);
+            ctx.imageSmoothingEnabled = true;
+            ctx.drawImage(
                 this.img,
-                srcX, srcY, srcW, srcH,
-                0, 0, w, h
+                crop.srcX, crop.srcY, crop.srcW, crop.srcH,
+                0, 0, targetW, targetH
             );
-            this.ctx.restore();
+        }
 
-            if (pixelStrength <= 0.002) return;
-
-            const scaledW = Math.max(1, Math.ceil(cssW / Math.max(pixelSize, 1)));
-            const scaledH = Math.max(1, Math.ceil(cssH / Math.max(pixelSize, 1)));
+        renderPixelLayer(layer, cssPixelSize, kind, crop, cssW, cssH, targetW, targetH) {
+            const scaledW = Math.max(1, Math.ceil(cssW / cssPixelSize));
+            const scaledH = Math.max(1, Math.ceil(cssH / cssPixelSize));
 
             if (this.smallBuffer.width !== scaledW) this.smallBuffer.width = scaledW;
             if (this.smallBuffer.height !== scaledH) this.smallBuffer.height = scaledH;
-            if (this.pixelLayer.width !== w) this.pixelLayer.width = w;
-            if (this.pixelLayer.height !== h) this.pixelLayer.height = h;
 
             this.smallCtx.clearRect(0, 0, scaledW, scaledH);
             this.smallCtx.imageSmoothingEnabled = true;
             this.smallCtx.drawImage(
                 this.img,
-                srcX, srcY, srcW, srcH,
+                crop.srcX, crop.srcY, crop.srcW, crop.srcH,
                 0, 0, scaledW, scaledH
             );
 
-            const layerCtx = this.pixelLayerCtx;
-            layerCtx.clearRect(0, 0, w, h);
-            layerCtx.save();
-            layerCtx.globalCompositeOperation = 'source-over';
-            layerCtx.globalAlpha = 1;
-            layerCtx.imageSmoothingEnabled = false;
-            layerCtx.drawImage(
-                this.smallBuffer,
-                0, 0, scaledW, scaledH,
-                0, 0, w, h
-            );
-            layerCtx.restore();
+            const { ctx } = layer;
+            ctx.clearRect(0, 0, targetW, targetH);
+            ctx.save();
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(this.smallBuffer, 0, 0, scaledW, scaledH, 0, 0, targetW, targetH);
+            ctx.restore();
 
-            // Mask the pixel layer. On desktop, the open left side keeps more texture
-            // while the right reading column shows substantially more of the sharp photo.
-            // On mobile, where copy spans nearly the full viewport, the entire effect is
-            // lighter and becomes weakest through the center reading area.
-            layerCtx.save();
-            layerCtx.globalCompositeOperation = 'destination-in';
+            this.applySpatialMask(ctx, kind, targetW, targetH, cssW <= 800);
+        }
 
-            let gradient;
-            if (window.innerWidth <= 800) {
-                gradient = layerCtx.createLinearGradient(0, 0, w, 0);
-                gradient.addColorStop(0.00, `rgba(0,0,0,${0.62 * pixelStrength})`);
-                gradient.addColorStop(0.18, `rgba(0,0,0,${0.52 * pixelStrength})`);
-                gradient.addColorStop(0.52, `rgba(0,0,0,${0.34 * pixelStrength})`);
-                gradient.addColorStop(0.82, `rgba(0,0,0,${0.42 * pixelStrength})`);
-                gradient.addColorStop(1.00, `rgba(0,0,0,${0.52 * pixelStrength})`);
+        applySpatialMask(ctx, kind, w, h, mobile) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-in';
+
+            if (mobile) {
+                // On phones the reading area occupies most of the viewport. Keep the
+                // centre substantially clearer while allowing texture at the edges.
+                const horizontal = ctx.createLinearGradient(0, 0, w, 0);
+                const levels = kind === 'coarse'
+                    ? [0.52, 0.31, 0.22, 0.31, 0.48]
+                    : kind === 'medium'
+                        ? [0.46, 0.30, 0.22, 0.30, 0.42]
+                        : [0.34, 0.25, 0.19, 0.25, 0.32];
+                horizontal.addColorStop(0.00, `rgba(0,0,0,${levels[0]})`);
+                horizontal.addColorStop(0.18, `rgba(0,0,0,${levels[1]})`);
+                horizontal.addColorStop(0.50, `rgba(0,0,0,${levels[2]})`);
+                horizontal.addColorStop(0.82, `rgba(0,0,0,${levels[3]})`);
+                horizontal.addColorStop(1.00, `rgba(0,0,0,${levels[4]})`);
+                ctx.fillStyle = horizontal;
+                ctx.fillRect(0, 0, w, h);
+
+                ctx.globalCompositeOperation = 'destination-in';
+                const vertical = ctx.createLinearGradient(0, 0, 0, h);
+                vertical.addColorStop(0.00, 'rgba(0,0,0,0.92)');
+                vertical.addColorStop(0.22, 'rgba(0,0,0,0.72)');
+                vertical.addColorStop(0.60, 'rgba(0,0,0,0.58)');
+                vertical.addColorStop(1.00, 'rgba(0,0,0,0.76)');
+                ctx.fillStyle = vertical;
+                ctx.fillRect(0, 0, w, h);
             } else {
-                gradient = layerCtx.createLinearGradient(0, 0, w, 0);
-                gradient.addColorStop(0.00, `rgba(0,0,0,${0.94 * pixelStrength})`);
-                gradient.addColorStop(0.30, `rgba(0,0,0,${0.90 * pixelStrength})`);
-                gradient.addColorStop(0.42, `rgba(0,0,0,${0.72 * pixelStrength})`);
-                gradient.addColorStop(0.56, `rgba(0,0,0,${0.46 * pixelStrength})`);
-                gradient.addColorStop(0.72, `rgba(0,0,0,${0.30 * pixelStrength})`);
-                gradient.addColorStop(1.00, `rgba(0,0,0,${0.22 * pixelStrength})`);
+                // Desktop composition: the open left side can carry much stronger
+                // pixel texture. The central/right reading column is carved clear,
+                // with a little texture returning around the far-right silhouette.
+                const horizontal = ctx.createLinearGradient(0, 0, w, 0);
+                const levels = kind === 'coarse'
+                    ? [0.98, 0.95, 0.78, 0.34, 0.14, 0.18, 0.36]
+                    : kind === 'medium'
+                        ? [0.86, 0.82, 0.68, 0.38, 0.20, 0.21, 0.30]
+                        : [0.58, 0.56, 0.48, 0.31, 0.20, 0.20, 0.25];
+                const stops = [0.00, 0.28, 0.40, 0.50, 0.63, 0.78, 1.00];
+                stops.forEach((stop, index) => {
+                    horizontal.addColorStop(stop, `rgba(0,0,0,${levels[index]})`);
+                });
+                ctx.fillStyle = horizontal;
+                ctx.fillRect(0, 0, w, h);
+
+                // Feather an additional reading-zone cutout. This has no hard edge;
+                // it simply reduces texture where long-form copy sits.
+                ctx.globalCompositeOperation = 'destination-out';
+                const readingHole = ctx.createRadialGradient(
+                    w * 0.64, h * 0.46, 0,
+                    w * 0.64, h * 0.46, w * 0.42
+                );
+                const strength = kind === 'coarse' ? 0.70 : kind === 'medium' ? 0.48 : 0.28;
+                readingHole.addColorStop(0.00, `rgba(0,0,0,${strength})`);
+                readingHole.addColorStop(0.42, `rgba(0,0,0,${strength * 0.72})`);
+                readingHole.addColorStop(0.76, `rgba(0,0,0,${strength * 0.22})`);
+                readingHole.addColorStop(1.00, 'rgba(0,0,0,0)');
+                ctx.fillStyle = readingHole;
+                ctx.fillRect(0, 0, w, h);
             }
 
-            layerCtx.fillStyle = gradient;
-            layerCtx.fillRect(0, 0, w, h);
-            layerCtx.restore();
-
-            this.ctx.save();
-            this.ctx.globalAlpha = 1;
-            this.ctx.drawImage(this.pixelLayer, 0, 0);
-            this.ctx.restore();
+            ctx.restore();
         }
+
+        updateLayerOpacities() {
+            if (!this.layers) return;
+
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                this.layers.coarse.canvas.style.opacity = '0';
+                this.layers.medium.canvas.style.opacity = '0';
+                this.layers.fine.canvas.style.opacity = '0';
+                return;
+            }
+
+            const viewport = Math.max(window.innerHeight, 1);
+            const units = window.scrollY / viewport;
+            const mobile = window.innerWidth <= 800;
+
+            // Coarse pixels disappear early. Medium and fine texture survive longer
+            // over the open image, giving the effect depth without obscuring copy.
+            const coarseEnd = mobile ? 0.34 : 0.46;
+            const mediumEnd = mobile ? 0.66 : 0.88;
+            const fineEnd = mobile ? 0.96 : 1.28;
+
+            const coarse = 1 - smoothstep(0.00, coarseEnd, units);
+            const medium = 0.92 * (1 - smoothstep(0.06, mediumEnd, units));
+            const fine = 0.72 * (1 - smoothstep(0.18, fineEnd, units));
+
+            this.layers.coarse.canvas.style.opacity = coarse.toFixed(3);
+            this.layers.medium.canvas.style.opacity = medium.toFixed(3);
+            this.layers.fine.canvas.style.opacity = fine.toFixed(3);
+        }
+
+        // The base implementation's continuous redraw hooks are intentionally unused.
+        // These methods remain only so inherited code cannot accidentally trigger the
+        // old repixelation path.
+        resize() {}
+        computeScrollRange() {}
+        updatePixelation() {
+            this.updateLayerOpacities();
+        }
+        drawPixelated() {}
     };
 })();
