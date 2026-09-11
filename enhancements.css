@@ -1,4 +1,40 @@
-/* Focused portfolio refinements: hierarchy, accessibility, mobile, and case-study depth. */
+/* Focused portfolio refinements: hierarchy, accessibility, mobile, and visual depth. */
+
+:root {
+    --text-main: #F5F7FF;
+    --text-secondary: #C9CDDD;
+    --text-muted: #9BA2B8;
+    --accent: #A5B4FC;
+    --border-subtle: #2A2E42;
+    --bg-card: rgba(17, 20, 31, 0.88);
+    --bg-card-hover: rgba(24, 28, 43, 0.94);
+    --grid-line: rgba(165, 180, 252, 0.045);
+}
+
+body {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+    font-size: 15.5px;
+    letter-spacing: -0.005em;
+}
+
+h1, h2, h3,
+.nav-logo,
+.circular-center-name {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+}
+
+.pixelate-bg canvas {
+    filter: saturate(1.08) contrast(1.08) brightness(1.14) hue-rotate(-6deg);
+}
+
+.bg-overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(9, 11, 18, 0.48) 0%,
+        rgba(9, 11, 18, 0.66) 48%,
+        rgba(9, 11, 18, 0.84) 100%
+    );
+}
 
 .skip-link {
     position: fixed;
@@ -9,118 +45,300 @@
     border-radius: 8px;
     background: var(--text-main);
     color: var(--bg-body);
-    font-weight: 600;
+    font-weight: 700;
     transform: translateY(-160%);
     transition: transform 0.18s ease;
 }
 
 .skip-link:focus { transform: translateY(0); }
 
+.sticky-title {
+    opacity: 0.96;
+    font-weight: 700;
+}
+
+.hero .sticky-title {
+    display: inline-block;
+    font-size: clamp(48px, 5vw, 58px);
+    line-height: 1.1;
+    padding: 0 0 0.14em;
+    overflow: visible;
+    font-weight: 700;
+    letter-spacing: -0.055em;
+    background: linear-gradient(120deg, #FFFFFF 0%, #E6E9FF 48%, #A5B4FC 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.22));
+}
+
+.profile-header {
+    align-items: center;
+    gap: 30px;
+    padding-bottom: 34px;
+    border-bottom-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Portrait is intentionally borderless and feathered so it reads as part of the hero. */
 .avatar {
-    width: 92px;
-    height: 92px;
-    overflow: hidden;
-    background: var(--bg-card);
+    position: relative;
+    width: 118px;
+    height: 118px;
+    overflow: visible;
+    flex: 0 0 118px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    isolation: isolate;
+}
+
+.avatar::before {
+    content: '';
+    position: absolute;
+    inset: 15px 10px 8px;
+    z-index: -1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(165, 180, 252, 0.16), transparent 68%);
+    filter: blur(18px);
 }
 
 .avatar img {
-    width: 100%;
-    height: 100%;
+    width: 118px;
+    height: 118px;
     display: block;
     object-fit: cover;
+    transform: scale(1.12) translateY(2px);
+    transform-origin: 50% 43%;
+    border-radius: 0;
+    filter: saturate(0.88) contrast(1.04) brightness(0.98);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 45%, #000 0 50%, rgba(0,0,0,0.96) 61%, rgba(0,0,0,0.55) 70%, transparent 82%);
+    mask-image: radial-gradient(ellipse at 50% 45%, #000 0 50%, rgba(0,0,0,0.96) 61%, rgba(0,0,0,0.55) 70%, transparent 82%);
 }
 
 .info-grid { margin: 0; }
 
 .info-item dt {
     display: block;
-    margin-bottom: 4px;
-    font-size: 13px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
     color: var(--text-muted);
 }
 
 .info-item dd {
     margin: 0;
-    font-size: 14px;
+    font-size: 14.5px;
     font-family: 'JetBrains Mono', monospace;
     color: var(--text-main);
     font-weight: 500;
 }
 
-.info-item .accent-value { color: var(--accent); }
-.bio-text { max-width: 590px; }
+.info-item .accent-value { color: #B7C1FF; }
+
+.bio-text {
+    max-width: 610px;
+    font-size: 16.5px;
+    line-height: 1.72;
+    color: var(--text-secondary);
+    text-shadow: 0 1px 14px rgba(0,0,0,0.18);
+}
 
 .tech-category h2 {
     margin-bottom: 16px;
     font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
+    font-weight: 700;
+    letter-spacing: -0.025em;
     color: var(--text-main);
 }
 
-.project-card-featured {
-    display: block;
-    padding: 28px;
+.tech-list li {
+    color: var(--text-secondary);
 }
 
-.settleworth-head {
+.role {
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.description {
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+.company {
+    color: #B7C1FF;
+}
+
+.project-card {
+    border-color: rgba(165, 180, 252, 0.13);
+    background: linear-gradient(145deg, rgba(20, 23, 35, 0.90), rgba(13, 16, 26, 0.86));
+    box-shadow: 0 20px 48px rgba(2, 4, 12, 0.16), inset 0 1px 0 rgba(255,255,255,0.025);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.project-card:hover {
+    background: linear-gradient(145deg, rgba(27, 31, 47, 0.95), rgba(16, 20, 32, 0.92));
+    border-color: rgba(165, 180, 252, 0.28);
+    box-shadow: 0 24px 56px rgba(2, 4, 12, 0.22), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+.project-card-featured {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding: 30px;
+    border-color: rgba(165, 180, 252, 0.28);
+    box-shadow: 0 26px 64px rgba(2, 4, 12, 0.22), inset 3px 0 0 rgba(165, 180, 252, 0.75);
+}
+
+.settleworth-case-study::before {
+    content: '';
+    position: absolute;
+    width: 360px;
+    height: 360px;
+    right: -170px;
+    top: -210px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(78, 108, 154, 0.24), rgba(78, 108, 154, 0.05) 48%, transparent 72%);
+    pointer-events: none;
+}
+
+.settleworth-brand-row {
+    position: relative;
+    z-index: 1;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: space-between;
     gap: 18px;
     margin-bottom: 22px;
 }
 
-.settleworth-head .project-content { flex: 1; }
-.settleworth-head .project-content p {
+.settleworth-logo-shell {
+    width: 188px;
+    min-height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 15px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.98), rgba(243,246,251,0.94));
+    border: 1px solid rgba(255,255,255,0.65);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+}
+
+.settleworth-logo-shell img {
+    display: block;
+    width: 166px;
+    height: auto;
+}
+
+.settleworth-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(165, 180, 252, 0.18);
+    background: rgba(165, 180, 252, 0.07);
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.settleworth-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #A5B4FC;
+    box-shadow: 0 0 0 4px rgba(165,180,252,0.10);
+}
+
+.settleworth-copy {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 22px;
+}
+
+.settleworth-copy h3 {
+    margin: 4px 0 8px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.035em;
+}
+
+.settleworth-copy p {
     max-width: 610px;
+    font-size: 14.5px;
+    line-height: 1.65;
     color: var(--text-secondary);
 }
 
+.project-kicker {
+    color: #B7C1FF;
+    letter-spacing: 0.035em;
+}
+
 .case-study-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 12px;
-    margin: 20px 0 22px;
+    margin: 0 0 24px;
 }
 
 .case-study-item {
-    padding: 16px;
-    border: 1px solid var(--border-subtle);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.018);
+    padding: 17px;
+    border: 1px solid rgba(255,255,255,0.075);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.035);
 }
 
 .case-study-item h4 {
     margin-bottom: 8px;
-    font-size: 12px;
+    font-size: 11px;
     font-family: 'JetBrains Mono', monospace;
     font-weight: 500;
-    color: var(--accent);
+    color: #B7C1FF;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.07em;
 }
 
 .case-study-item p {
     font-size: 13px;
-    line-height: 1.55;
-    color: var(--text-muted);
+    line-height: 1.6;
+    color: #AFB5C9;
 }
 
 .case-study-link {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 14px;
-    font-weight: 600;
+    padding: 9px 12px;
+    border-radius: 9px;
+    border: 1px solid rgba(165,180,252,0.18);
+    background: rgba(165,180,252,0.07);
+    font-size: 13px;
+    font-weight: 700;
     color: var(--text-main);
 }
 
-.case-study-link:hover { color: var(--accent); }
+.case-study-link:hover {
+    color: #FFFFFF;
+    background: rgba(165,180,252,0.13);
+    border-color: rgba(165,180,252,0.34);
+}
 
 .earlier-work {
     margin-top: 6px;
     padding: 16px 18px;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .earlier-work .project-kicker { color: var(--text-muted); }
@@ -134,7 +352,7 @@
 
 .earlier-work h3 {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: -0.01em;
 }
 
@@ -159,13 +377,50 @@ button:focus-visible,
     border-radius: 8px;
 }
 
+/* Bawa curiosity portal: context appears only when the visitor approaches it. */
 .circular-reveal {
     border: 0;
     padding: 0;
     font: inherit;
     appearance: none;
     -webkit-appearance: none;
+    overflow: visible;
 }
+
+.circular-reveal::after {
+    content: 'open a strange corner of the internet';
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 14px);
+    width: max-content;
+    max-width: 230px;
+    padding: 9px 12px;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    background: rgba(10, 12, 19, 0.86);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.28);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: #EEF0FA;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+    text-align: left;
+    opacity: 0;
+    transform: translate(10px, -50%) scale(0.98);
+    transform-origin: right center;
+    transition: opacity 0.22s ease, transform 0.22s ease;
+    pointer-events: none;
+}
+
+.circular-reveal:hover::after,
+.circular-reveal:focus-visible::after {
+    opacity: 1;
+    transform: translate(0, -50%) scale(1);
+}
+
+.circular-reveal[data-state="fusing"]::after { opacity: 0; }
 
 .pixelate-bg { contain: strict; }
 .bg-overlay { will-change: opacity; }
@@ -173,15 +428,27 @@ button:focus-visible,
 @media (max-width: 800px) {
     .top-nav { padding: 16px 20px; }
     .container { padding: 80px 20px 64px; }
-    .profile-header { gap: 16px; }
+    .profile-header {
+        gap: 20px;
+        align-items: center;
+    }
     .avatar {
-        width: 76px;
-        height: 76px;
-        border-radius: 10px;
+        width: 96px;
+        height: 96px;
+        flex-basis: 96px;
+    }
+    .avatar img {
+        width: 96px;
+        height: 96px;
     }
     .info-grid { gap: 10px 22px; }
     .case-study-grid { grid-template-columns: 1fr; }
-    .project-card-featured { padding: 22px; }
+    .project-card-featured { padding: 24px; }
+    .settleworth-logo-shell {
+        width: 168px;
+        min-height: 74px;
+    }
+    .settleworth-logo-shell img { width: 148px; }
     .circular-reveal {
         width: 64px;
         height: 64px;
@@ -189,6 +456,7 @@ button:focus-visible,
         bottom: 16px;
         box-shadow: 4px 4px 10px #bebebe, -4px -4px 10px #ffffff;
     }
+    .circular-reveal::after { display: none; }
     .circular-inner-2 { inset: 5px; }
     .circular-center-inner {
         padding: 4px;
@@ -207,7 +475,11 @@ button:focus-visible,
         gap: 5px;
     }
     .timeline-date { display: block; }
-    .settleworth-head { gap: 14px; }
+    .settleworth-brand-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
     .earlier-work-row {
         flex-direction: column;
         gap: 5px;
@@ -220,11 +492,23 @@ button:focus-visible,
         padding-left: 18px;
         padding-right: 18px;
     }
-    .hero .sticky-title { font-size: 34px; }
-    .profile-header { flex-direction: column; }
+    .hero .sticky-title {
+        font-size: 40px;
+        line-height: 1.1;
+        padding-bottom: 0.14em;
+    }
+    .profile-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
     .avatar {
-        width: 84px;
-        height: 84px;
+        width: 108px;
+        height: 108px;
+        flex-basis: 108px;
+    }
+    .avatar img {
+        width: 108px;
+        height: 108px;
     }
     .info-grid {
         width: 100%;
@@ -232,7 +516,6 @@ button:focus-visible,
     }
     .tech-columns { gap: 28px; }
     .project-card { gap: 14px; }
-    .settleworth-head { flex-direction: column; }
     .newsletter-card { flex-direction: column; }
 }
 
