@@ -2,6 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const fab = document.getElementById('circular-reveal');
     if (!fab) return;
 
+    // The control is now a native button. Stop the legacy anonymous key handler
+    // and let the browser generate the standard click for Enter/Space.
+    fab.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+            event.stopImmediatePropagation();
+        }
+    }, true);
+
     const syncState = () => {
         fab.removeAttribute('aria-pressed');
         if (fab.dataset.state && fab.dataset.state !== 'idle') {
