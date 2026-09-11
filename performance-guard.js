@@ -1,11 +1,18 @@
-// Keep scroll-driven visuals to at most one redraw per animation frame.
-// This leaves the existing image, crop, pixelation curve, overlay, and smooth-scroll feel unchanged.
+// Keep only the pixel-background redraw work to at most one call per animation frame.
+// Lenis and all other listeners retain their original behavior.
 (() => {
     const nativeAddEventListener = window.addEventListener.bind(window);
 
     window.addEventListener = function(type, listener, options) {
-        const shouldThrottle = (type === 'scroll' || type === 'resize') && typeof listener === 'function';
-        if (!shouldThrottle) {
+        if (typeof listener !== 'function') {
+            return nativeAddEventListener(type, listener, options);
+        }
+
+        const source = Function.prototype.toString.call(listener);
+        const isPixelBackgroundListener =
+            (type === 'scroll' || type === 'resize') && source.includes('updatePixelation');
+
+        if (!isPixelBackgroundListener) {
             return nativeAddEventListener(type, listener, options);
         }
 
