@@ -27,7 +27,7 @@
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Farish Punjani","url":"https://fpunjani.github.io/","jobTitle":"Software Engineer","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"worksFor":{"@type":"Organization","name":"Manulife"},"owns":{"@type":"WebSite","name":"SettleWorth","url":"https://settleworth.co"},"sameAs":["https://github.com/fpunjani","https://linkedin.com/in/farishh","https://www.youtube.com/@projectbaawa","https://agentvinod.substack.com"]}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/lenis@1/dist/lenis.css">
     <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="./enhancements.css">
@@ -38,7 +38,7 @@
     <div class="bg-overlay" aria-hidden="true"></div>
     <div class="grid-bg" aria-hidden="true"></div>
 
-    <button class="circular-reveal" id="circular-reveal" type="button" data-state="idle" aria-label="Open a random site">
+    <button class="circular-reveal" id="circular-reveal" type="button" data-state="idle" aria-label="Open a strange corner of the internet">
         <span class="circular-inner-1" aria-hidden="true"></span>
         <span class="circular-inner-2" aria-hidden="true"></span>
         <span class="circular-center" aria-hidden="true"><span class="circular-center-inner" id="circular-center-text"><span class="circular-center-name">बावा की<br>दुनिया</span></span></span>
@@ -85,7 +85,11 @@
             <div class="section-title-col"><h2 class="sticky-title" id="projects-title">Projects</h2></div>
             <div class="project-grid">
                 <article class="project-card project-card-featured settleworth-case-study">
-                    <div class="settleworth-head"><div class="project-icon project-icon-wordmark" aria-hidden="true">SW</div><div class="project-content"><div class="project-kicker">Live product · Founder</div><h3>SettleWorth</h3><p>A Canada-first settlement discovery product built around verified public listings, guided matching, deadlines, provenance, freshness, and privacy.</p></div></div>
+                    <div class="settleworth-brand-row">
+                        <div class="settleworth-logo-shell"><img src="./settleworth-logo.svg" alt="SettleWorth"></div>
+                        <div class="settleworth-status"><span class="settleworth-status-dot" aria-hidden="true"></span>Live product</div>
+                    </div>
+                    <div class="settleworth-copy"><div class="project-kicker">Founder · Canada-first recovery intelligence</div><h3>SettleWorth</h3><p>A Canada-first settlement discovery product built around verified public listings, guided matching, deadlines, provenance, freshness, and privacy.</p></div>
                     <div class="case-study-grid">
                         <div class="case-study-item"><h4>Problem</h4><p>Settlement opportunities are scattered across court, administrator, and public-source pages, making discovery and claim navigation difficult.</p></div>
                         <div class="case-study-item"><h4>Ownership</h4><p>Product strategy, source research and data quality, UX, domain logic, application architecture, releases, and production reliability.</p></div>
