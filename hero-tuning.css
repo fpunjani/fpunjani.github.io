@@ -1,0 +1,203 @@
+/* Focused hero/work tuning based on rendered-page review. Projects downward intentionally left structurally unchanged. */
+
+:root {
+    --text-main: #FAFBFE;
+    --text-secondary: #E4E8F0;
+    --text-muted: #C1C8D6;
+}
+
+/* Keep Project Baawa as an opening signature, without a persistent navigation bar. */
+.top-nav {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: auto !important;
+    padding: 22px 40px !important;
+    background: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+.top-nav.scrolled {
+    background: none !important;
+    border: 0 !important;
+}
+
+.nav-links {
+    display: none !important;
+}
+
+.nav-logo {
+    color: rgba(250, 251, 254, 0.82) !important;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.34);
+}
+
+/* Preserve the photograph while creating a stable reading field under the content. */
+.bg-overlay {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(5, 7, 12, 0.04) 0%,
+            rgba(5, 7, 12, 0.05) 27%,
+            rgba(5, 7, 12, 0.20) 37%,
+            rgba(5, 7, 12, 0.43) 49%,
+            rgba(5, 7, 12, 0.61) 68%,
+            rgba(5, 7, 12, 0.68) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(5, 7, 12, 0.03) 0%,
+            rgba(5, 7, 12, 0.09) 48%,
+            rgba(5, 7, 12, 0.16) 100%
+        ) !important;
+    opacity: 1 !important;
+}
+
+.pixelate-bg canvas {
+    filter: saturate(1.05) contrast(1.015) brightness(1.22) hue-rotate(-3deg) !important;
+}
+
+/* The landing composition gets its own full viewport before Work begins. */
+.hero {
+    min-height: calc(100svh - 92px);
+    align-content: center;
+    margin-bottom: 104px !important;
+    padding-top: 34px;
+}
+
+.hero .sticky-title {
+    font-size: clamp(54px, 5.2vw, 68px) !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.058em !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 2px 22px rgba(0, 0, 0, 0.32) !important;
+}
+
+.hero-role {
+    font-size: 23px !important;
+    font-weight: 700 !important;
+    color: #FFFFFF !important;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.26);
+}
+
+.hero .bio-text {
+    max-width: 570px !important;
+    font-size: 17.5px !important;
+    line-height: 1.62 !important;
+    font-weight: 500;
+    color: #EDF0F6 !important;
+    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.30);
+}
+
+.hero-intro {
+    max-width: 610px !important;
+    padding-bottom: 24px !important;
+}
+
+.hero-meta {
+    padding-bottom: 24px !important;
+}
+
+.hero .info-item dt {
+    color: #C7CEDB !important;
+}
+
+.hero .info-item dd {
+    color: #FAFBFE !important;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.24);
+}
+
+.hero .info-item .accent-value {
+    color: #D4D9FF !important;
+}
+
+.hero .tech-category h2 {
+    color: #FAFBFE !important;
+    font-size: 15px !important;
+}
+
+.hero .tech-list li {
+    color: #E2E6EF !important;
+    font-size: 15.5px !important;
+    font-weight: 500;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.22);
+}
+
+/* Work should read crisply once the photograph has resolved. */
+#work .role {
+    color: #FFFFFF !important;
+    font-size: 19.5px !important;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.28);
+}
+
+#work .company {
+    color: #D7DBFF !important;
+    font-weight: 500;
+    text-shadow: 0 1px 11px rgba(0, 0, 0, 0.24);
+}
+
+#work .timeline-date {
+    color: #C8CEDB !important;
+    font-size: 13px !important;
+    text-shadow: 0 1px 9px rgba(0, 0, 0, 0.28);
+}
+
+#work .description {
+    max-width: 600px !important;
+    color: #E6E9F1 !important;
+    font-weight: 500;
+    text-shadow: 0 1px 13px rgba(0, 0, 0, 0.30);
+}
+
+#work .description strong {
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+}
+
+#work .sticky-title,
+#projects .sticky-title,
+#writing .sticky-title,
+#connect .sticky-title {
+    color: #FAFBFE !important;
+}
+
+/* The easter egg stays discoverable without becoming the brightest object on screen. */
+.circular-reveal {
+    width: 78px !important;
+    height: 78px !important;
+    box-shadow: 2px 2px 7px rgba(0,0,0,0.22), -1px -1px 5px rgba(255,255,255,0.34) !important;
+}
+
+.circular-reveal:hover,
+.circular-reveal:focus-visible {
+    box-shadow: 5px 5px 13px rgba(0,0,0,0.26), -3px -3px 10px rgba(255,255,255,0.68) !important;
+}
+
+@media (max-width: 800px) {
+    .top-nav {
+        padding: 18px 20px !important;
+    }
+
+    .hero {
+        min-height: auto;
+        padding-top: 54px;
+        margin-bottom: 82px !important;
+    }
+
+    .hero .sticky-title {
+        font-size: clamp(46px, 12vw, 60px) !important;
+    }
+
+    .circular-reveal {
+        width: 62px !important;
+        height: 62px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pixelate-bg canvas {
+        transition: none !important;
+    }
+}
