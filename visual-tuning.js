@@ -1,8 +1,8 @@
 // Cached, spatially composed pixel reveal.
 //
 // Expensive image resampling happens only on initial render and meaningful resize.
-// Scrolling only changes opacity on three already-rendered canvas layers, which keeps
-// pixel boundaries stable and lets the browser composite the effect on the GPU.
+// Scrolling only changes opacity on already-rendered layers. Pixel boundaries stay
+// fixed, avoiding the shimmer caused by continuously changing the pixel grid.
 (() => {
     if (typeof PixelateBackground === 'undefined') return;
 
@@ -47,10 +47,7 @@
                 canvas.className = `bg-layer bg-${name}`;
                 canvas.setAttribute('aria-hidden', 'true');
                 this.container.appendChild(canvas);
-                return {
-                    canvas,
-                    ctx: canvas.getContext('2d', { alpha: true })
-                };
+                return { canvas, ctx: canvas.getContext('2d', { alpha: true }) };
             };
 
             this.layers = {
@@ -81,10 +78,6 @@
         renderLayers(force = false) {
             const cssW = Math.max(1, window.innerWidth);
             const cssH = Math.max(1, document.documentElement.clientHeight || window.innerHeight);
-
-            // Mobile browser chrome causes small viewport-height changes while scrolling.
-            // Stretch the cached bitmap through those tiny changes; only rerender for a
-            // real layout change, orientation change, or meaningful height delta.
             const widthChanged = Math.abs(cssW - this.renderWidth) > 2;
             const heightChanged = Math.abs(cssH - this.renderHeight) > 140;
             if (!force && !widthChanged && !heightChanged) return;
@@ -95,7 +88,6 @@
 
             const pixelW = Math.max(1, Math.round(cssW * this.renderDpr));
             const pixelH = Math.max(1, Math.round(cssH * this.renderDpr));
-
             Object.values(this.layers).forEach(({ canvas }) => {
                 canvas.width = pixelW;
                 canvas.height = pixelH;
@@ -131,11 +123,7 @@
             const { ctx } = this.layers.sharp;
             ctx.clearRect(0, 0, targetW, targetH);
             ctx.imageSmoothingEnabled = true;
-            ctx.drawImage(
-                this.img,
-                crop.srcX, crop.srcY, crop.srcW, crop.srcH,
-                0, 0, targetW, targetH
-            );
+            ctx.drawImage(this.img, crop.srcX, crop.srcY, crop.srcW, crop.srcH, 0, 0, targetW, targetH);
         }
 
         renderPixelLayer(layer, cssPixelSize, kind, crop, cssW, cssH, targetW, targetH) {
@@ -147,11 +135,7 @@
 
             this.smallCtx.clearRect(0, 0, scaledW, scaledH);
             this.smallCtx.imageSmoothingEnabled = true;
-            this.smallCtx.drawImage(
-                this.img,
-                crop.srcX, crop.srcY, crop.srcW, crop.srcH,
-                0, 0, scaledW, scaledH
-            );
+            this.smallCtx.drawImage(this.img, crop.srcX, crop.srcY, crop.srcW, crop.srcH, 0, 0, scaledW, scaledH);
 
             const { ctx } = layer;
             ctx.clearRect(0, 0, targetW, targetH);
@@ -163,69 +147,59 @@
             this.applySpatialMask(ctx, kind, targetW, targetH, cssW <= 800);
         }
 
+        punchSoftEllipse(ctx, cx, cy, rx, ry, strength) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.translate(cx, cy);
+            ctx.scale(rx, ry);
+            const gradient = ctx.createRadialGradient(0, 0, 0, 0, 0, 1);
+            gradient.addColorStop(0.00, `rgba(0,0,0,${strength})`);
+            gradient.addColorStop(0.45, `rgba(0,0,0,${strength * 0.82})`);
+            gradient.addColorStop(0.76, `rgba(0,0,0,${strength * 0.30})`);
+            gradient.addColorStop(1.00, 'rgba(0,0,0,0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(0, 0, 1, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+
         applySpatialMask(ctx, kind, w, h, mobile) {
+            const baseAlpha = mobile
+                ? (kind === 'coarse' ? 0.78 : kind === 'medium' ? 0.60 : 0.38)
+                : (kind === 'coarse' ? 0.96 : kind === 'medium' ? 0.76 : 0.48);
+
+            // Start with a broadly pixelated frame. Clear, feathered islands are then
+            // carved around the subject and reading zones. This avoids any visible
+            // left/right boundary while letting the open photograph carry the effect.
             ctx.save();
             ctx.globalCompositeOperation = 'destination-in';
+            ctx.fillStyle = `rgba(0,0,0,${baseAlpha})`;
+            ctx.fillRect(0, 0, w, h);
+            ctx.restore();
+
+            const bodyStrength = kind === 'coarse' ? 0.98 : kind === 'medium' ? 0.90 : 0.72;
+            const readingStrength = kind === 'coarse' ? 0.50 : kind === 'medium' ? 0.38 : 0.22;
 
             if (mobile) {
-                // On phones the reading area occupies most of the viewport. Keep the
-                // centre substantially clearer while allowing texture at the edges.
-                const horizontal = ctx.createLinearGradient(0, 0, w, 0);
-                const levels = kind === 'coarse'
-                    ? [0.52, 0.31, 0.22, 0.31, 0.48]
-                    : kind === 'medium'
-                        ? [0.46, 0.30, 0.22, 0.30, 0.42]
-                        : [0.34, 0.25, 0.19, 0.25, 0.32];
-                horizontal.addColorStop(0.00, `rgba(0,0,0,${levels[0]})`);
-                horizontal.addColorStop(0.18, `rgba(0,0,0,${levels[1]})`);
-                horizontal.addColorStop(0.50, `rgba(0,0,0,${levels[2]})`);
-                horizontal.addColorStop(0.82, `rgba(0,0,0,${levels[3]})`);
-                horizontal.addColorStop(1.00, `rgba(0,0,0,${levels[4]})`);
-                ctx.fillStyle = horizontal;
-                ctx.fillRect(0, 0, w, h);
+                // The portrait crop moves the figure into the lower-right on phones.
+                // Use overlapping soft ellipses instead of tracing an exact silhouette.
+                this.punchSoftEllipse(ctx, w * 0.76, h * 0.72, w * 0.24, h * 0.25, bodyStrength);
+                this.punchSoftEllipse(ctx, w * 0.68, h * 0.98, w * 0.31, h * 0.26, bodyStrength * 0.88);
 
-                ctx.globalCompositeOperation = 'destination-in';
-                const vertical = ctx.createLinearGradient(0, 0, 0, h);
-                vertical.addColorStop(0.00, 'rgba(0,0,0,0.92)');
-                vertical.addColorStop(0.22, 'rgba(0,0,0,0.72)');
-                vertical.addColorStop(0.60, 'rgba(0,0,0,0.58)');
-                vertical.addColorStop(1.00, 'rgba(0,0,0,0.76)');
-                ctx.fillStyle = vertical;
-                ctx.fillRect(0, 0, w, h);
+                // Reading protection is intentionally lighter than subject protection,
+                // so the page still feels pixelated without compromising legibility.
+                this.punchSoftEllipse(ctx, w * 0.48, h * 0.43, w * 0.56, h * 0.40, readingStrength);
             } else {
-                // Desktop composition: the open left side can carry much stronger
-                // pixel texture. The central/right reading column is carved clear,
-                // with a little texture returning around the far-right silhouette.
-                const horizontal = ctx.createLinearGradient(0, 0, w, 0);
-                const levels = kind === 'coarse'
-                    ? [0.98, 0.95, 0.78, 0.34, 0.14, 0.18, 0.36]
-                    : kind === 'medium'
-                        ? [0.86, 0.82, 0.68, 0.38, 0.20, 0.21, 0.30]
-                        : [0.58, 0.56, 0.48, 0.31, 0.20, 0.20, 0.25];
-                const stops = [0.00, 0.28, 0.40, 0.50, 0.63, 0.78, 1.00];
-                stops.forEach((stop, index) => {
-                    horizontal.addColorStop(stop, `rgba(0,0,0,${levels[index]})`);
-                });
-                ctx.fillStyle = horizontal;
-                ctx.fillRect(0, 0, w, h);
+                // Protect the visible figure first: head/upper body and lower torso.
+                this.punchSoftEllipse(ctx, w * 0.745, h * 0.69, w * 0.145, h * 0.255, bodyStrength);
+                this.punchSoftEllipse(ctx, w * 0.69, h * 0.98, w * 0.17, h * 0.26, bodyStrength * 0.90);
 
-                // Feather an additional reading-zone cutout. This has no hard edge;
-                // it simply reduces texture where long-form copy sits.
-                ctx.globalCompositeOperation = 'destination-out';
-                const readingHole = ctx.createRadialGradient(
-                    w * 0.64, h * 0.46, 0,
-                    w * 0.64, h * 0.46, w * 0.42
-                );
-                const strength = kind === 'coarse' ? 0.70 : kind === 'medium' ? 0.48 : 0.28;
-                readingHole.addColorStop(0.00, `rgba(0,0,0,${strength})`);
-                readingHole.addColorStop(0.42, `rgba(0,0,0,${strength * 0.72})`);
-                readingHole.addColorStop(0.76, `rgba(0,0,0,${strength * 0.22})`);
-                readingHole.addColorStop(1.00, 'rgba(0,0,0,0)');
-                ctx.fillStyle = readingHole;
-                ctx.fillRect(0, 0, w, h);
+                // Broad, imperfect clearings around the two main reading masses. These
+                // remain intentionally soft and asymmetric so the mask feels photographic.
+                this.punchSoftEllipse(ctx, w * 0.625, h * 0.46, w * 0.34, h * 0.30, readingStrength);
+                this.punchSoftEllipse(ctx, w * 0.30, h * 0.40, w * 0.20, h * 0.20, readingStrength * 0.58);
             }
-
-            ctx.restore();
         }
 
         updateLayerOpacities() {
@@ -242,29 +216,24 @@
             const units = window.scrollY / viewport;
             const mobile = window.innerWidth <= 800;
 
-            // Coarse pixels disappear early. Medium and fine texture survive longer
-            // over the open image, giving the effect depth without obscuring copy.
-            const coarseEnd = mobile ? 0.34 : 0.46;
-            const mediumEnd = mobile ? 0.66 : 0.88;
-            const fineEnd = mobile ? 0.96 : 1.28;
+            // With the subject and reading areas protected, the surrounding pixels can
+            // remain present longer without interfering with the content.
+            const coarseEnd = mobile ? 0.42 : 0.58;
+            const mediumEnd = mobile ? 0.84 : 1.05;
+            const fineEnd = mobile ? 1.18 : 1.48;
 
             const coarse = 1 - smoothstep(0.00, coarseEnd, units);
-            const medium = 0.92 * (1 - smoothstep(0.06, mediumEnd, units));
-            const fine = 0.72 * (1 - smoothstep(0.18, fineEnd, units));
+            const medium = 0.94 * (1 - smoothstep(0.05, mediumEnd, units));
+            const fine = 0.74 * (1 - smoothstep(0.16, fineEnd, units));
 
             this.layers.coarse.canvas.style.opacity = coarse.toFixed(3);
             this.layers.medium.canvas.style.opacity = medium.toFixed(3);
             this.layers.fine.canvas.style.opacity = fine.toFixed(3);
         }
 
-        // The base implementation's continuous redraw hooks are intentionally unused.
-        // These methods remain only so inherited code cannot accidentally trigger the
-        // old repixelation path.
         resize() {}
         computeScrollRange() {}
-        updatePixelation() {
-            this.updateLayerOpacities();
-        }
+        updatePixelation() { this.updateLayerOpacities(); }
         drawPixelated() {}
     };
 })();

@@ -1,4 +1,4 @@
-/* Focused hero/work tuning based on rendered desktop + iOS review. */
+/* Hero/work tuning and cinematic background composition. */
 
 :root {
     --text-main: #FFFFFF;
@@ -7,17 +7,13 @@
 }
 
 html,
-body {
-    background: #0B0D14;
-}
+body { background: #0B0D14; }
 
 body {
     position: relative;
     isolation: isolate;
 }
 
-/* Stable fixed photograph stack. The parent receives one coherent photographic
-   grade; individual cached canvases only change opacity while scrolling. */
 .pixelate-bg {
     position: fixed !important;
     inset: 0 !important;
@@ -47,8 +43,6 @@ body {
 .pixelate-bg .bg-medium { z-index: 2; will-change: opacity; }
 .pixelate-bg .bg-coarse { z-index: 3; will-change: opacity; }
 
-/* One coherent cinematic grade for the whole photograph. There is deliberately
-   no left-to-right dark curtain. A soft edge vignette keeps the frame cohesive. */
 .bg-overlay {
     position: fixed !important;
     inset: 0 !important;
@@ -58,18 +52,8 @@ body {
     z-index: 1 !important;
     pointer-events: none;
     background:
-        radial-gradient(
-            ellipse at 50% 48%,
-            rgba(4, 6, 10, 0.00) 34%,
-            rgba(4, 6, 10, 0.07) 62%,
-            rgba(4, 6, 10, 0.17) 100%
-        ),
-        linear-gradient(
-            180deg,
-            rgba(5, 7, 12, 0.12) 0%,
-            rgba(5, 7, 12, 0.16) 52%,
-            rgba(5, 7, 12, 0.20) 100%
-        ) !important;
+        radial-gradient(ellipse at 50% 48%, rgba(4,6,10,0) 34%, rgba(4,6,10,.07) 62%, rgba(4,6,10,.17) 100%),
+        linear-gradient(180deg, rgba(5,7,12,.12) 0%, rgba(5,7,12,.16) 52%, rgba(5,7,12,.20) 100%) !important;
     opacity: 1 !important;
 }
 
@@ -79,8 +63,6 @@ main.container,
     z-index: 2;
 }
 
-/* Local reading fields move with the actual content. They are oversized radial
-   gradients, not panels: no edge, blur, border, or glass treatment is visible. */
 .profile-stack,
 #work .timeline-list {
     position: relative;
@@ -97,14 +79,7 @@ main.container,
     right: -88px;
     top: -76px;
     bottom: -72px;
-    background: radial-gradient(
-        ellipse at 50% 46%,
-        rgba(4, 6, 11, 0.34) 0%,
-        rgba(4, 6, 11, 0.25) 36%,
-        rgba(4, 6, 11, 0.12) 58%,
-        rgba(4, 6, 11, 0.035) 72%,
-        rgba(4, 6, 11, 0.00) 84%
-    );
+    background: radial-gradient(ellipse at 50% 46%, rgba(4,6,11,.30) 0%, rgba(4,6,11,.22) 38%, rgba(4,6,11,.10) 60%, rgba(4,6,11,.025) 75%, rgba(4,6,11,0) 86%);
 }
 
 #work .timeline-list::before {
@@ -112,16 +87,9 @@ main.container,
     right: -70px;
     top: -52px;
     bottom: -52px;
-    background: radial-gradient(
-        ellipse at 52% 50%,
-        rgba(4, 6, 11, 0.27) 0%,
-        rgba(4, 6, 11, 0.19) 42%,
-        rgba(4, 6, 11, 0.07) 66%,
-        rgba(4, 6, 11, 0.00) 84%
-    );
+    background: radial-gradient(ellipse at 52% 50%, rgba(4,6,11,.24) 0%, rgba(4,6,11,.16) 44%, rgba(4,6,11,.06) 68%, rgba(4,6,11,0) 86%);
 }
 
-/* Project Baawa is an opening signature rather than persistent navigation. */
 .top-nav {
     position: absolute !important;
     top: 0;
@@ -136,18 +104,11 @@ main.container,
     -webkit-backdrop-filter: none !important;
 }
 
-.top-nav.scrolled {
-    background: none !important;
-    border: 0 !important;
-}
-
-.nav-links {
-    display: none !important;
-}
-
+.top-nav.scrolled { background: none !important; border: 0 !important; }
+.nav-links { display: none !important; }
 .nav-logo {
-    color: rgba(255, 255, 255, 0.90) !important;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.30);
+    color: rgba(255,255,255,.90) !important;
+    text-shadow: 0 1px 8px rgba(0,0,0,.30);
 }
 
 .section-layout:not(.hero) .sticky-title {
@@ -155,13 +116,11 @@ main.container,
     top: auto !important;
 }
 
-/* The current hero placement is close to the intended composition. Keep large
-   moves out of this pass and let the background treatment do the visual work. */
 .hero {
     min-height: calc(100svh - 72px);
     align-content: start !important;
-    padding-top: clamp(38px, 5vh, 62px) !important;
-    margin-bottom: 96px !important;
+    padding-top: clamp(34px, 4.5vh, 56px) !important;
+    margin-bottom: 88px !important;
 }
 
 .hero .sticky-title {
@@ -169,133 +128,175 @@ main.container,
     line-height: 1.08 !important;
     letter-spacing: -0.058em !important;
     color: #FFFFFF !important;
-    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.28) !important;
+    text-shadow: 0 2px 16px rgba(0,0,0,.28) !important;
 }
 
 .hero-role {
-    font-size: 23px !important;
+    font-size: 22px !important;
+    line-height: 1.3 !important;
     font-weight: 700 !important;
     color: #FFFFFF !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.28);
+    text-shadow: 0 1px 10px rgba(0,0,0,.28);
+    margin-bottom: 16px !important;
 }
 
 .hero .bio-text {
-    max-width: 570px !important;
-    font-size: 17.5px !important;
-    line-height: 1.58 !important;
+    max-width: 600px !important;
+    font-size: 16.5px !important;
+    line-height: 1.62 !important;
     font-weight: 500;
     color: #FAFBFD !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.28);
+    text-shadow: 0 1px 10px rgba(0,0,0,.28);
+}
+
+.hero-story p { margin: 0; }
+.hero-story p + p { margin-top: 12px; }
+
+.hero-imdb-link,
+.text-link,
+.contact-link {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.hero-imdb-link {
+    display: inline-flex;
+    gap: 7px;
+    margin-top: 14px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(255,255,255,.46);
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .hero-intro {
-    max-width: 610px !important;
-    padding-bottom: 22px !important;
+    max-width: 630px !important;
+    padding-bottom: 24px !important;
 }
 
 .hero-meta {
-    padding-bottom: 22px !important;
+    padding-bottom: 24px !important;
 }
 
-.hero .info-item dt {
-    color: #D6DAE3 !important;
-}
-
+.hero .info-item dt { color: #D6DAE3 !important; }
 .hero .info-item dd {
     color: #FFFFFF !important;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
+    text-shadow: 0 1px 8px rgba(0,0,0,.24);
+}
+.hero .info-item .accent-value { color: #E5E7FF !important; }
+
+.tools-block {
+    padding-top: 2px;
 }
 
-.hero .info-item .accent-value {
-    color: #E5E7FF !important;
+.tools-block > h2 {
+    margin: 0 0 14px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #FFFFFF;
 }
 
-.hero .tech-category h2 {
-    color: #FFFFFF !important;
-    font-size: 15px !important;
+.tech-columns-three {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 22px !important;
 }
 
-.hero .tech-list {
-    gap: 9px !important;
+.tech-columns-three .tech-category h3 {
+    margin: 0 0 8px;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #FFFFFF;
 }
 
-.hero .tech-list li {
-    color: #F3F5F9 !important;
-    font-size: 15.5px !important;
+.tech-columns-three .tech-category p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.55;
     font-weight: 500;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
+    color: #F0F2F7;
+    text-shadow: 0 1px 8px rgba(0,0,0,.22);
 }
 
 #work .role {
     color: #FFFFFF !important;
-    font-size: 19.5px !important;
-    text-shadow: 0 1px 9px rgba(0, 0, 0, 0.28);
+    font-size: 19px !important;
+    line-height: 1.35;
+    text-shadow: 0 1px 9px rgba(0,0,0,.28);
 }
 
-#work .company {
-    color: #E4E7FF !important;
-    font-weight: 500;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
+#work .role-row {
+    align-items: flex-start;
+    gap: 20px;
 }
 
 #work .timeline-date {
+    flex: 0 0 auto;
     color: #D7DBE4 !important;
     font-size: 13px !important;
-    text-shadow: 0 1px 7px rgba(0, 0, 0, 0.24);
+    text-shadow: 0 1px 7px rgba(0,0,0,.24);
 }
 
 #work .description {
-    max-width: 600px !important;
+    max-width: 625px !important;
     color: #F3F5F9 !important;
     font-weight: 500;
-    text-shadow: 0 1px 9px rgba(0, 0, 0, 0.26);
+    text-shadow: 0 1px 9px rgba(0,0,0,.26);
 }
 
-#work .description strong {
-    color: #FFFFFF !important;
-    font-weight: 700 !important;
-}
+#work .description + .description { margin-top: 10px; }
 
 #work .sticky-title,
 #projects .sticky-title,
 #writing .sticky-title,
-#connect .sticky-title {
-    color: #FFFFFF !important;
+#connect .sticky-title { color: #FFFFFF !important; }
+
+.settleworth-lede-secondary { margin-top: 12px !important; }
+
+.writing-tagline {
+    color: #E7E9F0 !important;
+    font-size: 17px !important;
+    font-style: italic;
+}
+
+.contact-block {
+    max-width: 620px;
+}
+
+.contact-block > p {
+    margin: 0 0 18px;
+    color: #F0F2F7;
+    font-size: 16px;
+    line-height: 1.65;
+}
+
+.contact-block .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 26px;
 }
 
 .circular-reveal {
     z-index: 1200 !important;
     width: 74px !important;
     height: 74px !important;
-    box-shadow: 2px 2px 6px rgba(0,0,0,0.22), -1px -1px 4px rgba(255,255,255,0.30) !important;
+    box-shadow: 2px 2px 6px rgba(0,0,0,.22), -1px -1px 4px rgba(255,255,255,.30) !important;
 }
 
 .circular-reveal:hover,
 .circular-reveal:focus-visible {
-    box-shadow: 5px 5px 12px rgba(0,0,0,0.27), -3px -3px 9px rgba(255,255,255,0.68) !important;
+    box-shadow: 5px 5px 12px rgba(0,0,0,.27), -3px -3px 9px rgba(255,255,255,.68) !important;
 }
 
 @media (max-width: 800px) {
     .pixelate-bg {
-        filter: saturate(0.94) contrast(1.05) brightness(0.94) hue-rotate(-2deg);
+        filter: saturate(.94) contrast(1.05) brightness(.94) hue-rotate(-2deg);
     }
 
-    /* Mobile uses the same coherent grade, with a touch more uniform darkness
-       because reading spans most of the viewport width. */
     .bg-overlay {
         background:
-            radial-gradient(
-                ellipse at 50% 44%,
-                rgba(4, 6, 10, 0.03) 26%,
-                rgba(4, 6, 10, 0.10) 66%,
-                rgba(4, 6, 10, 0.18) 100%
-            ),
-            linear-gradient(
-                180deg,
-                rgba(5, 7, 12, 0.18) 0%,
-                rgba(5, 7, 12, 0.23) 52%,
-                rgba(5, 7, 12, 0.28) 100%
-            ) !important;
+            radial-gradient(ellipse at 50% 44%, rgba(4,6,10,.03) 26%, rgba(4,6,10,.10) 66%, rgba(4,6,10,.18) 100%),
+            linear-gradient(180deg, rgba(5,7,12,.18) 0%, rgba(5,7,12,.23) 52%, rgba(5,7,12,.28) 100%) !important;
     }
 
     .profile-stack::before,
@@ -304,30 +305,16 @@ main.container,
         right: -24px;
         top: -34px;
         bottom: -34px;
-        background: radial-gradient(
-            ellipse at 50% 46%,
-            rgba(4, 6, 11, 0.28) 0%,
-            rgba(4, 6, 11, 0.20) 42%,
-            rgba(4, 6, 11, 0.08) 68%,
-            rgba(4, 6, 11, 0.00) 86%
-        );
+        background: radial-gradient(ellipse at 50% 46%, rgba(4,6,11,.25) 0%, rgba(4,6,11,.18) 44%, rgba(4,6,11,.07) 70%, rgba(4,6,11,0) 87%);
     }
 
     #work .timeline-list::before {
         top: -28px;
         bottom: -28px;
-        background: radial-gradient(
-            ellipse at 50% 50%,
-            rgba(4, 6, 11, 0.22) 0%,
-            rgba(4, 6, 11, 0.14) 48%,
-            rgba(4, 6, 11, 0.04) 72%,
-            rgba(4, 6, 11, 0.00) 88%
-        );
+        background: radial-gradient(ellipse at 50% 50%, rgba(4,6,11,.20) 0%, rgba(4,6,11,.12) 50%, rgba(4,6,11,.035) 74%, rgba(4,6,11,0) 89%);
     }
 
-    .top-nav {
-        padding: 18px 18px !important;
-    }
+    .top-nav { padding: 18px 18px !important; }
 
     .container {
         padding-top: 58px !important;
@@ -349,61 +336,66 @@ main.container,
     }
 
     .hero-role {
-        font-size: 19px !important;
+        font-size: 18.5px !important;
+        line-height: 1.35 !important;
         margin-bottom: 12px !important;
     }
 
     .hero .bio-text {
-        font-size: 16.5px !important;
-        line-height: 1.55 !important;
+        font-size: 16px !important;
+        line-height: 1.58 !important;
     }
 
-    .hero-intro {
-        padding-bottom: 18px !important;
-    }
+    .hero-story p + p { margin-top: 10px; }
+    .hero-intro { padding-bottom: 20px !important; }
 
     .hero-meta,
     .info-grid.hero-meta {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 15px 18px !important;
-        padding-bottom: 18px !important;
+        padding-bottom: 20px !important;
     }
 
-    .hero .info-item dt {
-        font-size: 11.5px !important;
-    }
-
+    .hero .info-item dt { font-size: 11.5px !important; }
     .hero .info-item dd {
-        font-size: 15px !important;
-        line-height: 1.4 !important;
-    }
-
-    .hero .tech-columns {
-        margin-top: 0 !important;
-        gap: 22px !important;
-    }
-
-    .hero .tech-category h2 {
-        margin-bottom: 10px !important;
-        font-size: 14px !important;
-    }
-
-    .hero .tech-list {
-        gap: 7px !important;
-    }
-
-    .hero .tech-list li {
         font-size: 14.5px !important;
-        line-height: 1.4 !important;
+        line-height: 1.45 !important;
     }
+
+    .tools-block > h2 { font-size: 14.5px; }
+
+    .tech-columns-three {
+        grid-template-columns: 1fr !important;
+        gap: 17px !important;
+    }
+
+    .tech-columns-three .tech-category h3 {
+        font-size: 13.5px !important;
+        margin-bottom: 6px;
+    }
+
+    .tech-columns-three .tech-category p {
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+    }
+
+    #work .role-row {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #work .role { font-size: 18px !important; }
+    #work .timeline-date { font-size: 12.5px !important; }
+
+    .contact-block .contact-links { gap: 14px 20px; }
 
     .circular-reveal {
         width: 50px !important;
         height: 50px !important;
         right: 9px !important;
         bottom: max(9px, env(safe-area-inset-bottom)) !important;
-        opacity: 0.90;
-        box-shadow: 1px 1px 4px rgba(0,0,0,0.20), -1px -1px 3px rgba(255,255,255,0.26) !important;
+        opacity: .90;
+        box-shadow: 1px 1px 4px rgba(0,0,0,.20), -1px -1px 3px rgba(255,255,255,.26) !important;
     }
 
     .circular-inner-2 { inset: 4px !important; }
@@ -417,15 +409,11 @@ main.container,
         gap: 14px 16px !important;
     }
 
-    .hero .info-item dd {
-        font-size: 14.5px !important;
-    }
+    .hero .info-item dd { font-size: 14px !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .pixelate-bg .bg-coarse,
     .pixelate-bg .bg-medium,
-    .pixelate-bg .bg-fine {
-        opacity: 0 !important;
-    }
+    .pixelate-bg .bg-fine { opacity: 0 !important; }
 }

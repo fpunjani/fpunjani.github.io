@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
-  <title id="title">Farish Punjani — Software Engineer and Founder</title>
+  <title id="title">Farish Punjani — Founder, Software Engineer and Filmmaker</title>
   <desc id="desc">Portfolio social card for Farish Punjani.</desc>
   <rect width="1200" height="630" fill="#0B0D14"/>
   <rect x="74" y="92" width="8" height="180" rx="4" fill="#A5B4FC"/>
   <text x="116" y="170" fill="#F7F8FC" font-family="Arial, sans-serif" font-size="72" font-weight="700">Farish Punjani</text>
-  <text x="116" y="232" fill="#D6D9E5" font-family="Arial, sans-serif" font-size="34">Software Engineer · Founder</text>
-  <text x="116" y="320" fill="#A5B4FC" font-family="Arial, sans-serif" font-size="25">Backend systems · Reliability · Product</text>
-  <text x="116" y="380" fill="#F7F8FC" font-family="Arial, sans-serif" font-size="24">Manulife · SettleWorth</text>
+  <text x="116" y="232" fill="#D6D9E5" font-family="Arial, sans-serif" font-size="34">Founder · Software Engineer · Filmmaker</text>
+  <text x="116" y="320" fill="#A5B4FC" font-family="Arial, sans-serif" font-size="25">Banking technology · SettleWorth · Film</text>
+  <text x="116" y="380" fill="#F7F8FC" font-family="Arial, sans-serif" font-size="24">Manulife Bank · Toronto, Canada</text>
   <line x1="116" y1="454" x2="1084" y2="454" stroke="#282D3E" stroke-width="2"/>
-  <text x="116" y="516" fill="#AEB4C7" font-family="monospace" font-size="20">Toronto, Canada</text>
-  <text x="116" y="554" fill="#AEB4C7" font-family="monospace" font-size="20">fpunjani.github.io</text>
+  <text x="116" y="516" fill="#AEB4C7" font-family="monospace" font-size="20">fpunjani.github.io</text>
 </svg>
