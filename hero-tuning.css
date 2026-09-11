@@ -2,12 +2,10 @@
 
 :root {
     --text-main: #FFFFFF;
-    --text-secondary: #EEF1F7;
-    --text-muted: #C7CDD8;
+    --text-secondary: #F0F2F7;
+    --text-muted: #CBD0DB;
 }
 
-/* Stable background stacking. Negative fixed z-index layers can disappear while
-   scrolling in iOS Safari, exposing the body's near-black fallback. */
 html,
 body {
     background: #0B0D14;
@@ -18,6 +16,8 @@ body {
     isolation: isolate;
 }
 
+/* Stable fixed photograph stack. The parent receives one coherent photographic
+   grade; individual cached canvases only change opacity while scrolling. */
 .pixelate-bg {
     position: fixed !important;
     inset: 0 !important;
@@ -27,16 +27,28 @@ body {
     z-index: 0 !important;
     contain: none !important;
     pointer-events: none;
+    overflow: hidden;
+    filter: saturate(0.95) contrast(1.055) brightness(0.955) hue-rotate(-2deg);
 }
 
-.pixelate-bg canvas {
-    position: absolute;
-    inset: 0;
+.pixelate-bg canvas,
+.pixelate-bg .bg-layer {
+    position: absolute !important;
+    inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    filter: saturate(1.03) contrast(1.025) brightness(1.07) hue-rotate(-3deg) !important;
+    filter: none !important;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
+.pixelate-bg .bg-sharp { z-index: 0; opacity: 1; }
+.pixelate-bg .bg-fine { z-index: 1; will-change: opacity; }
+.pixelate-bg .bg-medium { z-index: 2; will-change: opacity; }
+.pixelate-bg .bg-coarse { z-index: 3; will-change: opacity; }
+
+/* One coherent cinematic grade for the whole photograph. There is deliberately
+   no left-to-right dark curtain. A soft edge vignette keeps the frame cohesive. */
 .bg-overlay {
     position: fixed !important;
     inset: 0 !important;
@@ -46,20 +58,17 @@ body {
     z-index: 1 !important;
     pointer-events: none;
     background:
-        linear-gradient(
-            90deg,
-            rgba(5, 7, 12, 0.10) 0%,
-            rgba(5, 7, 12, 0.12) 27%,
-            rgba(5, 7, 12, 0.31) 38%,
-            rgba(5, 7, 12, 0.54) 50%,
-            rgba(5, 7, 12, 0.66) 70%,
-            rgba(5, 7, 12, 0.70) 100%
+        radial-gradient(
+            ellipse at 50% 48%,
+            rgba(4, 6, 10, 0.00) 34%,
+            rgba(4, 6, 10, 0.07) 62%,
+            rgba(4, 6, 10, 0.17) 100%
         ),
         linear-gradient(
             180deg,
-            rgba(5, 7, 12, 0.10) 0%,
+            rgba(5, 7, 12, 0.12) 0%,
             rgba(5, 7, 12, 0.16) 52%,
-            rgba(5, 7, 12, 0.24) 100%
+            rgba(5, 7, 12, 0.20) 100%
         ) !important;
     opacity: 1 !important;
 }
@@ -68,6 +77,48 @@ main.container,
 .site-footer {
     position: relative;
     z-index: 2;
+}
+
+/* Local reading fields move with the actual content. They are oversized radial
+   gradients, not panels: no edge, blur, border, or glass treatment is visible. */
+.profile-stack,
+#work .timeline-list {
+    position: relative;
+    isolation: isolate;
+}
+
+.profile-stack::before,
+#work .timeline-list::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
+    left: -82px;
+    right: -88px;
+    top: -76px;
+    bottom: -72px;
+    background: radial-gradient(
+        ellipse at 50% 46%,
+        rgba(4, 6, 11, 0.34) 0%,
+        rgba(4, 6, 11, 0.25) 36%,
+        rgba(4, 6, 11, 0.12) 58%,
+        rgba(4, 6, 11, 0.035) 72%,
+        rgba(4, 6, 11, 0.00) 84%
+    );
+}
+
+#work .timeline-list::before {
+    left: -72px;
+    right: -70px;
+    top: -52px;
+    bottom: -52px;
+    background: radial-gradient(
+        ellipse at 52% 50%,
+        rgba(4, 6, 11, 0.27) 0%,
+        rgba(4, 6, 11, 0.19) 42%,
+        rgba(4, 6, 11, 0.07) 66%,
+        rgba(4, 6, 11, 0.00) 84%
+    );
 }
 
 /* Project Baawa is an opening signature rather than persistent navigation. */
@@ -95,22 +146,21 @@ main.container,
 }
 
 .nav-logo {
-    color: rgba(255, 255, 255, 0.88) !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
+    color: rgba(255, 255, 255, 0.90) !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.30);
 }
 
-/* Section labels should belong to their section rather than leaving clipped
-   sticky remnants at the top of the viewport. */
 .section-layout:not(.hero) .sticky-title {
     position: static !important;
     top: auto !important;
 }
 
-/* Raise the desktop landing composition. */
+/* The current hero placement is close to the intended composition. Keep large
+   moves out of this pass and let the background treatment do the visual work. */
 .hero {
     min-height: calc(100svh - 72px);
     align-content: start !important;
-    padding-top: clamp(42px, 5.5vh, 68px) !important;
+    padding-top: clamp(38px, 5vh, 62px) !important;
     margin-bottom: 96px !important;
 }
 
@@ -119,14 +169,14 @@ main.container,
     line-height: 1.08 !important;
     letter-spacing: -0.058em !important;
     color: #FFFFFF !important;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.42) !important;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.28) !important;
 }
 
 .hero-role {
     font-size: 23px !important;
     font-weight: 700 !important;
     color: #FFFFFF !important;
-    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.40);
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.28);
 }
 
 .hero .bio-text {
@@ -134,8 +184,8 @@ main.container,
     font-size: 17.5px !important;
     line-height: 1.58 !important;
     font-weight: 500;
-    color: #F6F7FB !important;
-    text-shadow: 0 1px 16px rgba(0, 0, 0, 0.44);
+    color: #FAFBFD !important;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.28);
 }
 
 .hero-intro {
@@ -148,16 +198,16 @@ main.container,
 }
 
 .hero .info-item dt {
-    color: #D1D6E0 !important;
+    color: #D6DAE3 !important;
 }
 
 .hero .info-item dd {
     color: #FFFFFF !important;
-    text-shadow: 0 1px 11px rgba(0, 0, 0, 0.36);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
 }
 
 .hero .info-item .accent-value {
-    color: #E0E3FF !important;
+    color: #E5E7FF !important;
 }
 
 .hero .tech-category h2 {
@@ -170,36 +220,35 @@ main.container,
 }
 
 .hero .tech-list li {
-    color: #F0F2F7 !important;
+    color: #F3F5F9 !important;
     font-size: 15.5px !important;
     font-weight: 500;
-    text-shadow: 0 1px 11px rgba(0, 0, 0, 0.34);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
 }
 
-/* Work remains the resolved, highly legible professional record. */
 #work .role {
     color: #FFFFFF !important;
     font-size: 19.5px !important;
-    text-shadow: 0 1px 13px rgba(0, 0, 0, 0.38);
+    text-shadow: 0 1px 9px rgba(0, 0, 0, 0.28);
 }
 
 #work .company {
-    color: #E1E4FF !important;
+    color: #E4E7FF !important;
     font-weight: 500;
-    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.34);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.24);
 }
 
 #work .timeline-date {
-    color: #D3D7E1 !important;
+    color: #D7DBE4 !important;
     font-size: 13px !important;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.38);
+    text-shadow: 0 1px 7px rgba(0, 0, 0, 0.24);
 }
 
 #work .description {
     max-width: 600px !important;
-    color: #F0F2F7 !important;
+    color: #F3F5F9 !important;
     font-weight: 500;
-    text-shadow: 0 1px 14px rgba(0, 0, 0, 0.42);
+    text-shadow: 0 1px 9px rgba(0, 0, 0, 0.26);
 }
 
 #work .description strong {
@@ -214,7 +263,6 @@ main.container,
     color: #FFFFFF !important;
 }
 
-/* Bawa remains discoverable without sitting on top of the reading hierarchy. */
 .circular-reveal {
     z-index: 1200 !important;
     width: 74px !important;
@@ -228,26 +276,53 @@ main.container,
 }
 
 @media (max-width: 800px) {
-    /* A continuous, subdued photo layer on iOS: visible enough to keep the visual
-       identity, dark enough that full-width mobile copy stays effortless to read. */
+    .pixelate-bg {
+        filter: saturate(0.94) contrast(1.05) brightness(0.94) hue-rotate(-2deg);
+    }
+
+    /* Mobile uses the same coherent grade, with a touch more uniform darkness
+       because reading spans most of the viewport width. */
     .bg-overlay {
         background:
-            linear-gradient(
-                180deg,
-                rgba(5, 7, 12, 0.24) 0%,
-                rgba(5, 7, 12, 0.36) 48%,
-                rgba(5, 7, 12, 0.48) 100%
+            radial-gradient(
+                ellipse at 50% 44%,
+                rgba(4, 6, 10, 0.03) 26%,
+                rgba(4, 6, 10, 0.10) 66%,
+                rgba(4, 6, 10, 0.18) 100%
             ),
             linear-gradient(
-                90deg,
-                rgba(5, 7, 12, 0.11) 0%,
-                rgba(5, 7, 12, 0.28) 68%,
-                rgba(5, 7, 12, 0.36) 100%
+                180deg,
+                rgba(5, 7, 12, 0.18) 0%,
+                rgba(5, 7, 12, 0.23) 52%,
+                rgba(5, 7, 12, 0.28) 100%
             ) !important;
     }
 
-    .pixelate-bg canvas {
-        filter: saturate(1.02) contrast(1.02) brightness(1.04) hue-rotate(-2deg) !important;
+    .profile-stack::before,
+    #work .timeline-list::before {
+        left: -24px;
+        right: -24px;
+        top: -34px;
+        bottom: -34px;
+        background: radial-gradient(
+            ellipse at 50% 46%,
+            rgba(4, 6, 11, 0.28) 0%,
+            rgba(4, 6, 11, 0.20) 42%,
+            rgba(4, 6, 11, 0.08) 68%,
+            rgba(4, 6, 11, 0.00) 86%
+        );
+    }
+
+    #work .timeline-list::before {
+        top: -28px;
+        bottom: -28px;
+        background: radial-gradient(
+            ellipse at 50% 50%,
+            rgba(4, 6, 11, 0.22) 0%,
+            rgba(4, 6, 11, 0.14) 48%,
+            rgba(4, 6, 11, 0.04) 72%,
+            rgba(4, 6, 11, 0.00) 88%
+        );
     }
 
     .top-nav {
@@ -336,8 +411,6 @@ main.container,
 }
 
 @media (max-width: 440px) {
-    /* Keep the metadata compact instead of turning the hero into a long one-column
-       resume on phones. */
     .hero-meta,
     .info-grid.hero-meta {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -350,7 +423,9 @@ main.container,
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .pixelate-bg canvas {
-        transition: none !important;
+    .pixelate-bg .bg-coarse,
+    .pixelate-bg .bg-medium,
+    .pixelate-bg .bg-fine {
+        opacity: 0 !important;
     }
 }
