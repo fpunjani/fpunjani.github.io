@@ -15,15 +15,15 @@
     <meta property="og:title" content="Farish Punjani — Software Engineer &amp; Founder">
     <meta property="og:description" content="Software engineer at Manulife and founder of SettleWorth. Backend systems, production reliability, observability, and consumer products.">
     <meta property="og:url" content="https://fpunjani.github.io/">
-    <meta property="og:image" content="https://fpunjani.github.io/social-preview.jpg">
-    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image" content="https://fpunjani.github.io/social-preview.svg">
+    <meta property="og:image:type" content="image/svg+xml">
     <meta property="og:image:alt" content="Farish Punjani — Software Engineer and Founder">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Farish Punjani — Software Engineer &amp; Founder">
     <meta name="twitter:description" content="Software engineer at Manulife and founder of SettleWorth. Backend systems, production reliability, observability, and consumer products.">
-    <meta name="twitter:image" content="https://fpunjani.github.io/social-preview.jpg">
+    <meta name="twitter:image" content="https://fpunjani.github.io/social-preview.svg">
     <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Farish Punjani","url":"https://fpunjani.github.io/","jobTitle":"Software Engineer","address":{"@type":"PostalAddress","addressLocality":"Toronto","addressRegion":"ON","addressCountry":"CA"},"worksFor":{"@type":"Organization","name":"Manulife"},"owns":{"@type":"WebSite","name":"SettleWorth","url":"https://settleworth.co"},"sameAs":["https://github.com/fpunjani","https://linkedin.com/in/farishh","https://www.youtube.com/@projectbaawa","https://agentvinod.substack.com"]}</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,6 @@
     <a class="skip-link" href="#main-content">Skip to content</a>
     <div class="pixelate-bg" aria-hidden="true"><canvas></canvas><img alt="" style="display:none"></div>
     <div class="bg-overlay" aria-hidden="true"></div>
-    <div class="grid-bg" aria-hidden="true"></div>
 
     <button class="circular-reveal" id="circular-reveal" type="button" data-state="idle" aria-label="Open a strange corner of the internet">
         <span class="circular-inner-1" aria-hidden="true"></span>
@@ -48,22 +47,28 @@
 
     <nav class="top-nav" aria-label="Primary">
         <a href="https://www.youtube.com/@projectbaawa" class="nav-logo" target="_blank" rel="noopener noreferrer"><img src="https://substack-post-media.s3.amazonaws.com/public/images/b8d4f820-5c2b-40f0-a2ee-9f5a23eee7e8_1280x1280.png" alt="" aria-hidden="true">@projectbaawa</a>
+        <div class="nav-links">
+            <a href="#work">Work</a>
+            <a href="#projects">SettleWorth</a>
+            <a href="#writing">Writing</a>
+            <a href="#connect">Connect</a>
+        </div>
     </nav>
 
     <main id="main-content" class="container">
         <section class="section-layout hero" aria-labelledby="hero-title">
             <div class="section-title-col"><h1 class="sticky-title" id="hero-title">Farish Punjani</h1></div>
             <div class="profile-stack">
-                <div class="profile-header">
-                    <div class="avatar"><img src="./avatar.svg" alt="Farish Punjani smiling outdoors"></div>
-                    <dl class="info-grid">
-                        <div class="info-item"><dt>Role</dt><dd>Software Engineer · Founder</dd></div>
-                        <div class="info-item"><dt>Location</dt><dd>Toronto, ON</dd></div>
-                        <div class="info-item"><dt>Experience</dt><dd>4+ Years</dd></div>
-                        <div class="info-item"><dt>Focus</dt><dd class="accent-value">Backend · Reliability · Product</dd></div>
-                    </dl>
+                <div class="hero-intro">
+                    <p class="hero-role">Software Engineer · Founder</p>
+                    <p class="bio-text">I build and operate banking systems at Manulife and founded SettleWorth, a live product helping Canadians discover and navigate settlement claims. My work sits across backend engineering, reliability, and product.</p>
                 </div>
-                <p class="bio-text">Software engineer at Manulife building backend and production systems for banking, and founder of SettleWorth, a live consumer product for Canadians navigating class-action settlements. I work across APIs, observability, product systems, and production reliability. CS &amp; Film Studies grad; I also make films and photographs.</p>
+                <dl class="info-grid hero-meta">
+                    <div class="info-item"><dt>Location</dt><dd>Toronto, ON</dd></div>
+                    <div class="info-item"><dt>Experience</dt><dd>4+ Years</dd></div>
+                    <div class="info-item"><dt>Focus</dt><dd class="accent-value">Backend · Reliability · Product</dd></div>
+                    <div class="info-item"><dt>Also</dt><dd>Film · Photography</dd></div>
+                </dl>
                 <div class="tech-columns" aria-label="Technical toolkit">
                     <div class="tech-category"><h2>Languages &amp; Product</h2><ul class="tech-list"><li>Java / Spring Boot</li><li>TypeScript / Next.js / React</li><li>SQL / KQL / NRQL</li><li>REST APIs / Supabase / PostgreSQL</li></ul></div>
                     <div class="tech-category"><h2>Platform &amp; Reliability</h2><ul class="tech-list"><li>Azure / AKS / Kubernetes</li><li>New Relic / Dynatrace</li><li>Docker / Helm / CI/CD</li><li>Vitest / Playwright / release checks</li></ul></div>
@@ -71,47 +76,78 @@
             </div>
         </section>
 
-        <section class="section-layout" aria-labelledby="work-title">
+        <section class="section-layout" id="work" aria-labelledby="work-title">
             <div class="section-title-col"><h2 class="sticky-title" id="work-title">Work</h2></div>
             <div class="timeline-list">
-                <article class="timeline-item"><div class="role-row"><span class="role">Founder</span><span class="timeline-date">2026 — Present</span></div><span class="company">SettleWorth · Toronto, Canada</span><p class="description">Founded and built SettleWorth, a live consumer product that helps Canadians discover class-action settlements and navigate claim opportunities. Own product strategy, research and data quality, UX, application architecture, releases, and production reliability.</p></article>
-                <article class="timeline-item"><div class="role-row"><span class="role">Software Engineer II — Backend / SRE</span><span class="timeline-date">Aug 2025 — Present</span></div><span class="company">Manulife Financial · Remote, Canada</span><p class="description">Led incident response for critical banking workflows (P1), improving recovery through automation and runbook standardization. Drove observability improvements across 10+ microservices and strengthened production alerting.</p></article>
-                <article class="timeline-item"><div class="role-row"><span class="role">Software Engineer — Backend / Reliability</span><span class="timeline-date">Jan 2023 — Aug 2025</span></div><span class="company">Manulife Financial · Remote, Canada</span><p class="description">Implemented synthetic monitoring for 15+ critical APIs and services, improving early detection of production issues. Supported and improved batch-processing workflows used in banking operations.</p></article>
-                <article class="timeline-item"><div class="role-row"><span class="role">Associate Platform Reliability Engineer</span><span class="timeline-date">Dec 2021 — Dec 2022</span></div><span class="company">Manulife Financial · Toronto, Canada</span><p class="description">Resolved member-impacting banking issues through cross-functional collaboration. Supported production on-call and documented triage escalation paths.</p></article>
+                <article class="timeline-item">
+                    <div class="role-row"><span class="role">Founder</span><span class="timeline-date">2026 — Present</span></div>
+                    <span class="company">SettleWorth · Toronto, Canada</span>
+                    <p class="description">Built and run SettleWorth, owning product strategy, source research, UX, application architecture, releases, and production reliability.</p>
+                </article>
+                <article class="timeline-item">
+                    <div class="role-row"><span class="role">Software Engineer II — Backend / SRE</span><span class="timeline-date">Aug 2025 — Present</span></div>
+                    <span class="company">Manulife Financial · Remote, Canada</span>
+                    <p class="description">Led <strong>P1 incident response</strong> for critical banking workflows, standardized recovery, and improved observability across <strong>10+ microservices</strong>.</p>
+                </article>
+                <article class="timeline-item">
+                    <div class="role-row"><span class="role">Software Engineer — Backend / Reliability</span><span class="timeline-date">Jan 2023 — Aug 2025</span></div>
+                    <span class="company">Manulife Financial · Remote, Canada</span>
+                    <p class="description">Built synthetic monitoring for <strong>15+ critical APIs and services</strong> and improved batch-processing workflows used in banking operations.</p>
+                </article>
+                <article class="timeline-item">
+                    <div class="role-row"><span class="role">Associate Platform Reliability Engineer</span><span class="timeline-date">Dec 2021 — Dec 2022</span></div>
+                    <span class="company">Manulife Financial · Toronto, Canada</span>
+                    <p class="description">Resolved member-impacting banking issues, supported production on-call, and documented triage and escalation paths.</p>
+                </article>
             </div>
         </section>
 
-        <section class="section-layout" aria-labelledby="projects-title">
+        <section class="section-layout" id="projects" aria-labelledby="projects-title">
             <div class="section-title-col"><h2 class="sticky-title" id="projects-title">Projects</h2></div>
-            <div class="project-grid">
-                <article class="project-card project-card-featured settleworth-case-study">
-                    <div class="settleworth-brand-row">
-                        <div class="settleworth-logo-shell"><img src="./settleworth-logo.svg" alt="SettleWorth"></div>
-                        <div class="settleworth-status"><span class="settleworth-status-dot" aria-hidden="true"></span>Live product</div>
+            <div class="project-grid editorial-projects">
+                <article class="settleworth-feature">
+                    <div class="settleworth-feature-head">
+                        <img class="settleworth-logo" src="./settleworth-logo.svg" alt="SettleWorth">
+                        <div class="settleworth-meta">Founder · 2026–Present · Live</div>
                     </div>
-                    <div class="settleworth-copy"><div class="project-kicker">Founder · Canada-first recovery intelligence</div><h3>SettleWorth</h3><p>A Canada-first settlement discovery product built around verified public listings, guided matching, deadlines, provenance, freshness, and privacy.</p></div>
-                    <div class="case-study-grid">
-                        <div class="case-study-item"><h4>Problem</h4><p>Settlement opportunities are scattered across court, administrator, and public-source pages, making discovery and claim navigation difficult.</p></div>
-                        <div class="case-study-item"><h4>Ownership</h4><p>Product strategy, source research and data quality, UX, domain logic, application architecture, releases, and production reliability.</p></div>
-                        <div class="case-study-item"><h4>Engineering</h4><p>Next.js and TypeScript monorepo, Supabase/PostgreSQL boundaries, validation, automated tests, release checks, and freshness controls.</p></div>
+                    <p class="settleworth-lede">A Canada-first settlement discovery product built around verified public listings, guided matching, clear deadlines, provenance, freshness, and privacy.</p>
+                    <a class="text-link" href="https://settleworth.co" target="_blank" rel="noopener noreferrer">Visit SettleWorth <span aria-hidden="true">↗</span></a>
+                    <div class="settleworth-proof" aria-label="SettleWorth product highlights">
+                        <div><h3>Discovery</h3><p>Primary-source settlement listings with current status and deadlines.</p></div>
+                        <div><h3>Assistance</h3><p>Guided matching and navigation that keeps official processes clear.</p></div>
+                        <div><h3>Engineering</h3><p>Next.js · TypeScript · PostgreSQL · automated validation and release checks.</p></div>
                     </div>
-                    <a class="case-study-link" href="https://settleworth.co" target="_blank" rel="noopener noreferrer">Visit SettleWorth <span aria-hidden="true">↗</span></a>
                 </article>
+
                 <div class="earlier-work"><div class="project-kicker">Earlier work · Student capstone</div><div class="earlier-work-row"><div><h3>Finovo</h3><p>Built React financial calculators and contributed to testing and technical documentation.</p></div><a href="https://www.linkedin.com/company/finovofinancial/" target="_blank" rel="noopener noreferrer" aria-label="Open Finovo on LinkedIn">View <span aria-hidden="true">↗</span></a></div></div>
             </div>
         </section>
 
-        <section class="section-layout" aria-labelledby="education-title"><div class="section-title-col"><h2 class="sticky-title" id="education-title">Education</h2></div><div class="timeline-list"><article class="timeline-item"><div class="role-row"><span class="role">BSc Computer Science &amp; Film Studies</span><span class="timeline-date">2017 — 2021</span></div><span class="company">University of Alberta · Edmonton, AB</span><p class="description">Combined technical depth in computer science with creative storytelling through film studies.</p></article></div></section>
+        <section class="section-layout" aria-labelledby="education-title">
+            <div class="section-title-col"><h2 class="sticky-title" id="education-title">Education</h2></div>
+            <div class="timeline-list"><article class="timeline-item"><div class="role-row"><span class="role">BSc Computer Science &amp; Film Studies</span><span class="timeline-date">2017 — 2021</span></div><span class="company">University of Alberta · Edmonton, AB</span><p class="description">Combined technical depth in computer science with creative storytelling through film studies.</p></article></div>
+        </section>
 
-        <section class="section-layout" aria-labelledby="newsletter-title"><div class="section-title-col"><h2 class="sticky-title" id="newsletter-title">Newsletter</h2></div><div class="project-card newsletter-card"><div class="project-icon newsletter-icon"><img src="https://substack-post-media.s3.amazonaws.com/public/images/b8d4f820-5c2b-40f0-a2ee-9f5a23eee7e8_1280x1280.png" alt="main, aur bawa newsletter artwork"></div><div class="project-content" style="flex:1"><h3>main, aur bawa</h3><p class="newsletter-subtitle">Reliability, DX, and the craft of building things — weekly notes and essays.</p><div class="newsletter-meta"><span class="chip">Reliability</span><span class="chip">AI infra</span><span class="chip">DevEx</span><span class="chip">Postmortems</span></div><div class="newsletter-actions"><a class="btn-primary" href="https://agentvinod.substack.com" target="_blank" rel="noopener noreferrer">Subscribe</a><a class="btn-ghost" href="https://agentvinod.substack.com/archive" target="_blank" rel="noopener noreferrer">Read latest <span aria-hidden="true">↗</span></a></div></div></div></section>
+        <section class="section-layout" id="writing" aria-labelledby="newsletter-title">
+            <div class="section-title-col"><h2 class="sticky-title" id="newsletter-title">Writing</h2></div>
+            <div class="newsletter-editorial">
+                <div class="newsletter-copy"><h3>main, aur bawa</h3><p>Notes on reliability, developer experience, AI infrastructure, and the craft of building things.</p></div>
+                <div class="newsletter-topics" aria-label="Newsletter topics">Reliability <span>·</span> AI infra <span>·</span> DevEx <span>·</span> Postmortems</div>
+                <div class="newsletter-actions"><a class="text-link text-link-primary" href="https://agentvinod.substack.com/archive" target="_blank" rel="noopener noreferrer">Read latest <span aria-hidden="true">↗</span></a><a class="text-link" href="https://agentvinod.substack.com" target="_blank" rel="noopener noreferrer">Subscribe</a></div>
+            </div>
+        </section>
 
-        <section class="section-layout" aria-labelledby="connect-title"><div class="section-title-col"><h2 class="sticky-title" id="connect-title">Connect</h2></div><div class="contact-links"><a href="https://linkedin.com/in/farishh" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn <span aria-hidden="true">↗</span></a></div></section>
+        <section class="section-layout connect-section" id="connect" aria-labelledby="connect-title">
+            <div class="section-title-col"><h2 class="sticky-title" id="connect-title">Connect</h2></div>
+            <div class="contact-links"><a href="https://linkedin.com/in/farishh" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/fpunjani" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub <span aria-hidden="true">↗</span></a><a href="https://settleworth.co" target="_blank" rel="noopener noreferrer" class="contact-link">SettleWorth <span aria-hidden="true">↗</span></a></div>
+        </section>
     </main>
 
-    <footer style="border-top:1px solid var(--border-subtle);color:var(--text-muted);font-size:13px"><div class="container" style="padding-top:40px;padding-bottom:40px">© 2026 Farish Punjani. All rights reserved.</div></footer>
+    <footer class="site-footer"><div class="container">© 2026 Farish Punjani. All rights reserved.</div></footer>
     <script src="./performance-guard.js"></script>
     <script src="https://unpkg.com/lenis@1/dist/lenis.min.js"></script>
     <script src="./main.js"></script>
+    <script src="./visual-tuning.js"></script>
     <script src="./accessibility.js"></script>
 </body>
 </html>
