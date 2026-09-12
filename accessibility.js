@@ -5,9 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
         heroTitle.setAttribute('aria-label', 'Farish Punjani');
     }
 
-    // Bawa visual experiments. Portal is the default; ?bawa=stamp previews the stamp.
+    // Bawa visual experiments. Stamp is the default; ?bawa=portal keeps the alternate available.
     const bawaParam = new URLSearchParams(window.location.search).get('bawa');
-    document.documentElement.dataset.bawa = bawaParam === 'stamp' ? 'stamp' : 'portal';
+    document.documentElement.dataset.bawa = bawaParam === 'portal' ? 'portal' : 'stamp';
 
     const fab = document.getElementById('circular-reveal');
 
@@ -18,10 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const oldLabel = fab.querySelector('.portal-label');
         if (oldLabel) oldLabel.remove();
 
-        fab.setAttribute('aria-label', 'Open Bawa ki Duniya — a strange corner of the internet');
+        fab.setAttribute('aria-label', 'Enter Bawa ki Duniya — a strange corner of the internet');
 
-        // The control is now a native button. Stop the legacy anonymous key handler
-        // and let the browser generate the standard click for Enter/Space.
+        // Native button keyboard semantics; stop the legacy anonymous handler from firing twice.
         fab.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.stopImmediatePropagation();
