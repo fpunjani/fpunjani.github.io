@@ -1,0 +1,160 @@
+/* Scene integration for Bawa: connect the floating matchbox to the photo/pixel system. */
+
+:root {
+    --bawa-anchor-right: clamp(36px, calc((100vw - 1000px) / 2 - 150px), 108px);
+    --bawa-anchor-bottom: clamp(26px, 4.6vh, 48px);
+    --bawa-field-x: calc(100% - var(--bawa-anchor-right) - 142px);
+    --bawa-field-y: calc(100% - var(--bawa-anchor-bottom) - 88px);
+}
+
+/* Stop reading like a conventional bottom-right FAB. The object now sits against
+   the site's content geometry, with enough air around it to feel composed. */
+.bawa-float-shell {
+    right: var(--bawa-anchor-right) !important;
+    bottom: var(--bawa-anchor-bottom) !important;
+}
+
+/* Carve a soft clarity island out of the existing pixel layers. The sharp photo
+   already exists underneath, so this makes Bawa feel like it is affecting the
+   same image rather than sitting on top of an unrelated background. */
+.pixelate-bg .bg-coarse {
+    -webkit-mask-image: radial-gradient(
+        ellipse 190px 132px at var(--bawa-field-x) var(--bawa-field-y),
+        rgba(0,0,0,.05) 0%,
+        rgba(0,0,0,.12) 24%,
+        rgba(0,0,0,.34) 48%,
+        rgba(0,0,0,.78) 72%,
+        #000 90%
+    );
+    mask-image: radial-gradient(
+        ellipse 190px 132px at var(--bawa-field-x) var(--bawa-field-y),
+        rgba(0,0,0,.05) 0%,
+        rgba(0,0,0,.12) 24%,
+        rgba(0,0,0,.34) 48%,
+        rgba(0,0,0,.78) 72%,
+        #000 90%
+    );
+}
+
+.pixelate-bg .bg-medium {
+    -webkit-mask-image: radial-gradient(
+        ellipse 174px 120px at var(--bawa-field-x) var(--bawa-field-y),
+        rgba(0,0,0,.24) 0%,
+        rgba(0,0,0,.34) 30%,
+        rgba(0,0,0,.58) 58%,
+        #000 88%
+    );
+    mask-image: radial-gradient(
+        ellipse 174px 120px at var(--bawa-field-x) var(--bawa-field-y),
+        rgba(0,0,0,.24) 0%,
+        rgba(0,0,0,.34) 30%,
+        rgba(0,0,0,.58) 58%,
+        #000 88%
+    );
+}
+
+.pixelate-bg .bg-fine {
+    -webkit-mask-image: radial-gradient(
+        ellipse 154px 108px at var(--bawa-field-x) var(--bawa-field-y),
+        rgba(0,0,0,.56) 0%,
+        rgba(0,0,0,.66) 40%,
+        rgba(0,0,0,.84) 68%,
+        #000 91%
+    );
+    mask-image: radial-gradient(
+        ellipse 154px 108px at var(--bawa-field-x) var(--bawa-field-y),
+        rgba(0,0,0,.56) 0%,
+        rgba(0,0,0,.66) 40%,
+        rgba(0,0,0,.84) 68%,
+        #000 91%
+    );
+}
+
+/* A faint pool of warm light makes the flame illuminate the same photographic
+   space. It is intentionally much broader and dimmer than the flame itself. */
+.bawa-float-shell::before {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    right: 58px;
+    bottom: 42px;
+    width: 188px;
+    height: 142px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at 64% 34%,
+        rgba(255,224,151,.13) 0%,
+        rgba(255,171,69,.095) 19%,
+        rgba(238,103,25,.045) 42%,
+        transparent 72%
+    );
+    filter: blur(11px);
+    mix-blend-mode: screen;
+    opacity: .72;
+    pointer-events: none;
+    transform: scale(.98);
+    transition: opacity .22s ease, transform .22s ease;
+}
+
+.bawa-float-body {
+    position: relative;
+    z-index: 1;
+}
+
+.bawa-float-shell:has(.bawa-firecracker-object:hover)::before,
+.bawa-float-shell:has(.bawa-firecracker-object:focus-visible)::before,
+.bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite)::before {
+    opacity: 1;
+    transform: scale(1.12);
+}
+
+/* A tiny amount of photographic softness at rest helps the illustrated object
+   sit in the same scene. Hover still lets it resolve and come forward. */
+.circular-reveal.bawa-firecracker-object {
+    filter: saturate(.78) contrast(.95) brightness(.99) blur(.12px) !important;
+}
+
+.circular-reveal.bawa-firecracker-object:hover,
+.circular-reveal.bawa-firecracker-object:focus-visible,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite {
+    filter: saturate(.98) contrast(1.01) brightness(1.025) blur(0) !important;
+}
+
+@media (max-width: 800px) {
+    :root {
+        --bawa-anchor-right: 9px;
+        --bawa-anchor-bottom: max(10px, env(safe-area-inset-bottom));
+        --bawa-field-x: calc(100% - 92px);
+        --bawa-field-y: calc(100% - 72px - env(safe-area-inset-bottom));
+    }
+
+    .pixelate-bg .bg-coarse {
+        -webkit-mask-image: radial-gradient(ellipse 128px 94px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.08), rgba(0,0,0,.32) 52%, #000 88%);
+        mask-image: radial-gradient(ellipse 128px 94px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.08), rgba(0,0,0,.32) 52%, #000 88%);
+    }
+
+    .pixelate-bg .bg-medium {
+        -webkit-mask-image: radial-gradient(ellipse 116px 86px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.3), rgba(0,0,0,.6) 58%, #000 90%);
+        mask-image: radial-gradient(ellipse 116px 86px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.3), rgba(0,0,0,.6) 58%, #000 90%);
+    }
+
+    .pixelate-bg .bg-fine {
+        -webkit-mask-image: radial-gradient(ellipse 104px 78px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.62), rgba(0,0,0,.82) 62%, #000 92%);
+        mask-image: radial-gradient(ellipse 104px 78px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.62), rgba(0,0,0,.82) 62%, #000 92%);
+    }
+
+    .bawa-float-shell::before {
+        right: 35px;
+        bottom: 28px;
+        width: 138px;
+        height: 106px;
+        filter: blur(9px);
+        opacity: .62;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bawa-float-shell::before {
+        transition: none;
+    }
+}
