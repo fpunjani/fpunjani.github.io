@@ -1,6 +1,6 @@
-/* Bawa scene reset: one floating talisman + the lit match. */
+/* Bawa scene v3: the lit match burns a portal through the page. */
 
-/* Keep the photograph's existing pixel composition untouched. */
+/* Keep the photograph's pixel composition untouched. */
 .pixelate-bg .bg-coarse,
 .pixelate-bg .bg-medium,
 .pixelate-bg .bg-fine {
@@ -8,14 +8,14 @@
     mask-image: none !important;
 }
 
-/* Return to a safe independent corner composition. This is intentionally inset
-   enough to feel composed, while staying clear of the resume text and figure. */
+/* The portal lives in its own quiet corner and does not try to attach itself to
+   the photographic figure. */
 .bawa-float-shell {
-    width: 230px !important;
-    height: 160px !important;
-    right: 20px !important;
-    bottom: 22px !important;
-    perspective: 920px !important;
+    width: 250px !important;
+    height: 170px !important;
+    right: 18px !important;
+    bottom: 20px !important;
+    perspective: 900px !important;
 }
 
 .bawa-float-body {
@@ -23,58 +23,52 @@
     z-index: 2;
     scale: 1;
     rotate: 0deg;
-    transform-origin: 58% 72% !important;
+    transform-origin: 58% 70% !important;
     transition: scale .22s cubic-bezier(.2,.8,.2,1), rotate .22s cubic-bezier(.2,.8,.2,1);
 }
 
 .bawa-float-shell:has(.bawa-firecracker-object:hover) .bawa-float-body,
 .bawa-float-shell:has(.bawa-firecracker-object:focus-visible) .bawa-float-body,
 .bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite) .bawa-float-body {
-    scale: 1.035;
-    rotate: .5deg;
+    scale: 1.025;
+    rotate: -.35deg;
 }
 
-/* One quiet floating shadow, similar in spirit to the original sphere. */
+/* A burn-through should feel recessed into the page. Remove the floating-object
+   floor shadow and keep only a very soft local darkening behind the tear. */
 .bawa-float-shell::after {
     content: '' !important;
     display: block !important;
     position: absolute !important;
     z-index: 0 !important;
-    right: 32px !important;
-    bottom: 3px !important;
-    width: 154px !important;
-    height: 22px !important;
+    right: 26px !important;
+    bottom: 21px !important;
+    width: 172px !important;
+    height: 90px !important;
     border: 0 !important;
-    border-radius: 50% !important;
-    background: rgba(0, 8, 15, .48) !important;
-    filter: blur(11px) !important;
-    opacity: .28 !important;
-    transform: scaleX(.94) !important;
+    border-radius: 46% 54% 49% 51% / 56% 43% 57% 44% !important;
+    background: rgba(0, 7, 12, .20) !important;
+    filter: blur(13px) !important;
+    opacity: .64 !important;
+    transform: rotate(-2deg) scale(.98) !important;
     pointer-events: none !important;
     transition: opacity .22s ease, transform .22s ease !important;
 }
 
-.bawa-float-shell:has(.bawa-firecracker-object:hover)::after,
-.bawa-float-shell:has(.bawa-firecracker-object:focus-visible)::after,
-.bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite)::after {
-    opacity: .20 !important;
-    transform: scaleX(.84) translateY(3px) !important;
-}
-
-/* A very restrained warm aura belongs to the flame, not to the whole object. */
+/* The flame gets a small pool of warm light; the rest of the portal stays cool. */
 .bawa-float-shell::before {
     content: '';
     position: absolute;
     z-index: 1;
-    right: 45px;
-    bottom: 76px;
-    width: 84px;
-    height: 84px;
+    right: 37px;
+    bottom: 82px;
+    width: 94px;
+    height: 94px;
     border-radius: 50%;
     background: radial-gradient(circle,
-        rgba(255,222,142,.13) 0%,
-        rgba(255,158,48,.075) 27%,
-        rgba(234,92,21,.025) 48%,
+        rgba(255,229,160,.15) 0%,
+        rgba(255,163,56,.085) 28%,
+        rgba(231,91,22,.028) 51%,
         transparent 72%);
     filter: blur(10px);
     mix-blend-mode: screen;
@@ -86,12 +80,15 @@
 .bawa-float-shell:has(.bawa-firecracker-object:hover)::before,
 .bawa-float-shell:has(.bawa-firecracker-object:focus-visible)::before,
 .bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite)::before {
-    opacity: .98;
+    opacity: 1;
     transform: scale(1.14);
 }
 
-/* Remove all literal matchbox storytelling. The DOM can stay intact for now;
-   this final layer turns it into a single abstract floating object. */
+/* Retire every literal matchbox cue. They remain in the DOM temporarily so the
+   click/animation wiring stays untouched. */
+.circular-reveal.bawa-firecracker-object .portal-orbit,
+.circular-reveal.bawa-firecracker-object .circular-inner-1,
+.circular-reveal.bawa-firecracker-object .circular-inner-2,
 .circular-reveal.bawa-firecracker-object .bawa-box-tray,
 .circular-reveal.bawa-firecracker-object .bawa-box-striker,
 .circular-reveal.bawa-firecracker-object .bawa-box-emblem,
@@ -100,96 +97,124 @@
     display: none !important;
 }
 
-/* The talisman: irregular enough to feel found/physical, simple enough to belong
-   beside the editorial typography and pixel photograph. */
+/* The button itself becomes an invisible stage. The two pseudo-elements make a
+   ragged charred rim with a deeper opening inside it. */
 .circular-reveal.bawa-firecracker-object {
-    width: 148px !important;
-    height: 102px !important;
-    margin: 0 42px 24px 0 !important;
-    border: 1px solid rgba(230, 237, 239, .12) !important;
-    border-radius: 43% 57% 48% 52% / 54% 44% 56% 46% !important;
-    background:
-        radial-gradient(circle at 27% 17%, rgba(255,255,255,.11), transparent 31%),
-        linear-gradient(145deg, #12384B 0%, #0B2B3D 58%, #061E2C 100%) !important;
-    box-shadow:
-        5px 7px 0 #041722,
-        0 16px 30px rgba(0,8,15,.28),
-        inset 0 0 0 1px rgba(255,255,255,.035) !important;
-    filter: saturate(.88) contrast(.98) brightness(.995) !important;
+    width: 184px !important;
+    height: 116px !important;
+    margin: 0 34px 22px 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    filter: none !important;
     transform:
-        perspective(920px)
-        rotateX(calc(8deg + var(--bawa-rx)))
-        rotateY(calc(-7deg + var(--bawa-ry)))
-        rotateZ(-1.1deg)
+        perspective(900px)
+        rotateX(calc(2deg + var(--bawa-rx)))
+        rotateY(calc(-2deg + var(--bawa-ry)))
+        rotateZ(-1deg)
         translateY(0)
         scale(1) !important;
-    transform-origin: 48% 66% !important;
+    transform-origin: 52% 64% !important;
     transform-style: preserve-3d !important;
     overflow: visible !important;
-    opacity: .98 !important;
+    opacity: 1 !important;
 }
 
-/* Replace the old flat box faces with one thick offset body and one hairline inset. */
+/* Charred paper edge. The warmer top-right patch is where the match has just
+   eaten into the page; everywhere else stays nearly black. */
 .circular-reveal.bawa-firecracker-object::before {
     content: '' !important;
     display: block !important;
     position: absolute !important;
-    z-index: -2 !important;
-    inset: 0 !important;
+    z-index: 1 !important;
+    inset: 7px 5px 5px 7px !important;
     width: auto !important;
     height: auto !important;
     border: 0 !important;
-    border-radius: inherit !important;
-    background: #041722 !important;
-    transform: translate3d(5px, 7px, -12px) !important;
+    border-radius: 0 !important;
+    clip-path: polygon(
+        7% 28%, 15% 12%, 31% 8%, 45% 11%, 58% 5%, 72% 10%, 85% 18%, 94% 35%,
+        91% 53%, 96% 67%, 85% 83%, 70% 89%, 56% 86%, 42% 94%, 27% 89%, 14% 79%,
+        9% 65%, 3% 50%
+    ) !important;
+    background:
+        radial-gradient(circle at 82% 15%, rgba(255,144,46,.34) 0 2%, rgba(194,68,20,.17) 6%, transparent 17%),
+        radial-gradient(circle at 76% 22%, rgba(124,45,22,.20), transparent 25%),
+        linear-gradient(145deg, #0A0B0C 0%, #16110F 46%, #06090B 72%, #02080C 100%) !important;
+    box-shadow:
+        inset 0 0 0 1px rgba(255,223,183,.035),
+        inset 0 0 18px rgba(0,0,0,.72) !important;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,.22)) !important;
+    transform: translateZ(-7px) !important;
     pointer-events: none !important;
+    transition: filter .22s ease, transform .22s ease, opacity .22s ease !important;
 }
 
+/* A second irregular layer creates the dark scorched feathering instead of a
+   clean vector edge. */
 .circular-reveal.bawa-firecracker-object::after {
     content: '' !important;
     display: block !important;
     position: absolute !important;
-    z-index: -1 !important;
-    inset: 4px !important;
+    z-index: 2 !important;
+    inset: 11px 10px 10px 12px !important;
     width: auto !important;
     height: auto !important;
-    border: 1px solid rgba(255,255,255,.035) !important;
-    border-radius: inherit !important;
-    background: transparent !important;
-    transform: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    clip-path: polygon(
+        6% 30%, 16% 13%, 32% 10%, 45% 14%, 59% 8%, 73% 12%, 86% 21%, 93% 36%,
+        89% 52%, 94% 66%, 83% 80%, 69% 86%, 56% 83%, 42% 90%, 28% 85%, 16% 76%,
+        11% 63%, 5% 49%
+    ) !important;
+    background:
+        radial-gradient(circle at 82% 13%, rgba(245,115,29,.10), transparent 18%),
+        linear-gradient(150deg, #041019 0%, #06131C 56%, #020B12 100%) !important;
+    box-shadow:
+        inset 0 8px 18px rgba(0,0,0,.78),
+        inset 0 -1px 0 rgba(224,236,240,.025),
+        inset 0 0 0 1px rgba(231,203,173,.035) !important;
+    transform: translateZ(0) !important;
     pointer-events: none !important;
 }
 
 .circular-reveal.bawa-firecracker-object:hover,
 .circular-reveal.bawa-firecracker-object:focus-visible,
 .circular-reveal.bawa-firecracker-object.bawa-touch-ignite {
-    filter: saturate(.98) contrast(1.01) brightness(1.025) !important;
     transform:
-        perspective(920px)
-        rotateX(calc(5deg + var(--bawa-rx)))
-        rotateY(calc(-3deg + var(--bawa-ry)))
-        rotateZ(.15deg)
-        translateY(-5px)
-        scale(1.035) !important;
-    box-shadow:
-        6px 8px 0 #041722,
-        0 22px 36px rgba(0,8,15,.34),
-        inset 0 0 0 1px rgba(255,255,255,.045) !important;
+        perspective(900px)
+        rotateX(calc(1deg + var(--bawa-rx)))
+        rotateY(calc(-1deg + var(--bawa-ry)))
+        rotateZ(-.35deg)
+        translateY(-3px)
+        scale(1.025) !important;
+    box-shadow: none !important;
+    filter: none !important;
     opacity: 1 !important;
 }
 
-/* Warm ivory face with the same soft asymmetry as the outer body. */
+.circular-reveal.bawa-firecracker-object:hover::before,
+.circular-reveal.bawa-firecracker-object:focus-visible::before,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite::before {
+    filter:
+        drop-shadow(0 2px 2px rgba(0,0,0,.22))
+        drop-shadow(0 0 5px rgba(236,96,25,.12)) !important;
+    transform: translateZ(-7px) scale(1.015) !important;
+}
+
+/* The content sits inside the opening, with no card or panel surface. */
 .circular-reveal.bawa-firecracker-object .circular-center {
-    inset: 7px 9px 8px 7px !important;
-    border: 1px solid rgba(255,255,255,.16) !important;
-    border-radius: 42% 58% 48% 52% / 55% 43% 57% 45% !important;
-    background:
-        radial-gradient(circle at 25% 16%, rgba(255,255,255,.54), transparent 30%),
-        linear-gradient(145deg, #EEE9DC, #D8D0C1) !important;
-    box-shadow:
-        inset 0 0 17px rgba(10,32,45,.055),
-        0 1px 0 rgba(255,255,255,.34) !important;
-    transform: translateZ(12px) !important;
+    position: absolute !important;
+    z-index: 4 !important;
+    inset: 20px 24px 20px 24px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    clip-path: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: translateZ(8px) !important;
     overflow: visible !important;
 }
 
@@ -200,13 +225,15 @@
 
 .circular-reveal.bawa-firecracker-object .circular-center-inner {
     position: relative !important;
+    z-index: 2 !important;
     display: flex !important;
     flex-direction: column !important;
-    align-items: center !important;
+    align-items: flex-start !important;
     justify-content: center !important;
-    gap: 6px !important;
-    padding: 13px 15px 11px !important;
-    text-align: center !important;
+    gap: 7px !important;
+    height: 100% !important;
+    padding: 0 4px !important;
+    text-align: left !important;
 }
 
 .circular-reveal.bawa-firecracker-object .circular-center-inner::before {
@@ -216,48 +243,52 @@
 
 .circular-reveal.bawa-firecracker-object .circular-center-name {
     display: block !important;
-    align-self: center !important;
-    color: #09293A !important;
+    align-self: flex-start !important;
+    color: #F1EEE5 !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    font-size: 19px !important;
-    line-height: 1.01 !important;
-    font-weight: 820 !important;
+    font-size: 21px !important;
+    line-height: .98 !important;
+    font-weight: 760 !important;
     letter-spacing: -.035em !important;
-    text-align: center !important;
-    text-shadow: none !important;
+    text-align: left !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,.4) !important;
+}
+
+.circular-reveal.bawa-firecracker-object .circular-center-name::after {
+    content: none !important;
 }
 
 .circular-reveal.bawa-firecracker-object .circular-center-inner::after {
-    content: 'open a strange corner\Aof the internet  ↗' !important;
-    white-space: pre !important;
-    align-self: center !important;
-    color: rgba(54, 52, 51, .76) !important;
+    content: 'a strange corner of the internet  ↗' !important;
+    white-space: nowrap !important;
+    align-self: flex-start !important;
+    color: rgba(223, 226, 224, .64) !important;
     font-family: 'JetBrains Mono', monospace !important;
-    font-size: 6.1px !important;
-    line-height: 1.25 !important;
-    font-weight: 650 !important;
-    letter-spacing: .018em !important;
-    text-align: center !important;
+    font-size: 6.35px !important;
+    line-height: 1.15 !important;
+    font-weight: 500 !important;
+    letter-spacing: .01em !important;
+    text-align: left !important;
     border: 0 !important;
     padding: 0 !important;
 }
 
-/* The match becomes the only literal physical detail. It grows from the upper
-   edge instead of reading as an item pulled from a drawer. */
+/* The match is the one literal object. It touches the burned edge, making the
+   portal read as a consequence of the flame rather than an arbitrary badge. */
 .circular-reveal.bawa-firecracker-object .bawa-matchstick {
     position: absolute !important;
-    z-index: 18 !important;
-    right: 14px !important;
-    bottom: 65px !important;
+    z-index: 20 !important;
+    right: 29px !important;
+    bottom: 72px !important;
     width: 5px !important;
-    height: 65px !important;
+    height: 72px !important;
     border-radius: 4px !important;
     background:
         linear-gradient(90deg, rgba(255,255,255,.38), transparent 32%),
         linear-gradient(180deg, #DEC184 0%, #BC9159 100%) !important;
     box-shadow: 1px 2px 3px rgba(0,0,0,.22) !important;
-    transform-origin: 50% 90% !important;
-    transform: rotate(18deg) translate3d(0,0,26px) !important;
+    transform-origin: 50% 92% !important;
+    transform: rotate(20deg) translate3d(0,0,28px) !important;
     transition: transform .22s cubic-bezier(.2,.8,.2,1), filter .2s ease !important;
     pointer-events: auto !important;
     cursor: pointer !important;
@@ -266,22 +297,22 @@
 .circular-reveal.bawa-firecracker-object:hover .bawa-matchstick,
 .circular-reveal.bawa-firecracker-object:focus-visible .bawa-matchstick,
 .circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-matchstick {
-    transform: rotate(14deg) translate3d(-1px,-4px,31px) !important;
+    transform: rotate(16deg) translate3d(-1px,-3px,31px) !important;
     filter: brightness(1.04) !important;
 }
 
-/* Preserve the permanent flame and its stronger hover state from bawa-integration.css. */
+/* Preserve the permanent flame and stronger hover state from bawa-integration.css. */
 .circular-reveal.bawa-firecracker-object .bawa-match-head::before,
 .circular-reveal.bawa-firecracker-object .bawa-match-head::after {
     opacity: 1 !important;
 }
 
 .circular-reveal.bawa-firecracker-object:focus-visible {
-    outline: 3px solid rgba(255,255,255,.94) !important;
+    outline: 2px solid rgba(255,255,255,.9) !important;
     outline-offset: 7px !important;
 }
 
-/* Keep the existing hand-off into the unchanged rocket/firecracker animation. */
+/* Keep the existing hand-off into the rocket/firecracker animation. */
 .bawa-float-shell[data-state="fusing"] .bawa-float-body,
 .bawa-float-shell[data-state="launching"] .bawa-float-body {
     animation-play-state: paused !important;
@@ -289,88 +320,83 @@
 
 .bawa-float-shell[data-state="fusing"] .bawa-firecracker-object,
 .bawa-float-shell[data-state="launching"] .bawa-firecracker-object {
-    transform: perspective(920px) rotateX(8deg) rotateY(-7deg) translateY(4px) scale(.93) !important;
-    opacity: .12 !important;
+    transform: perspective(900px) rotateZ(-1deg) translateY(3px) scale(.94) !important;
+    opacity: .08 !important;
 }
 
 .bawa-float-shell[data-state="fusing"]::after,
 .bawa-float-shell[data-state="launching"]::after {
-    opacity: .07 !important;
+    opacity: .05 !important;
 }
 
 @media (max-width: 800px) {
     .bawa-float-shell {
-        width: 178px !important;
-        height: 128px !important;
-        right: 5px !important;
-        bottom: max(8px, env(safe-area-inset-bottom)) !important;
+        width: 188px !important;
+        height: 136px !important;
+        right: 4px !important;
+        bottom: max(7px, env(safe-area-inset-bottom)) !important;
     }
 
     .bawa-float-shell::after {
-        right: 23px !important;
-        bottom: 2px !important;
-        width: 118px !important;
-        height: 16px !important;
-        filter: blur(9px) !important;
+        right: 19px !important;
+        bottom: 16px !important;
+        width: 132px !important;
+        height: 68px !important;
+        filter: blur(10px) !important;
     }
 
     .bawa-float-shell::before {
-        right: 31px;
-        bottom: 58px;
-        width: 62px;
-        height: 62px;
+        right: 26px;
+        bottom: 66px;
+        width: 70px;
+        height: 70px;
         filter: blur(8px);
     }
 
     .circular-reveal.bawa-firecracker-object {
-        width: 112px !important;
-        height: 78px !important;
-        margin: 0 32px 18px 0 !important;
-        border-radius: 44% 56% 48% 52% / 55% 43% 57% 45% !important;
-        box-shadow:
-            4px 5px 0 #041722,
-            0 12px 22px rgba(0,8,15,.28),
-            inset 0 0 0 1px rgba(255,255,255,.03) !important;
+        width: 138px !important;
+        height: 88px !important;
+        margin: 0 28px 17px 0 !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center {
-        inset: 6px 7px 7px 6px !important;
+        inset: 16px 18px 15px 19px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-inner {
-        gap: 4px !important;
-        padding: 10px 11px 9px !important;
+        gap: 5px !important;
+        padding: 0 2px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-name {
-        font-size: 14px !important;
+        font-size: 16px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-inner::after {
         content: 'strange corner  ↗' !important;
-        font-size: 5.2px !important;
-        line-height: 1.15 !important;
+        font-size: 5.1px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .bawa-matchstick {
-        right: 10px !important;
-        bottom: 50px !important;
+        right: 20px !important;
+        bottom: 55px !important;
         width: 4px !important;
-        height: 48px !important;
-        transform: rotate(18deg) translate3d(0,0,22px) !important;
+        height: 53px !important;
+        transform: rotate(20deg) translate3d(0,0,23px) !important;
     }
 
     .circular-reveal.bawa-firecracker-object:hover .bawa-matchstick,
     .circular-reveal.bawa-firecracker-object:focus-visible .bawa-matchstick,
     .circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-matchstick {
-        transform: rotate(14deg) translate3d(-1px,-3px,26px) !important;
+        transform: rotate(16deg) translate3d(-1px,-2px,26px) !important;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .bawa-float-body,
     .bawa-float-shell::before,
-    .bawa-float-shell::after {
+    .bawa-float-shell::after,
+    .circular-reveal.bawa-firecracker-object::before {
         transition: none !important;
     }
 }
