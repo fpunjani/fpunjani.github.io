@@ -34,11 +34,20 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
 
         // Physical half-open matchbox pieces. The original button remains the click target.
-        if (!fab.querySelector('.bawa-box-tray')) {
-            const tray = document.createElement('span');
+        let tray = fab.querySelector('.bawa-box-tray');
+        if (!tray) {
+            tray = document.createElement('span');
             tray.className = 'bawa-box-tray';
             tray.setAttribute('aria-hidden', 'true');
             fab.appendChild(tray);
+        }
+
+        if (!tray.querySelector('.bawa-tray-matches')) {
+            const matches = document.createElement('span');
+            matches.className = 'bawa-tray-matches';
+            matches.setAttribute('aria-hidden', 'true');
+            matches.innerHTML = '<span class="bawa-tray-match"></span><span class="bawa-tray-match"></span><span class="bawa-tray-match"></span><span class="bawa-tray-match"></span>';
+            tray.appendChild(matches);
         }
 
         if (!fab.querySelector('.bawa-box-striker')) {
@@ -57,21 +66,22 @@ document.addEventListener('DOMContentLoaded', () => {
             centerInner.appendChild(emblem);
         }
 
-        // Replace the old fuse-dot treatment with one match partly pulled from the tray.
+        // Replace older fuse treatments with one loose match that leans back across the box.
         fab.querySelectorAll('.bawa-fuse-light').forEach((node) => node.remove());
-        if (!fab.querySelector('.bawa-matchstick')) {
-            const match = document.createElement('span');
+        let match = fab.querySelector('.bawa-matchstick');
+        if (!match) {
+            match = document.createElement('span');
             match.className = 'bawa-matchstick';
             match.setAttribute('aria-hidden', 'true');
-            match.innerHTML = `
-                <span class="bawa-match-head">
-                    <span class="bawa-match-spark bawa-match-spark-a"></span>
-                    <span class="bawa-match-spark bawa-match-spark-b"></span>
-                    <span class="bawa-match-spark bawa-match-spark-c"></span>
-                </span>
-            `;
             fab.appendChild(match);
         }
+        match.innerHTML = `
+            <span class="bawa-match-head">
+                <span class="bawa-match-spark bawa-match-spark-a"></span>
+                <span class="bawa-match-spark bawa-match-spark-b"></span>
+                <span class="bawa-match-spark bawa-match-spark-c"></span>
+            </span>
+        `;
 
         // Stage = fixed position + shadow. Drift wrapper = slow idle movement.
         // Button = cursor tilt + original click wiring.
@@ -107,9 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rect = fab.getBoundingClientRect();
                 const x = (event.clientX - rect.left) / rect.width - 0.5;
                 const y = (event.clientY - rect.top) / rect.height - 0.5;
-                fab.style.setProperty('--bawa-ry', `${(x * 8).toFixed(2)}deg`);
-                fab.style.setProperty('--bawa-rx', `${(-y * 7).toFixed(2)}deg`);
-                shell.style.setProperty('--shadow-x', `${(x * -8).toFixed(1)}px`);
+                fab.style.setProperty('--bawa-ry', `${(x * 6).toFixed(2)}deg`);
+                fab.style.setProperty('--bawa-rx', `${(-y * 5.5).toFixed(2)}deg`);
+                shell.style.setProperty('--shadow-x', `${(x * -7).toFixed(1)}px`);
             });
 
             fab.addEventListener('pointerleave', () => {
@@ -118,6 +128,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 shell.style.removeProperty('--shadow-x');
             });
         }
+
+        // On touch/press, show the almost-ignited crackle immediately before
+        // the existing click handler hands off to the unchanged rocket sequence.
+        let touchIgniteTimer = null;
+        fab.addEventListener('pointerdown', () => {
+            fab.classList.add('bawa-touch-ignite');
+            if (touchIgniteTimer) window.clearTimeout(touchIgniteTimer);
+            touchIgniteTimer = window.setTimeout(() => {
+                fab.classList.remove('bawa-touch-ignite');
+            }, 450);
+        });
 
         const syncState = () => {
             fab.removeAttribute('aria-pressed');
