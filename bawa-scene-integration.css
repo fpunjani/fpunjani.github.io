@@ -1,160 +1,206 @@
-/* Scene integration for Bawa: connect the floating matchbox to the photo/pixel system. */
+/* Scene integration v2: make Bawa feel carried by the photographic figure, not pinned to the browser. */
 
 :root {
-    --bawa-anchor-right: clamp(36px, calc((100vw - 1000px) / 2 - 150px), 108px);
-    --bawa-anchor-bottom: clamp(26px, 4.6vh, 48px);
-    --bawa-field-x: calc(100% - var(--bawa-anchor-right) - 142px);
-    --bawa-field-y: calc(100% - var(--bawa-anchor-bottom) - 88px);
+    --bawa-figure-right: clamp(258px, 18vw, 372px);
+    --bawa-figure-bottom: clamp(82px, 8.8vh, 112px);
 }
 
-/* Stop reading like a conventional bottom-right FAB. The object now sits against
-   the site's content geometry, with enough air around it to feel composed. */
-.bawa-float-shell {
-    right: var(--bawa-anchor-right) !important;
-    bottom: var(--bawa-anchor-bottom) !important;
-}
-
-/* Carve a soft clarity island out of the existing pixel layers. The sharp photo
-   already exists underneath, so this makes Bawa feel like it is affecting the
-   same image rather than sitting on top of an unrelated background. */
-.pixelate-bg .bg-coarse {
-    -webkit-mask-image: radial-gradient(
-        ellipse 190px 132px at var(--bawa-field-x) var(--bawa-field-y),
-        rgba(0,0,0,.05) 0%,
-        rgba(0,0,0,.12) 24%,
-        rgba(0,0,0,.34) 48%,
-        rgba(0,0,0,.78) 72%,
-        #000 90%
-    );
-    mask-image: radial-gradient(
-        ellipse 190px 132px at var(--bawa-field-x) var(--bawa-field-y),
-        rgba(0,0,0,.05) 0%,
-        rgba(0,0,0,.12) 24%,
-        rgba(0,0,0,.34) 48%,
-        rgba(0,0,0,.78) 72%,
-        #000 90%
-    );
-}
-
-.pixelate-bg .bg-medium {
-    -webkit-mask-image: radial-gradient(
-        ellipse 174px 120px at var(--bawa-field-x) var(--bawa-field-y),
-        rgba(0,0,0,.24) 0%,
-        rgba(0,0,0,.34) 30%,
-        rgba(0,0,0,.58) 58%,
-        #000 88%
-    );
-    mask-image: radial-gradient(
-        ellipse 174px 120px at var(--bawa-field-x) var(--bawa-field-y),
-        rgba(0,0,0,.24) 0%,
-        rgba(0,0,0,.34) 30%,
-        rgba(0,0,0,.58) 58%,
-        #000 88%
-    );
-}
-
+/* The previous clarity island was too subtle to earn its complexity. Keep the
+   background's original pixel composition intact. */
+.pixelate-bg .bg-coarse,
+.pixelate-bg .bg-medium,
 .pixelate-bg .bg-fine {
-    -webkit-mask-image: radial-gradient(
-        ellipse 154px 108px at var(--bawa-field-x) var(--bawa-field-y),
-        rgba(0,0,0,.56) 0%,
-        rgba(0,0,0,.66) 40%,
-        rgba(0,0,0,.84) 68%,
-        #000 91%
-    );
-    mask-image: radial-gradient(
-        ellipse 154px 108px at var(--bawa-field-x) var(--bawa-field-y),
-        rgba(0,0,0,.56) 0%,
-        rgba(0,0,0,.66) 40%,
-        rgba(0,0,0,.84) 68%,
-        #000 91%
-    );
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
 }
 
-/* A faint pool of warm light makes the flame illuminate the same photographic
-   space. It is intentionally much broader and dimmer than the flame itself. */
+/* Anchor the object to the dark torso in the fixed photograph. Because the photo
+   itself is fixed, this relationship survives scrolling and feels intentional. */
+.bawa-float-shell {
+    right: var(--bawa-figure-right) !important;
+    bottom: var(--bawa-figure-bottom) !important;
+    width: 292px !important;
+    height: 178px !important;
+    perspective: 980px !important;
+}
+
+/* Keep the motion the user liked, but make it smaller/tighter so it behaves like
+   something attached to a person rather than a free-floating utility widget. */
+.bawa-float-body {
+    position: relative;
+    z-index: 2;
+    scale: .86;
+    rotate: -6deg;
+    transform-origin: 60% 68% !important;
+    transition: scale .24s cubic-bezier(.2,.8,.2,1), rotate .24s cubic-bezier(.2,.8,.2,1);
+}
+
+.bawa-float-shell:has(.bawa-firecracker-object:hover) .bawa-float-body,
+.bawa-float-shell:has(.bawa-firecracker-object:focus-visible) .bawa-float-body,
+.bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite) .bawa-float-body {
+    scale: .94;
+    rotate: -2deg;
+}
+
+/* A contact shadow on the torso is more useful than a generic floor shadow. */
+.bawa-float-shell::after {
+    content: '' !important;
+    position: absolute !important;
+    z-index: 0 !important;
+    right: 46px !important;
+    bottom: 43px !important;
+    width: 174px !important;
+    height: 76px !important;
+    border-radius: 50% !important;
+    background: rgba(0, 8, 14, .50) !important;
+    filter: blur(16px) !important;
+    opacity: .30 !important;
+    transform: rotate(-8deg) skewX(-12deg) !important;
+    pointer-events: none !important;
+    transition: opacity .22s ease, transform .22s ease !important;
+}
+
+.bawa-float-shell:has(.bawa-firecracker-object:hover)::after,
+.bawa-float-shell:has(.bawa-firecracker-object:focus-visible)::after,
+.bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite)::after {
+    opacity: .20 !important;
+    transform: rotate(-5deg) skewX(-9deg) scale(.92) !important;
+}
+
+/* The flame still affects the photograph, but now as a compact local glow on the
+   figure rather than a broad spotlight floating in empty space. */
 .bawa-float-shell::before {
     content: '';
     position: absolute;
-    z-index: 0;
-    right: 58px;
-    bottom: 42px;
-    width: 188px;
-    height: 142px;
+    z-index: 1;
+    right: 70px;
+    bottom: 78px;
+    width: 126px;
+    height: 108px;
     border-radius: 50%;
     background: radial-gradient(
-        circle at 64% 34%,
-        rgba(255,224,151,.13) 0%,
-        rgba(255,171,69,.095) 19%,
-        rgba(238,103,25,.045) 42%,
+        circle at 67% 30%,
+        rgba(255,239,184,.18) 0%,
+        rgba(255,183,72,.12) 19%,
+        rgba(235,101,24,.05) 43%,
         transparent 72%
     );
-    filter: blur(11px);
+    filter: blur(12px);
     mix-blend-mode: screen;
-    opacity: .72;
+    opacity: .66;
     pointer-events: none;
-    transform: scale(.98);
-    transition: opacity .22s ease, transform .22s ease;
-}
-
-.bawa-float-body {
-    position: relative;
-    z-index: 1;
+    transform: rotate(-8deg) scale(.96);
+    transition: opacity .2s ease, transform .22s ease;
 }
 
 .bawa-float-shell:has(.bawa-firecracker-object:hover)::before,
 .bawa-float-shell:has(.bawa-firecracker-object:focus-visible)::before,
 .bawa-float-shell:has(.bawa-firecracker-object.bawa-touch-ignite)::before {
-    opacity: 1;
-    transform: scale(1.12);
+    opacity: .96;
+    transform: rotate(-4deg) scale(1.08);
 }
 
-/* A tiny amount of photographic softness at rest helps the illustrated object
-   sit in the same scene. Hover still lets it resolve and come forward. */
+/* Let the box adopt a more pronounced photographic angle. The individual cursor
+   tilt variables still work, so hovering retains the tactile 3D response. */
 .circular-reveal.bawa-firecracker-object {
-    filter: saturate(.78) contrast(.95) brightness(.99) blur(.12px) !important;
+    filter: saturate(.82) contrast(.96) brightness(.985) !important;
+    transform:
+        perspective(980px)
+        rotateX(calc(11deg + var(--bawa-rx)))
+        rotateY(calc(-15deg + var(--bawa-ry)))
+        rotateZ(-4deg)
+        translateY(0)
+        scale(1) !important;
+    box-shadow:
+        3px 4px 0 rgba(4,23,36,.72),
+        0 13px 24px rgba(0,8,16,.24),
+        inset 0 0 0 1px rgba(255,255,255,.03) !important;
 }
 
 .circular-reveal.bawa-firecracker-object:hover,
 .circular-reveal.bawa-firecracker-object:focus-visible,
 .circular-reveal.bawa-firecracker-object.bawa-touch-ignite {
-    filter: saturate(.98) contrast(1.01) brightness(1.025) blur(0) !important;
+    filter: saturate(.98) contrast(1.01) brightness(1.025) !important;
+    transform:
+        perspective(980px)
+        rotateX(calc(6deg + var(--bawa-rx)))
+        rotateY(calc(-7deg + var(--bawa-ry)))
+        rotateZ(-1deg)
+        translateY(-7px)
+        scale(1.04) !important;
+    box-shadow:
+        4px 5px 0 rgba(4,23,36,.82),
+        0 21px 34px rgba(0,8,16,.32),
+        inset 0 0 0 1px rgba(255,255,255,.045) !important;
+}
+
+/* Preserve the always-lit flame and ignition behavior from bawa-integration.css. */
+.circular-reveal.bawa-firecracker-object .bawa-match-head::before,
+.circular-reveal.bawa-firecracker-object .bawa-match-head::after {
+    opacity: 1 !important;
+}
+
+/* At this placement the printed object is intentionally secondary to the flame.
+   Slightly soften the paper/box surfaces while keeping the flame fully luminous. */
+.circular-reveal.bawa-firecracker-object .circular-center {
+    box-shadow:
+        inset 0 0 0 3px rgba(54,78,89,.028),
+        inset 0 0 15px rgba(23,38,47,.07),
+        1px 1px 0 rgba(255,255,255,.25) !important;
+}
+
+@media (max-width: 1180px) {
+    :root {
+        --bawa-figure-right: clamp(155px, 15vw, 220px);
+        --bawa-figure-bottom: clamp(68px, 8vh, 94px);
+    }
+
+    .bawa-float-body {
+        scale: .80;
+    }
+
+    .bawa-float-shell:has(.bawa-firecracker-object:hover) .bawa-float-body,
+    .bawa-float-shell:has(.bawa-firecracker-object:focus-visible) .bawa-float-body {
+        scale: .88;
+    }
 }
 
 @media (max-width: 800px) {
-    :root {
-        --bawa-anchor-right: 9px;
-        --bawa-anchor-bottom: max(10px, env(safe-area-inset-bottom));
-        --bawa-field-x: calc(100% - 92px);
-        --bawa-field-y: calc(100% - 72px - env(safe-area-inset-bottom));
+    /* Mobile crops the photograph differently, so retain the safe edge placement
+       rather than pretending the same torso anchor exists. */
+    .bawa-float-shell {
+        right: 5px !important;
+        bottom: max(8px, env(safe-area-inset-bottom)) !important;
     }
 
-    .pixelate-bg .bg-coarse {
-        -webkit-mask-image: radial-gradient(ellipse 128px 94px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.08), rgba(0,0,0,.32) 52%, #000 88%);
-        mask-image: radial-gradient(ellipse 128px 94px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.08), rgba(0,0,0,.32) 52%, #000 88%);
-    }
-
-    .pixelate-bg .bg-medium {
-        -webkit-mask-image: radial-gradient(ellipse 116px 86px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.3), rgba(0,0,0,.6) 58%, #000 90%);
-        mask-image: radial-gradient(ellipse 116px 86px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.3), rgba(0,0,0,.6) 58%, #000 90%);
-    }
-
-    .pixelate-bg .bg-fine {
-        -webkit-mask-image: radial-gradient(ellipse 104px 78px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.62), rgba(0,0,0,.82) 62%, #000 92%);
-        mask-image: radial-gradient(ellipse 104px 78px at var(--bawa-field-x) var(--bawa-field-y), rgba(0,0,0,.62), rgba(0,0,0,.82) 62%, #000 92%);
+    .bawa-float-body {
+        scale: .92;
+        rotate: -3deg;
     }
 
     .bawa-float-shell::before {
-        right: 35px;
-        bottom: 28px;
-        width: 138px;
-        height: 106px;
+        right: 34px;
+        bottom: 31px;
+        width: 94px;
+        height: 78px;
+        opacity: .58;
         filter: blur(9px);
-        opacity: .62;
+    }
+
+    .bawa-float-shell::after {
+        right: 24px !important;
+        bottom: 15px !important;
+        width: 128px !important;
+        height: 48px !important;
+        filter: blur(12px) !important;
+        opacity: .24 !important;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .bawa-float-shell::before {
-        transition: none;
+    .bawa-float-body,
+    .bawa-float-shell::before,
+    .bawa-float-shell::after {
+        transition: none !important;
     }
 }
