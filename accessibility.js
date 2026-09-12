@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (oldLabel) oldLabel.remove();
 
         fab.classList.add('bawa-firecracker-object');
-        fab.setAttribute('aria-label', 'Light the fuse — Bawa ki Duniya');
+        fab.setAttribute('aria-label', 'Open a strange corner of the internet — Bawa ki Duniya');
 
-        // Remove the previous side-by-side comparison wrapper if it exists.
+        // Remove remnants from earlier visual comparisons.
         const oldCluster = fab.closest('.bawa-compare-cluster');
         if (oldCluster) {
             oldCluster.parentNode.insertBefore(fab, oldCluster);
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
 
-        // Add physical matchbox details without touching the existing click target.
+        // Physical half-open matchbox pieces. The original button remains the click target.
         if (!fab.querySelector('.bawa-box-tray')) {
             const tray = document.createElement('span');
             tray.className = 'bawa-box-tray';
@@ -57,12 +57,20 @@ document.addEventListener('DOMContentLoaded', () => {
             centerInner.appendChild(emblem);
         }
 
-        if (!fab.querySelector('.bawa-fuse-light')) {
-            const light = document.createElement('span');
-            light.className = 'bawa-fuse-light';
-            light.setAttribute('aria-hidden', 'true');
-            light.innerHTML = '<span class="bawa-fuse-core"></span><span class="bawa-fuse-spark bawa-fuse-spark-a"></span><span class="bawa-fuse-spark bawa-fuse-spark-b"></span><span class="bawa-fuse-spark bawa-fuse-spark-c"></span>';
-            fab.appendChild(light);
+        // Replace the old fuse-dot treatment with one match partly pulled from the tray.
+        fab.querySelectorAll('.bawa-fuse-light').forEach((node) => node.remove());
+        if (!fab.querySelector('.bawa-matchstick')) {
+            const match = document.createElement('span');
+            match.className = 'bawa-matchstick';
+            match.setAttribute('aria-hidden', 'true');
+            match.innerHTML = `
+                <span class="bawa-match-head">
+                    <span class="bawa-match-spark bawa-match-spark-a"></span>
+                    <span class="bawa-match-spark bawa-match-spark-b"></span>
+                    <span class="bawa-match-spark bawa-match-spark-c"></span>
+                </span>
+            `;
+            fab.appendChild(match);
         }
 
         // Stage = fixed position + shadow. Drift wrapper = slow idle movement.
