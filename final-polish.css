@@ -2,20 +2,20 @@
 
 /* Hero: calmer editorial scale. */
 .hero {
-    grid-template-columns: 230px minmax(0, 1fr) !important;
-    gap: 54px !important;
+    grid-template-columns: 210px minmax(0, 1fr) !important;
+    gap: 48px !important;
 }
 
 .hero .sticky-title {
-    font-size: clamp(52px, 4.55vw, 64px) !important;
-    line-height: 1.015 !important;
-    letter-spacing: -0.05em !important;
-    max-width: 230px;
-    font-weight: 650 !important;
+    font-size: clamp(46px, 4vw, 58px) !important;
+    line-height: 1.03 !important;
+    letter-spacing: -0.045em !important;
+    max-width: 210px;
+    font-weight: 640 !important;
 }
 
 .hero .profile-stack {
-    gap: 28px;
+    gap: 26px;
 }
 
 .hero-intro {
@@ -27,13 +27,13 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0;
-    font-size: clamp(20px, 1.55vw, 24px) !important;
-    line-height: 1.24 !important;
-    letter-spacing: -0.03em;
-    margin-bottom: 20px !important;
+    font-size: clamp(18px, 1.4vw, 22px) !important;
+    line-height: 1.28 !important;
+    letter-spacing: -0.025em;
+    margin-bottom: 18px !important;
 }
 
-.hero-role span:not(.hero-role-sep) { font-weight: 700; }
+.hero-role span:not(.hero-role-sep) { font-weight: 690; }
 .hero-role-sep {
     margin: 0 .34em;
     color: rgba(255,255,255,.5);
@@ -42,12 +42,12 @@
 
 .hero .bio-text {
     max-width: 670px !important;
-    font-size: 16px !important;
-    line-height: 1.64 !important;
+    font-size: 15.5px !important;
+    line-height: 1.62 !important;
 }
 
-.hero-story p + p { margin-top: 15px; }
-.hero-imdb-link { margin-top: 17px; font-size: 14px; }
+.hero-story p + p { margin-top: 14px; }
+.hero-imdb-link { margin-top: 16px; font-size: 13.5px; }
 
 /* Work: role first, then quieter company/date metadata. */
 #work .role-row { margin-bottom: 3px; }
@@ -77,53 +77,57 @@
     font-weight: 700;
 }
 
-/* Bawa ki Duniya: one coherent bookmark/portal object. */
+/* Bawa ki Duniya: typography-only easter egg. */
 .circular-reveal {
-    width: 176px !important;
-    height: 74px !important;
-    right: -8px !important;
-    bottom: 30px !important;
-    border-radius: 14px 0 0 14px !important;
-    background: rgba(244,240,229,.97) !important;
-    border: 1px solid rgba(2,29,49,.22) !important;
-    border-right: 0 !important;
-    box-shadow: 0 12px 30px rgba(3,8,15,.24), 0 2px 7px rgba(3,8,15,.12) !important;
-    overflow: hidden !important;
-    opacity: .98 !important;
-    transform: translateX(0) !important;
-    transition: transform .24s cubic-bezier(.2,.8,.2,1), box-shadow .24s ease, opacity .24s ease !important;
-    padding: 0 18px !important;
-    text-align: left !important;
+    width: auto !important;
+    height: auto !important;
+    right: 30px !important;
+    bottom: 28px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+    opacity: .96 !important;
+    transform: none !important;
+    transition: transform .2s ease, opacity .2s ease !important;
+    padding: 5px 0 !important;
+    text-align: right !important;
 }
 
-.circular-reveal::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 5px;
-    background: #08253A;
-}
+.circular-reveal::before { display: none !important; }
 
 .circular-reveal::after {
-    content: 'open a strange corner ↗';
+    content: 'open a strange corner of the internet';
     position: absolute;
-    left: 23px;
-    bottom: 12px;
-    color: rgba(8,37,58,.68);
+    right: 0;
+    bottom: calc(100% + 8px);
+    width: max-content;
+    max-width: 220px;
+    color: rgba(255,255,255,.72);
     font-family: 'Manrope', sans-serif;
-    font-size: 10.5px;
-    line-height: 1;
-    font-weight: 650;
+    font-size: 10px;
+    line-height: 1.25;
+    font-weight: 600;
     letter-spacing: .01em;
-    white-space: nowrap;
+    text-align: right;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+    text-shadow: 0 2px 12px rgba(0,0,0,.55);
 }
 
 .circular-reveal:hover,
 .circular-reveal:focus-visible {
-    transform: translateX(-8px) !important;
-    box-shadow: 0 16px 38px rgba(3,8,15,.3), 0 3px 9px rgba(3,8,15,.14) !important;
+    transform: translateY(-2px) !important;
+    opacity: 1 !important;
+}
+
+.circular-reveal:hover::after,
+.circular-reveal:focus-visible::after {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .circular-inner-1,
@@ -134,57 +138,64 @@
 }
 
 .circular-center {
-    position: absolute !important;
-    inset: 0 !important;
+    position: static !important;
     display: block !important;
 }
 
 .circular-center-inner {
-    position: absolute !important;
-    inset: 0 !important;
-    display: flex !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
+    position: static !important;
+    display: block !important;
     background: transparent !important;
     box-shadow: none !important;
-    padding: 13px 16px 0 23px !important;
+    padding: 0 !important;
 }
 
 .circular-center-name {
-    color: #08253A !important;
+    display: inline-block;
+    color: rgba(255,255,255,.96) !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    font-size: 17px !important;
-    line-height: 1.02 !important;
-    font-weight: 760 !important;
-    letter-spacing: -0.045em;
-    text-align: left !important;
+    font-size: 21px !important;
+    line-height: 1.12 !important;
+    font-weight: 720 !important;
+    letter-spacing: -0.035em;
+    text-align: right !important;
+    white-space: nowrap;
+    text-shadow: 0 2px 16px rgba(0,0,0,.58), 0 1px 2px rgba(0,0,0,.45);
+}
+
+.circular-center-name::after {
+    content: ' ↗';
+    font-size: .72em;
+    font-weight: 600;
+    opacity: .72;
+    vertical-align: .08em;
 }
 
 .circular-reveal[data-state="fusing"],
 .circular-reveal[data-state="launching"] {
-    transform: translateX(12px) scale(.97) !important;
-    opacity: .2 !important;
+    transform: translateY(3px) scale(.96) !important;
+    opacity: .15 !important;
 }
 
 @media (max-width: 800px) {
     .hero {
         grid-template-columns: 1fr !important;
-        gap: 22px !important;
+        gap: 20px !important;
     }
     .hero .sticky-title {
         max-width: none;
-        font-size: clamp(42px, 10.8vw, 52px) !important;
-        line-height: 1.015 !important;
-        margin-bottom: 6px !important;
+        font-size: clamp(38px, 9.8vw, 46px) !important;
+        line-height: 1.03 !important;
+        margin-bottom: 5px !important;
     }
     .hero-role {
-        font-size: 18px !important;
+        font-size: 17px !important;
         line-height: 1.32 !important;
-        margin-bottom: 14px !important;
+        margin-bottom: 13px !important;
     }
     .hero .bio-text {
-        font-size: 15.5px !important;
-        line-height: 1.6 !important;
+        font-size: 15px !important;
+        line-height: 1.58 !important;
     }
     .work-meta-row {
         align-items: flex-start;
@@ -195,29 +206,20 @@
     .work-meta-row .company { font-size: 14px; }
 
     .circular-reveal {
-        width: 126px !important;
-        height: 58px !important;
-        right: -6px !important;
-        bottom: max(13px, env(safe-area-inset-bottom)) !important;
-        border-radius: 12px 0 0 12px !important;
-        padding: 0 12px !important;
+        right: 16px !important;
+        bottom: max(16px, env(safe-area-inset-bottom)) !important;
+        padding: 4px 0 !important;
     }
-    .circular-reveal::before { width: 4px; }
     .circular-reveal::after {
-        left: 18px;
-        bottom: 9px;
-        font-size: 8px;
-        content: 'strange corner ↗';
-    }
-    .circular-center-inner {
-        padding: 9px 10px 0 18px !important;
+        display: none !important;
     }
     .circular-center-name {
-        font-size: 13px !important;
-        line-height: 1 !important;
+        font-size: 16px !important;
+        line-height: 1.12 !important;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .circular-reveal { transition: none !important; }
+    .circular-reveal,
+    .circular-reveal::after { transition: none !important; }
 }
