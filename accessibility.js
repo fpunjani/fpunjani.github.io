@@ -15,6 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(integrationStyles);
     }
 
+    if (!document.querySelector('link[data-bawa-scene-integration]')) {
+        const sceneStyles = document.createElement('link');
+        sceneStyles.rel = 'stylesheet';
+        sceneStyles.href = './bawa-scene-integration.css';
+        sceneStyles.dataset.bawaSceneIntegration = '';
+        document.head.appendChild(sceneStyles);
+    }
+
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML = 'Farish<br>Punjani';
@@ -33,49 +41,16 @@ document.addEventListener('DOMContentLoaded', () => {
         fab.classList.add('bawa-firecracker-object');
         fab.setAttribute('aria-label', 'Open a strange corner of the internet — Bawa ki Duniya');
 
-        // Remove remnants from earlier visual comparisons.
+        // Remove remnants from previous Bawa visual directions.
         const oldCluster = fab.closest('.bawa-compare-cluster');
         if (oldCluster) {
             oldCluster.parentNode.insertBefore(fab, oldCluster);
             oldCluster.remove();
         }
         document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
+        fab.querySelectorAll('.bawa-box-tray, .bawa-box-striker, .bawa-box-emblem, .bawa-fuse-light').forEach((node) => node.remove());
 
-        // Physical half-open matchbox pieces. The original button remains the click target.
-        let tray = fab.querySelector('.bawa-box-tray');
-        if (!tray) {
-            tray = document.createElement('span');
-            tray.className = 'bawa-box-tray';
-            tray.setAttribute('aria-hidden', 'true');
-            fab.appendChild(tray);
-        }
-
-        if (!tray.querySelector('.bawa-tray-matches')) {
-            const matches = document.createElement('span');
-            matches.className = 'bawa-tray-matches';
-            matches.setAttribute('aria-hidden', 'true');
-            matches.innerHTML = '<span class="bawa-tray-match"></span><span class="bawa-tray-match"></span><span class="bawa-tray-match"></span><span class="bawa-tray-match"></span>';
-            tray.appendChild(matches);
-        }
-
-        if (!fab.querySelector('.bawa-box-striker')) {
-            const striker = document.createElement('span');
-            striker.className = 'bawa-box-striker';
-            striker.setAttribute('aria-hidden', 'true');
-            fab.appendChild(striker);
-        }
-
-        const centerInner = fab.querySelector('.circular-center-inner');
-        if (centerInner && !centerInner.querySelector('.bawa-box-emblem')) {
-            const emblem = document.createElement('span');
-            emblem.className = 'bawa-box-emblem';
-            emblem.setAttribute('aria-hidden', 'true');
-            emblem.innerHTML = '<span>✦</span>';
-            centerInner.appendChild(emblem);
-        }
-
-        // Replace older fuse treatments with one loose match that leans back across the box.
-        fab.querySelectorAll('.bawa-fuse-light').forEach((node) => node.remove());
+        // The match is now the one literal physical detail in the burned portal.
         let match = fab.querySelector('.bawa-matchstick');
         if (!match) {
             match = document.createElement('span');
@@ -91,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </span>
         `;
 
-        // Stage = fixed position + shadow. Drift wrapper = slow idle movement.
+        // Stage = fixed position. Drift wrapper = slow idle movement.
         // Button = cursor tilt + original click wiring.
         let shell = fab.closest('.bawa-float-shell');
         if (!shell) {
@@ -137,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // On touch/press, show the almost-ignited crackle immediately before
-        // the existing click handler hands off to the unchanged rocket sequence.
+        // On touch/press, show the crackle immediately before the existing click
+        // handler hands off to the unchanged rocket sequence.
         let touchIgniteTimer = null;
         fab.addEventListener('pointerdown', () => {
             fab.classList.add('bawa-touch-ignite');
