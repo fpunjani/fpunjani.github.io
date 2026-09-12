@@ -77,57 +77,19 @@
     font-weight: 700;
 }
 
-/* Bawa ki Duniya: typography-only easter egg. */
+/* --------------------------------------------------------------------------
+   Bawa ki Duniya experiments
+   Default: arched portal. Add ?bawa=stamp to preview the postage-stamp shape.
+   -------------------------------------------------------------------------- */
 .circular-reveal {
-    width: auto !important;
-    height: auto !important;
-    right: 30px !important;
-    bottom: 28px !important;
+    right: 26px !important;
+    bottom: 24px !important;
     border: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    padding: 0 !important;
+    opacity: .98 !important;
     overflow: visible !important;
-    opacity: .96 !important;
-    transform: none !important;
-    transition: transform .2s ease, opacity .2s ease !important;
-    padding: 5px 0 !important;
-    text-align: right !important;
-}
-
-.circular-reveal::before { display: none !important; }
-
-.circular-reveal::after {
-    content: 'open a strange corner of the internet';
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + 8px);
-    width: max-content;
-    max-width: 220px;
-    color: rgba(255,255,255,.72);
-    font-family: 'Manrope', sans-serif;
-    font-size: 10px;
-    line-height: 1.25;
-    font-weight: 600;
-    letter-spacing: .01em;
-    text-align: right;
-    opacity: 0;
-    transform: translateY(4px);
-    pointer-events: none;
-    transition: opacity .18s ease, transform .18s ease;
-    text-shadow: 0 2px 12px rgba(0,0,0,.55);
-}
-
-.circular-reveal:hover,
-.circular-reveal:focus-visible {
-    transform: translateY(-2px) !important;
-    opacity: 1 !important;
-}
-
-.circular-reveal:hover::after,
-.circular-reveal:focus-visible::after {
-    opacity: 1;
-    transform: translateY(0);
+    transition: transform .22s cubic-bezier(.2,.8,.2,1), filter .22s ease, opacity .2s ease !important;
+    transform-origin: 70% 100%;
 }
 
 .circular-inner-1,
@@ -138,43 +100,153 @@
 }
 
 .circular-center {
-    position: static !important;
-    display: block !important;
+    position: absolute !important;
+    inset: 0 !important;
+    display: grid !important;
+    place-items: center !important;
 }
 
 .circular-center-inner {
     position: static !important;
-    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 12px 12px !important;
     background: transparent !important;
     box-shadow: none !important;
-    padding: 0 !important;
 }
 
 .circular-center-name {
-    display: inline-block;
-    color: rgba(255,255,255,.96) !important;
+    display: block;
+    color: #001C31 !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-    font-size: 21px !important;
-    line-height: 1.12 !important;
-    font-weight: 720 !important;
+    font-size: 19px !important;
+    line-height: 1.08 !important;
+    font-weight: 760 !important;
     letter-spacing: -0.035em;
-    text-align: right !important;
-    white-space: nowrap;
-    text-shadow: 0 2px 16px rgba(0,0,0,.58), 0 1px 2px rgba(0,0,0,.45);
+    text-align: center !important;
+    text-shadow: none !important;
+    white-space: normal;
 }
 
-.circular-center-name::after {
-    content: ' ↗';
-    font-size: .72em;
-    font-weight: 600;
-    opacity: .72;
-    vertical-align: .08em;
+.circular-center-name::after { content: none !important; }
+
+.circular-reveal:hover,
+.circular-reveal:focus-visible {
+    filter: drop-shadow(0 10px 18px rgba(0, 12, 24, .22));
 }
 
 .circular-reveal[data-state="fusing"],
 .circular-reveal[data-state="launching"] {
-    transform: translateY(3px) scale(.96) !important;
-    opacity: .15 !important;
+    transform: translateY(4px) scale(.94) !important;
+    opacity: .14 !important;
+}
+
+/* Option A: an arched doorway / portal. */
+html[data-bawa="portal"] .circular-reveal {
+    width: 108px !important;
+    height: 132px !important;
+    background: #F3EFE2 !important;
+    border: 2px solid #001C31 !important;
+    border-radius: 54px 54px 9px 9px / 62px 62px 9px 9px !important;
+    box-shadow: 0 7px 18px rgba(0, 10, 20, .22), inset 0 0 0 1px rgba(255,255,255,.72) !important;
+}
+
+html[data-bawa="portal"] .circular-reveal::before {
+    content: '';
+    position: absolute;
+    inset: 9px 9px 12px;
+    border: 1px solid rgba(0, 28, 49, .42);
+    border-radius: 45px 45px 5px 5px / 52px 52px 5px 5px;
+    pointer-events: none;
+}
+
+html[data-bawa="portal"] .circular-reveal::after {
+    content: '';
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    bottom: 10px;
+    height: 3px;
+    border-radius: 99px;
+    background: #001C31;
+    opacity: .82;
+    pointer-events: none;
+}
+
+html[data-bawa="portal"] .circular-center-inner::after {
+    content: 'ENTER  ↗';
+    color: rgba(0, 28, 49, .66);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: .11em;
+}
+
+html[data-bawa="portal"] .circular-reveal:hover,
+html[data-bawa="portal"] .circular-reveal:focus-visible {
+    transform: translate(-4px, -3px) rotate(-.7deg) !important;
+}
+
+/* Option B: a small found-object / postage-stamp treatment. */
+html[data-bawa="stamp"] .circular-reveal {
+    width: 134px !important;
+    height: 96px !important;
+    background: #F1EBDD !important;
+    border: 2px dashed rgba(0, 28, 49, .78) !important;
+    border-radius: 2px !important;
+    outline: 5px solid #F1EBDD;
+    outline-offset: -1px;
+    box-shadow: 0 7px 18px rgba(0, 10, 20, .2) !important;
+    transform: rotate(-1.5deg) !important;
+}
+
+html[data-bawa="stamp"] .circular-reveal::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(0, 28, 49, .34);
+    pointer-events: none;
+}
+
+html[data-bawa="stamp"] .circular-reveal::after {
+    content: 'INTERNET POST';
+    position: absolute;
+    right: 10px;
+    top: 9px;
+    color: rgba(0, 28, 49, .52);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.5px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    pointer-events: none;
+}
+
+html[data-bawa="stamp"] .circular-center-inner {
+    gap: 6px;
+    padding-top: 19px !important;
+}
+
+html[data-bawa="stamp"] .circular-center-inner::after {
+    content: 'DELIVER SOMEWHERE STRANGE  ↗';
+    max-width: 100px;
+    color: rgba(0, 28, 49, .64);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.5px;
+    line-height: 1.25;
+    font-weight: 500;
+    letter-spacing: .04em;
+    text-align: center;
+}
+
+html[data-bawa="stamp"] .circular-reveal:hover,
+html[data-bawa="stamp"] .circular-reveal:focus-visible {
+    transform: translate(-4px, -3px) rotate(.4deg) !important;
 }
 
 @media (max-width: 800px) {
@@ -206,20 +278,52 @@
     .work-meta-row .company { font-size: 14px; }
 
     .circular-reveal {
-        right: 16px !important;
-        bottom: max(16px, env(safe-area-inset-bottom)) !important;
-        padding: 4px 0 !important;
+        right: 14px !important;
+        bottom: max(14px, env(safe-area-inset-bottom)) !important;
     }
-    .circular-reveal::after {
-        display: none !important;
-    }
+
     .circular-center-name {
-        font-size: 16px !important;
-        line-height: 1.12 !important;
+        font-size: 14px !important;
+    }
+
+    html[data-bawa="portal"] .circular-reveal {
+        width: 76px !important;
+        height: 92px !important;
+        border-radius: 38px 38px 7px 7px / 45px 45px 7px 7px !important;
+    }
+    html[data-bawa="portal"] .circular-reveal::before {
+        inset: 7px 7px 9px;
+        border-radius: 31px 31px 4px 4px / 37px 37px 4px 4px;
+    }
+    html[data-bawa="portal"] .circular-reveal::after {
+        left: 11px;
+        right: 11px;
+        bottom: 7px;
+        height: 2px;
+    }
+    html[data-bawa="portal"] .circular-center-inner::after {
+        font-size: 6px;
+    }
+
+    html[data-bawa="stamp"] .circular-reveal {
+        width: 98px !important;
+        height: 72px !important;
+        outline-width: 4px;
+    }
+    html[data-bawa="stamp"] .circular-reveal::after {
+        right: 7px;
+        top: 7px;
+        font-size: 5px;
+    }
+    html[data-bawa="stamp"] .circular-center-inner {
+        padding-top: 15px !important;
+    }
+    html[data-bawa="stamp"] .circular-center-inner::after {
+        max-width: 74px;
+        font-size: 5px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .circular-reveal,
-    .circular-reveal::after { transition: none !important; }
+    .circular-reveal { transition: none !important; }
 }
