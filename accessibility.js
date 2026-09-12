@@ -25,6 +25,38 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
 
+        // Add physical matchbox details without touching the existing click target.
+        if (!fab.querySelector('.bawa-box-tray')) {
+            const tray = document.createElement('span');
+            tray.className = 'bawa-box-tray';
+            tray.setAttribute('aria-hidden', 'true');
+            fab.appendChild(tray);
+        }
+
+        if (!fab.querySelector('.bawa-box-striker')) {
+            const striker = document.createElement('span');
+            striker.className = 'bawa-box-striker';
+            striker.setAttribute('aria-hidden', 'true');
+            fab.appendChild(striker);
+        }
+
+        const centerInner = fab.querySelector('.circular-center-inner');
+        if (centerInner && !centerInner.querySelector('.bawa-box-emblem')) {
+            const emblem = document.createElement('span');
+            emblem.className = 'bawa-box-emblem';
+            emblem.setAttribute('aria-hidden', 'true');
+            emblem.innerHTML = '<span>✦</span>';
+            centerInner.appendChild(emblem);
+        }
+
+        if (!fab.querySelector('.bawa-fuse-light')) {
+            const light = document.createElement('span');
+            light.className = 'bawa-fuse-light';
+            light.setAttribute('aria-hidden', 'true');
+            light.innerHTML = '<span class="bawa-fuse-core"></span><span class="bawa-fuse-spark bawa-fuse-spark-a"></span><span class="bawa-fuse-spark bawa-fuse-spark-b"></span><span class="bawa-fuse-spark bawa-fuse-spark-c"></span>';
+            fab.appendChild(light);
+        }
+
         // Stage = fixed position + shadow. Drift wrapper = slow idle movement.
         // Button = cursor tilt + original click wiring.
         let shell = fab.closest('.bawa-float-shell');
