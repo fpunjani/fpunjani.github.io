@@ -1,165 +1,237 @@
-/* Bawa object v3: half-open matchbox + luminous almost-lit match. Loaded after final-polish.css. */
+/* Bawa object v4: contained half-open matchbox + warm almost-lit match. */
 
-@keyframes bawa-lumos {
-    0%, 100% { transform: scale(.92); opacity: .88; filter: brightness(.98); }
-    46%      { transform: scale(1.08); opacity: 1; filter: brightness(1.18); }
-    68%      { transform: scale(1.01); opacity: .96; filter: brightness(1.06); }
+@keyframes bawa-ember-pulse {
+    0%, 100% { transform: translateX(-50%) scale(.94); filter: brightness(.96); }
+    48%      { transform: translateX(-50%) scale(1.06); filter: brightness(1.08); }
+    66%      { transform: translateX(-50%) scale(1); filter: brightness(1.02); }
 }
 
-@keyframes bawa-match-breathe {
-    0%, 100% { transform: rotate(48deg) translate3d(0,0,18px); }
-    50%      { transform: rotate(47deg) translate3d(1px,-1px,18px); }
+@keyframes bawa-spark-a {
+    0%   { opacity: 0; transform: translate(0,0) rotate(18deg) scale(.35); }
+    24%  { opacity: 1; transform: translate(4px,-5px) rotate(28deg) scale(1); }
+    100% { opacity: 0; transform: translate(13px,-16px) rotate(42deg) scale(.18); }
 }
 
-@keyframes bawa-crackle-a {
-    0%   { opacity: 0; transform: translate(0,0) scale(.2); }
-    28%  { opacity: 1; transform: translate(4px,-5px) scale(1); }
-    100% { opacity: 0; transform: translate(13px,-13px) scale(.15); }
+@keyframes bawa-spark-b {
+    0%   { opacity: 0; transform: translate(0,0) rotate(-22deg) scale(.3); }
+    30%  { opacity: .92; transform: translate(-3px,-4px) rotate(-34deg) scale(.9); }
+    100% { opacity: 0; transform: translate(-12px,-13px) rotate(-48deg) scale(.14); }
 }
 
-@keyframes bawa-crackle-b {
-    0%   { opacity: 0; transform: translate(0,0) scale(.2); }
-    36%  { opacity: .9; transform: translate(-4px,-3px) scale(.9); }
-    100% { opacity: 0; transform: translate(-11px,-10px) scale(.15); }
+@keyframes bawa-spark-c {
+    0%   { opacity: 0; transform: translate(0,0) rotate(62deg) scale(.25); }
+    32%  { opacity: .84; transform: translate(4px,2px) rotate(76deg) scale(.82); }
+    100% { opacity: 0; transform: translate(15px,8px) rotate(92deg) scale(.1); }
 }
 
-@keyframes bawa-crackle-c {
-    0%   { opacity: 0; transform: translate(0,0) scale(.2); }
-    34%  { opacity: .8; transform: translate(2px,4px) scale(.8); }
-    100% { opacity: 0; transform: translate(9px,11px) scale(.1); }
-}
-
-/* Give the whole floating object a slightly larger stage because the tray is open. */
+/* A deliberately generous stage: all open-box geometry stays inside the viewport. */
 .bawa-float-shell {
-    width: 238px !important;
-    height: 158px !important;
-    right: 20px !important;
-    bottom: 18px !important;
-    perspective: 900px !important;
+    width: 292px !important;
+    height: 178px !important;
+    right: 12px !important;
+    bottom: 12px !important;
+    perspective: 980px !important;
 }
 
 .bawa-float-shell::after {
-    right: 17px !important;
+    right: 38px !important;
     bottom: 0 !important;
-    width: 174px !important;
-    height: 19px !important;
+    width: 188px !important;
+    height: 20px !important;
 }
 
-/* Outer navy sleeve. It is deliberately pitched toward the viewer, rather than lying flat. */
+.bawa-float-body {
+    transform-origin: 57% 75% !important;
+}
+
+/* The sleeve now has a permanent perspective angle so it reads as an object even at rest. */
 .circular-reveal.bawa-firecracker-object {
-    width: 176px !important;
-    height: 108px !important;
-    margin: 0 38px 24px 0 !important;
-    border: 1px solid rgba(3,22,36,.95) !important;
-    border-radius: 6px !important;
+    width: 166px !important;
+    height: 100px !important;
+    margin: 0 82px 28px 0 !important;
+    border: 1px solid rgba(3,22,36,.96) !important;
+    border-radius: 5px !important;
     background:
-        linear-gradient(90deg, rgba(255,255,255,.09), transparent 13%, transparent 84%, rgba(255,255,255,.035)),
-        linear-gradient(145deg, #10374E 0%, #092A40 58%, #061D2E 100%) !important;
+        linear-gradient(90deg, rgba(255,255,255,.09), transparent 12%, transparent 86%, rgba(255,255,255,.03)),
+        linear-gradient(145deg, #10364C 0%, #092A40 57%, #061C2C 100%) !important;
     box-shadow:
-        5px 6px 0 #051A28,
-        8px 10px 0 rgba(111,35,28,.28),
-        16px 22px 35px rgba(0,7,14,.34) !important;
+        5px 7px 0 #041724,
+        8px 10px 0 rgba(111,35,28,.25),
+        16px 23px 35px rgba(0,7,14,.34) !important;
+    overflow: visible !important;
     transform:
-        perspective(900px)
-        rotateX(calc(6deg + var(--bawa-rx)))
-        rotateY(calc(-6deg + var(--bawa-ry)))
-        rotateZ(-.8deg)
+        perspective(980px)
+        rotateX(calc(8deg + var(--bawa-rx)))
+        rotateY(calc(-10deg + var(--bawa-ry)))
+        rotateZ(-1.5deg)
         translateY(0)
         scale(1) !important;
     transform-style: preserve-3d;
-    overflow: visible !important;
+    transform-origin: 46% 64%;
+}
+
+/* Thin top and lower faces keep the sleeve from reading like a flat card. */
+.circular-reveal.bawa-firecracker-object::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute;
+    z-index: -1;
+    left: 7px;
+    right: -5px;
+    top: -7px;
+    height: 8px;
+    border: 1px solid rgba(4,22,34,.8);
+    border-bottom: 0;
+    background: linear-gradient(90deg, #17455C, #0A2A40 72%, #071F31);
+    transform: skewX(-34deg) translateZ(-4px);
+    transform-origin: left bottom;
+    pointer-events: none;
+}
+
+.circular-reveal.bawa-firecracker-object::after {
+    content: '' !important;
+    display: block !important;
+    position: absolute;
+    z-index: -1;
+    left: 6px;
+    right: -6px;
+    bottom: -7px;
+    height: 8px;
+    border: 1px solid rgba(2,15,24,.9);
+    border-top: 0;
+    background: linear-gradient(90deg, #041724, #061D2D 70%, #081F2F);
+    transform: skewX(30deg) translateZ(-5px);
+    transform-origin: left top;
+    pointer-events: none;
 }
 
 .circular-reveal.bawa-firecracker-object:hover,
 .circular-reveal.bawa-firecracker-object:focus-visible {
     transform:
-        perspective(900px)
-        rotateX(calc(4deg + var(--bawa-rx)))
-        rotateY(calc(-3deg + var(--bawa-ry)))
-        rotateZ(.1deg)
+        perspective(980px)
+        rotateX(calc(6deg + var(--bawa-rx)))
+        rotateY(calc(-6deg + var(--bawa-ry)))
+        rotateZ(-.2deg)
         translateY(-5px)
         scale(1.035) !important;
     box-shadow:
-        6px 7px 0 #051A28,
-        9px 11px 0 rgba(111,35,28,.3),
-        19px 29px 39px rgba(0,7,14,.38) !important;
+        6px 8px 0 #041724,
+        9px 11px 0 rgba(111,35,28,.27),
+        20px 30px 40px rgba(0,7,14,.38) !important;
 }
 
-/* The previous decorative pseudo-elements are superseded by real matchbox parts. */
-.circular-reveal.bawa-firecracker-object::before,
-.circular-reveal.bawa-firecracker-object::after {
-    content: none !important;
-}
-
-/* Inner cardboard tray: visibly half-open, with a lip and a darker cavity. */
+/* Cardboard inner tray, pulled far enough out to be unmistakable. */
 .circular-reveal.bawa-firecracker-object .bawa-box-tray {
     position: absolute;
-    z-index: -1;
-    right: -37px;
-    top: 15px;
-    width: 54px;
-    height: 78px;
-    border: 1px solid rgba(78,34,25,.92);
+    z-index: -2;
+    right: -62px;
+    top: 17px;
+    width: 76px;
+    height: 66px;
+    border: 1px solid rgba(79,39,27,.96);
     border-left: 0;
     border-radius: 0 5px 5px 0;
     background:
-        linear-gradient(90deg, rgba(45,17,13,.34) 0 8px, transparent 9px),
-        repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0 1px, transparent 1px 4px),
-        linear-gradient(180deg, #9B5B3E 0%, #7B3F2D 70%, #663124 100%);
+        repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 1px, transparent 1px 4px),
+        linear-gradient(180deg, #B77A50 0%, #95583A 64%, #77402D 100%);
     box-shadow:
-        inset 8px 0 9px rgba(41,14,10,.24),
-        4px 5px 0 rgba(47,19,14,.22),
-        8px 10px 14px rgba(0,0,0,.18);
-    transform: translateZ(-10px) translateY(2px) rotateY(-3deg);
+        inset 10px 0 11px rgba(46,20,13,.26),
+        4px 5px 0 rgba(54,27,19,.22),
+        8px 12px 17px rgba(0,0,0,.2);
+    transform: translate3d(0,4px,-18px) rotateY(-5deg) rotateZ(1.2deg);
     transform-origin: left center;
+    transition: transform .24s cubic-bezier(.2,.8,.2,1);
     pointer-events: none;
 }
 
+.circular-reveal.bawa-firecracker-object:hover .bawa-box-tray,
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-box-tray {
+    transform: translate3d(4px,5px,-18px) rotateY(-3deg) rotateZ(.7deg);
+}
+
+/* Dark recessed cavity where the matches actually sit. */
 .circular-reveal.bawa-firecracker-object .bawa-box-tray::before {
     content: '';
     position: absolute;
-    left: 8px;
-    right: 7px;
+    left: 9px;
+    right: 8px;
     top: 7px;
     bottom: 7px;
+    border: 1px solid rgba(58,28,20,.72);
     border-radius: 2px;
-    background:
-        radial-gradient(ellipse at 55% 44%, rgba(44,20,14,.52), transparent 64%),
-        linear-gradient(180deg, #5B3025, #49231B);
-    box-shadow: inset 0 3px 7px rgba(0,0,0,.3);
+    background: linear-gradient(180deg, #5E3528, #46251D 75%);
+    box-shadow: inset 0 4px 8px rgba(0,0,0,.34);
 }
 
+/* Front cardboard lip on the open drawer. */
 .circular-reveal.bawa-firecracker-object .bawa-box-tray::after {
     content: '';
     position: absolute;
-    right: -3px;
-    top: 7px;
-    bottom: 7px;
-    width: 6px;
+    right: -4px;
+    top: 6px;
+    bottom: 6px;
+    width: 7px;
     border-radius: 0 3px 3px 0;
-    background: linear-gradient(180deg, #C78A59, #8C5037);
-    box-shadow: 2px 0 2px rgba(0,0,0,.16);
+    background: linear-gradient(180deg, #D39A67, #9D6548 72%, #804730);
+    box-shadow: 2px 0 3px rgba(0,0,0,.18);
 }
 
-/* Traditional rough striker strip on the sleeve. */
-.circular-reveal.bawa-firecracker-object .bawa-box-striker {
+/* Visible rows of matches are the key recognition cue. */
+.bawa-tray-matches {
     position: absolute;
-    z-index: 7;
-    left: -5px;
-    top: 18px;
-    width: 9px;
-    height: 70px;
-    border-radius: 3px 0 0 3px;
-    background:
-        repeating-linear-gradient(135deg, rgba(255,235,202,.2) 0 1px, transparent 1px 3px),
-        linear-gradient(#91362E, #63211E);
-    box-shadow: -2px 1px 4px rgba(0,0,0,.25);
+    z-index: 2;
+    inset: 8px 9px 8px 11px;
     pointer-events: none;
 }
 
-/* Cream paper label inset into the sleeve. */
+.bawa-tray-match {
+    position: absolute;
+    left: 1px;
+    width: 48px;
+    height: 3px;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #D2AA6B, #E4C487 78%, #BF8C50);
+    box-shadow: 0 1px 1px rgba(0,0,0,.2);
+    transform-origin: left center;
+}
+
+.bawa-tray-match::after {
+    content: '';
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 48% 52% 54% 46%;
+    background: radial-gradient(circle at 36% 30%, #A85437, #6A291F 72%, #421914);
+    box-shadow: 0 1px 2px rgba(0,0,0,.22);
+    transform: translateY(-50%);
+}
+
+.bawa-tray-match:nth-child(1) { top: 7px; transform: rotate(-2deg); }
+.bawa-tray-match:nth-child(2) { top: 19px; transform: rotate(1.4deg); }
+.bawa-tray-match:nth-child(3) { top: 31px; transform: rotate(-1deg); }
+.bawa-tray-match:nth-child(4) { top: 43px; transform: rotate(2deg); }
+
+/* Rough striker on the sleeve. */
+.circular-reveal.bawa-firecracker-object .bawa-box-striker {
+    position: absolute;
+    z-index: 8;
+    left: -5px;
+    top: 18px;
+    width: 9px;
+    height: 64px;
+    border-radius: 3px 0 0 3px;
+    background:
+        repeating-linear-gradient(135deg, rgba(255,235,202,.2) 0 1px, transparent 1px 3px),
+        linear-gradient(#92372E, #62211E);
+    box-shadow: -2px 1px 4px rgba(0,0,0,.24);
+    pointer-events: none;
+}
+
+/* Cream printed label inset into the navy sleeve. */
 .circular-reveal.bawa-firecracker-object .circular-center {
-    inset: 8px 10px 10px 8px !important;
+    inset: 8px 10px 9px 8px !important;
     border: 1px solid rgba(128,47,38,.78);
     border-radius: 2px;
     background:
@@ -171,10 +243,9 @@
         inset 0 0 16px rgba(111,74,35,.08),
         1px 1px 0 rgba(255,255,255,.45);
     overflow: visible !important;
-    transform: translateZ(11px) !important;
+    transform: translateZ(14px) !important;
 }
 
-/* Remove the old rope/fuse treatment; the partly pulled match now explains ignition. */
 .circular-reveal.bawa-firecracker-object .circular-center::before,
 .circular-reveal.bawa-firecracker-object .circular-center::after {
     display: none !important;
@@ -182,56 +253,67 @@
 
 .circular-reveal.bawa-firecracker-object .circular-center-inner {
     position: relative !important;
-    gap: 5px !important;
-    padding: 12px 12px 9px 42px !important;
+    gap: 4px !important;
+    padding: 11px 11px 8px 40px !important;
 }
 
 .circular-reveal.bawa-firecracker-object .circular-center-inner::before {
     content: 'BAWA FIREWORKS · SERIES 01' !important;
-    font-size: 5.6px !important;
-    letter-spacing: .105em !important;
-    color: rgba(111,39,31,.78) !important;
+    color: rgba(111,39,31,.76) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 5.3px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    letter-spacing: .095em !important;
+    text-align: left !important;
+    align-self: stretch !important;
 }
 
 .circular-reveal.bawa-firecracker-object .circular-center-name {
-    font-size: 19.5px !important;
-    line-height: 1.01 !important;
+    display: block !important;
     color: #08263A !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 19px !important;
+    line-height: 1.01 !important;
+    font-weight: 820 !important;
+    letter-spacing: -.04em !important;
     text-align: left !important;
-    align-self: stretch;
+    align-self: stretch !important;
+    text-shadow: none !important;
 }
 
-/* The purpose is printed on the box instead of living in a floating tooltip. */
+.circular-reveal.bawa-firecracker-object .circular-center-name::after { content: none !important; }
+
 .circular-reveal.bawa-firecracker-object .circular-center-inner::after {
-    content: 'OPEN A STRANGE CORNER\AOF THE INTERNET  ↗' !important;
-    white-space: pre;
-    align-self: flex-start;
-    color: #7A2B24 !important;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 5.8px !important;
-    line-height: 1.22 !important;
-    font-weight: 800 !important;
-    letter-spacing: .055em !important;
-    text-align: left;
-    padding-bottom: 1px;
-    border-bottom: 1px solid rgba(119,36,29,.42);
+    content: 'open a strange corner\Aof the internet  ↗' !important;
+    white-space: pre !important;
+    align-self: flex-start !important;
+    color: #792D25 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 5.7px !important;
+    line-height: 1.18 !important;
+    font-weight: 750 !important;
+    letter-spacing: .025em !important;
+    text-align: left !important;
+    padding: 0 !important;
+    border: 0 !important;
 }
 
-/* Small vintage burst emblem. */
+/* Quiet vintage mark; enough character without competing with the open tray. */
 .circular-reveal.bawa-firecracker-object .bawa-box-emblem {
     position: absolute;
-    left: 11px;
-    top: 34px;
-    width: 25px;
-    height: 25px;
+    left: 10px;
+    top: 32px;
+    width: 24px;
+    height: 24px;
     display: grid;
     place-items: center;
-    border: 1px solid rgba(119,36,29,.7);
+    border: 1px solid rgba(119,36,29,.68);
     border-radius: 50%;
     color: #7A2B24;
-    background: rgba(255,248,224,.4);
-    box-shadow: inset 0 0 0 3px rgba(119,36,29,.05);
-    font-size: 12px;
+    background: rgba(255,248,224,.38);
+    box-shadow: inset 0 0 0 3px rgba(119,36,29,.045);
+    font-size: 11px;
     transform: rotate(-8deg);
 }
 
@@ -241,9 +323,9 @@
     position: absolute;
     left: 50%;
     top: 50%;
-    width: 32px;
+    width: 30px;
     height: 1px;
-    background: rgba(119,36,29,.25);
+    background: rgba(119,36,29,.22);
     transform: translate(-50%,-50%) rotate(45deg);
 }
 
@@ -258,206 +340,257 @@
     padding: 0 3px;
 }
 
-/* A single match is pulled partway from the open tray. */
+/* One loose match rises out of the tray and leans back over the sleeve, staying away from the viewport edge. */
 .circular-reveal.bawa-firecracker-object .bawa-matchstick {
     position: absolute;
-    z-index: 14;
-    right: -36px;
-    top: 15px;
-    width: 6px;
-    height: 74px;
+    z-index: 18;
+    right: -48px;
+    bottom: 17px;
+    width: 5px;
+    height: 80px;
     border-radius: 4px;
     background:
-        linear-gradient(90deg, rgba(255,255,255,.38), transparent 30%),
-        linear-gradient(180deg, #E8C78A 0%, #C79B5D 100%);
-    box-shadow: 1px 2px 3px rgba(0,0,0,.22);
-    transform-origin: 50% 86%;
-    transform: rotate(48deg) translate3d(0,0,18px);
-    animation: bawa-match-breathe 3.8s ease-in-out infinite;
+        linear-gradient(90deg, rgba(255,255,255,.4), transparent 32%),
+        linear-gradient(180deg, #E7C987 0%, #C99654 100%);
+    box-shadow: 1px 2px 3px rgba(0,0,0,.24);
+    transform-origin: 50% 90%;
+    transform: rotate(-38deg) translate3d(0,0,25px);
+    transition: transform .23s cubic-bezier(.2,.8,.2,1), filter .2s ease;
     pointer-events: none;
-    transition: transform .22s cubic-bezier(.2,.8,.2,1), filter .2s ease;
 }
 
-/* Soft luminous match head at rest: white core, cool halo, faint warm contact ring. */
+/* Warm ember at rest: pale-hot center -> amber -> orange -> dark match compound. */
 .circular-reveal.bawa-firecracker-object .bawa-match-head {
     position: absolute;
     left: 50%;
-    top: -8px;
-    width: 16px;
-    height: 16px;
-    transform: translateX(-50%);
-    border-radius: 55% 45% 50% 50%;
-    background: radial-gradient(circle at 38% 34%,
-        #FFFFFF 0 22%,
-        #E9FBFF 23% 40%,
-        #ADDFFF 41% 59%,
-        #7EC8F8 60% 69%,
-        #7C332A 70% 82%,
-        #50231E 83% 100%);
+    top: -9px;
+    width: 15px;
+    height: 17px;
+    border-radius: 52% 48% 55% 45%;
+    background: radial-gradient(circle at 39% 32%,
+        #FFF4C7 0 8%,
+        #FFD36B 9% 18%,
+        #FFAA2D 19% 31%,
+        #E9681E 32% 48%,
+        #9A3821 49% 69%,
+        #522018 70% 86%,
+        #301410 87% 100%);
     box-shadow:
-        0 0 4px rgba(255,255,255,1),
-        0 0 10px rgba(222,249,255,.98),
-        0 0 19px rgba(133,211,255,.86),
-        0 0 34px rgba(91,188,255,.48),
-        0 0 48px rgba(255,183,92,.13);
-    animation: bawa-lumos 2.8s ease-in-out infinite;
+        0 0 3px rgba(255,245,194,.95),
+        0 0 8px rgba(255,182,50,.82),
+        0 0 15px rgba(255,105,24,.55),
+        0 0 27px rgba(229,72,17,.22);
+    transform: translateX(-50%);
+    animation: bawa-ember-pulse 2.6s ease-in-out infinite;
+    transition: box-shadow .18s ease, filter .18s ease, background .18s ease;
 }
 
 .circular-reveal.bawa-firecracker-object .bawa-match-head::before {
     content: '';
     position: absolute;
-    inset: -18px;
+    inset: -15px;
     border-radius: 50%;
     background: radial-gradient(circle,
-        rgba(226,249,255,.24),
-        rgba(139,216,255,.11) 38%,
-        transparent 70%);
-    filter: blur(3px);
+        rgba(255,190,61,.20) 0%,
+        rgba(255,118,28,.11) 34%,
+        rgba(229,71,17,.045) 53%,
+        transparent 72%);
+    filter: blur(2px);
+    pointer-events: none;
 }
 
-/* Crackle particles stay invisible until the user approaches the object. */
+.circular-reveal.bawa-firecracker-object .bawa-match-head::after {
+    content: '';
+    position: absolute;
+    left: 43%;
+    top: 36%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #FFF9D8;
+    box-shadow: 0 0 4px #FFE18A, 0 0 8px rgba(255,139,36,.74);
+}
+
+/* Sparks do not run constantly. They crackle only when the visitor approaches/touches the object. */
 .bawa-match-spark {
     position: absolute;
     left: 7px;
-    top: 1px;
+    top: 0;
     width: 2px;
-    height: 2px;
-    border-radius: 50%;
-    background: #FFF7D2;
-    box-shadow: 0 0 4px #FFFFFF, 0 0 7px rgba(120,207,255,.95);
+    height: 5px;
+    border-radius: 99px;
+    background: linear-gradient(#FFF3AE, #FF9D25 68%, #E65318);
+    box-shadow: 0 0 4px rgba(255,177,43,.9);
     opacity: 0;
+    transform-origin: 50% 100%;
 }
 
 .circular-reveal.bawa-firecracker-object:hover .bawa-matchstick,
-.circular-reveal.bawa-firecracker-object:focus-visible .bawa-matchstick {
-    animation-play-state: paused;
-    transform: rotate(45deg) translate3d(-3px,-3px,22px);
-    filter: brightness(1.05);
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-matchstick,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-matchstick {
+    transform: rotate(-43deg) translate3d(-3px,-3px,30px);
+    filter: brightness(1.04);
 }
 
 .circular-reveal.bawa-firecracker-object:hover .bawa-match-head,
-.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-head {
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-head,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-match-head {
+    background: radial-gradient(circle at 39% 31%,
+        #FFFBE4 0 10%,
+        #FFE28B 11% 20%,
+        #FFB42F 21% 34%,
+        #F36A1C 35% 52%,
+        #A83A20 53% 72%,
+        #4A1B15 73% 100%);
     box-shadow:
-        0 0 5px rgba(255,255,255,1),
-        0 0 12px rgba(232,252,255,1),
-        0 0 24px rgba(133,211,255,.98),
-        0 0 42px rgba(91,188,255,.72),
-        0 0 58px rgba(255,180,83,.2);
-    filter: brightness(1.18);
+        0 0 4px rgba(255,250,218,1),
+        0 0 10px rgba(255,198,62,.98),
+        0 0 21px rgba(255,113,24,.78),
+        0 0 38px rgba(235,69,16,.38);
+    filter: brightness(1.12);
 }
 
 .circular-reveal.bawa-firecracker-object:hover .bawa-match-spark-a,
-.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-spark-a {
-    animation: bawa-crackle-a .58s ease-out infinite;
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-spark-a,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-match-spark-a {
+    animation: bawa-spark-a .62s ease-out infinite;
 }
 .circular-reveal.bawa-firecracker-object:hover .bawa-match-spark-b,
-.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-spark-b {
-    animation: bawa-crackle-b .72s ease-out .09s infinite;
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-spark-b,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-match-spark-b {
+    animation: bawa-spark-b .72s ease-out .11s infinite;
 }
 .circular-reveal.bawa-firecracker-object:hover .bawa-match-spark-c,
-.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-spark-c {
-    animation: bawa-crackle-c .66s ease-out .18s infinite;
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-spark-c,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-match-spark-c {
+    animation: bawa-spark-c .68s ease-out .2s infinite;
 }
 
-/* Hide retired v2 fuse light if cached markup survives a hot reload. */
-.bawa-fuse-light { display: none !important; }
+.circular-reveal.bawa-firecracker-object:focus-visible {
+    outline: 3px solid rgba(255,255,255,.96) !important;
+    outline-offset: 8px !important;
+}
+
+.bawa-float-shell[data-state="fusing"] .bawa-float-body,
+.bawa-float-shell[data-state="launching"] .bawa-float-body {
+    animation-play-state: paused !important;
+}
+
+.bawa-float-shell[data-state="fusing"] .bawa-firecracker-object,
+.bawa-float-shell[data-state="launching"] .bawa-firecracker-object {
+    transform: perspective(980px) rotateX(8deg) rotateY(-10deg) translateY(4px) scale(.94) !important;
+    opacity: .14 !important;
+}
+
+.bawa-float-shell[data-state="fusing"]::after,
+.bawa-float-shell[data-state="launching"]::after {
+    opacity: .08 !important;
+}
 
 @media (max-width: 800px) {
     .bawa-float-shell {
-        width: 174px !important;
-        height: 120px !important;
-        right: 7px !important;
-        bottom: max(7px, env(safe-area-inset-bottom)) !important;
+        width: 206px !important;
+        height: 132px !important;
+        right: 4px !important;
+        bottom: max(5px, env(safe-area-inset-bottom)) !important;
     }
 
     .bawa-float-shell::after {
-        right: 12px !important;
-        width: 122px !important;
-        height: 13px !important;
+        right: 26px !important;
+        width: 132px !important;
+        height: 14px !important;
     }
 
     .circular-reveal.bawa-firecracker-object {
-        width: 132px !important;
-        height: 82px !important;
-        margin: 0 29px 16px 0 !important;
-        transform:
-            perspective(800px)
-            rotateX(5deg)
-            rotateY(-5deg)
-            rotateZ(-.7deg) !important;
+        width: 122px !important;
+        height: 75px !important;
+        margin: 0 58px 20px 0 !important;
+        box-shadow:
+            4px 5px 0 #041724,
+            6px 7px 0 rgba(111,35,28,.24),
+            11px 16px 24px rgba(0,7,14,.31) !important;
     }
 
     .circular-reveal.bawa-firecracker-object .bawa-box-tray {
-        right: -28px;
-        top: 11px;
-        width: 40px;
-        height: 59px;
+        right: -44px;
+        top: 13px;
+        width: 55px;
+        height: 49px;
     }
 
+    .bawa-tray-matches { inset: 6px 7px 6px 8px; }
+    .bawa-tray-match { width: 34px; height: 2px; }
+    .bawa-tray-match::after { right: -3px; width: 6px; height: 6px; }
+    .bawa-tray-match:nth-child(1) { top: 4px; }
+    .bawa-tray-match:nth-child(2) { top: 13px; }
+    .bawa-tray-match:nth-child(3) { top: 22px; }
+    .bawa-tray-match:nth-child(4) { top: 31px; }
+
     .circular-reveal.bawa-firecracker-object .bawa-box-striker {
+        left: -4px;
         top: 14px;
-        height: 53px;
         width: 7px;
+        height: 47px;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center {
-        inset: 6px 8px 8px 6px !important;
+        inset: 6px 7px 7px 6px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-inner {
         gap: 3px !important;
-        padding: 8px 7px 6px 31px !important;
+        padding: 8px 7px 6px 30px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-inner::before {
         content: 'BAWA FIREWORKS' !important;
-        font-size: 4.2px !important;
+        font-size: 4px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-name {
-        font-size: 14.5px !important;
+        font-size: 14px !important;
     }
 
     .circular-reveal.bawa-firecracker-object .circular-center-inner::after {
-        content: 'OPEN A STRANGE CORNER ↗' !important;
-        white-space: nowrap;
-        font-size: 4.7px !important;
-        letter-spacing: .035em !important;
+        content: 'open a strange corner\Aof the internet  ↗' !important;
+        font-size: 4.25px !important;
+        line-height: 1.13 !important;
     }
 
     .circular-reveal.bawa-firecracker-object .bawa-box-emblem {
-        left: 8px;
-        top: 26px;
-        width: 19px;
-        height: 19px;
-        font-size: 9px;
+        left: 7px;
+        top: 24px;
+        width: 18px;
+        height: 18px;
+        font-size: 8px;
     }
 
     .circular-reveal.bawa-firecracker-object .bawa-box-emblem::before,
     .circular-reveal.bawa-firecracker-object .bawa-box-emblem::after {
-        width: 25px;
+        width: 23px;
     }
 
     .circular-reveal.bawa-firecracker-object .bawa-matchstick {
-        right: -27px;
-        top: 10px;
-        width: 5px;
-        height: 57px;
+        right: -34px;
+        bottom: 13px;
+        width: 4px;
+        height: 58px;
+        transform: rotate(-38deg) translate3d(0,0,20px);
     }
 
     .circular-reveal.bawa-firecracker-object .bawa-match-head {
         top: -7px;
-        width: 13px;
+        width: 11px;
         height: 13px;
     }
+
+    .circular-reveal.bawa-firecracker-object .bawa-match-head::before { inset: -10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .circular-reveal.bawa-firecracker-object .bawa-matchstick,
     .circular-reveal.bawa-firecracker-object .bawa-match-head,
     .bawa-match-spark {
         animation: none !important;
     }
-
     .bawa-match-spark { display: none !important; }
 }
