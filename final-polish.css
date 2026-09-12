@@ -1,15 +1,15 @@
 /* Final hierarchy + interaction polish. Kept isolated for easy visual rollback. */
 
-/* Hero: stronger introduction, slightly wider reading column. */
+/* Hero: name first, identity second, slightly wider reading column. */
 .hero {
     grid-template-columns: 250px minmax(0, 1fr) !important;
     gap: 50px !important;
 }
 
 .hero .sticky-title {
-    font-size: clamp(58px, 5.4vw, 74px) !important;
-    line-height: 1.02 !important;
-    letter-spacing: -0.062em !important;
+    font-size: clamp(60px, 5.55vw, 76px) !important;
+    line-height: 1.01 !important;
+    letter-spacing: -0.064em !important;
     max-width: 250px;
 }
 
@@ -94,37 +94,42 @@
     font-weight: 700;
 }
 
-/* Bawa ki Duniya: a tactile little portal/seal, not a utility button. */
+/* Bawa ki Duniya: a visible portal object rather than a tiny utility control. */
 .circular-reveal {
-    width: 94px !important;
-    height: 94px !important;
-    background: #F3EFE4 !important;
-    border: 1px solid rgba(2, 29, 49, .12) !important;
+    width: 118px !important;
+    height: 118px !important;
+    right: 28px !important;
+    bottom: 26px !important;
+    background: #F4F0E5 !important;
+    border: 1px solid rgba(2, 29, 49, .22) !important;
     box-shadow:
-        0 9px 28px rgba(3, 8, 15, .23),
-        inset 0 1px 0 rgba(255,255,255,.82) !important;
+        0 14px 38px rgba(3, 8, 15, .28),
+        0 2px 8px rgba(3, 8, 15, .14),
+        inset 0 1px 0 rgba(255,255,255,.9) !important;
     overflow: visible !important;
+    opacity: .98 !important;
     transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, opacity .28s ease !important;
 }
 
 .circular-reveal:hover,
 .circular-reveal:focus-visible {
-    transform: scale(1.045) !important;
+    transform: translateY(-2px) rotate(-1.5deg) scale(1.04) !important;
     box-shadow:
-        0 13px 34px rgba(3, 8, 15, .29),
-        inset 0 1px 0 rgba(255,255,255,.9) !important;
+        0 18px 46px rgba(3, 8, 15, .34),
+        0 3px 10px rgba(3, 8, 15, .16),
+        inset 0 1px 0 rgba(255,255,255,.95) !important;
 }
 
 .circular-inner-1 {
-    inset: 7px !important;
-    background: #F3EFE4 !important;
-    border: 1px solid rgba(2,29,49,.13);
+    inset: 8px !important;
+    background: #F4F0E5 !important;
+    border: 1px solid rgba(2,29,49,.17);
     box-shadow: none !important;
 }
 
 .circular-inner-2 {
-    inset: 16px !important;
-    background: #F3EFE4 !important;
+    inset: 18px !important;
+    background: transparent !important;
     border: 1px solid rgba(2,29,49,.08);
     box-shadow: none !important;
 }
@@ -132,52 +137,91 @@
 .circular-center-inner {
     background: transparent !important;
     box-shadow: none !important;
-    padding: 4px !important;
+    padding: 7px !important;
 }
 
 .circular-center-name {
     color: #08253A !important;
-    font-family: 'Manrope', sans-serif !important;
-    font-size: 10.5px !important;
-    line-height: 1.18 !important;
-    letter-spacing: -0.025em;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    font-size: 15px !important;
+    line-height: 1.1 !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.035em;
 }
 
+/* Retire the tiny circular English text. The explanation now has its own readable label. */
 .portal-orbit {
+    display: none !important;
+}
+
+.portal-label {
     position: absolute;
-    inset: 4px;
-    z-index: 8;
+    right: 132px;
+    top: 50%;
+    width: 224px;
+    padding: 12px 15px 13px;
+    transform: translateY(-50%);
+    border: 1px solid rgba(214, 225, 238, .17);
+    border-radius: 11px;
+    background: rgba(7, 28, 43, .9);
+    color: #F5F7FA;
+    box-shadow: 0 10px 28px rgba(3,8,15,.2);
+    text-align: left;
     pointer-events: none;
-    transition: transform .65s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+    opacity: .92;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), opacity .28s ease, background-color .28s ease;
 }
 
-.portal-orbit svg {
+.portal-label::after {
+    content: '';
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    width: 15px;
+    height: 1px;
+    background: rgba(244,240,229,.55);
+}
+
+.portal-label-kicker,
+.portal-label-copy {
     display: block;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
 }
 
-.portal-orbit text {
-    fill: #08253A;
+.portal-label-kicker {
+    margin-bottom: 4px;
+    color: rgba(220,228,238,.72);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 5.8px;
+    font-size: 9.5px;
     font-weight: 500;
-    letter-spacing: .55px;
+    letter-spacing: .08em;
     text-transform: uppercase;
 }
 
-.circular-reveal:hover .portal-orbit,
-.circular-reveal:focus-visible .portal-orbit {
-    transform: rotate(16deg);
+.portal-label-copy {
+    font-family: 'Manrope', sans-serif;
+    font-size: 13.5px;
+    line-height: 1.34;
+    font-weight: 600;
+    letter-spacing: -0.015em;
 }
 
-.circular-reveal[data-state="fusing"] .portal-orbit,
-.circular-reveal[data-state="launching"] .portal-orbit {
+.portal-label-arrow {
+    display: inline-block;
+    margin-left: 3px;
+}
+
+.circular-reveal:hover .portal-label,
+.circular-reveal:focus-visible .portal-label {
+    transform: translate(-5px, -50%);
+    background: rgba(7, 28, 43, .97);
+    opacity: 1;
+}
+
+.circular-reveal[data-state="fusing"] .portal-label,
+.circular-reveal[data-state="launching"] .portal-label {
     opacity: 0;
+    transform: translate(10px, -50%) scale(.97);
 }
-
-/* Keep the subject protection broad and soft rather than visibly traced. */
 
 @media (max-width: 800px) {
     .hero {
@@ -187,7 +231,7 @@
 
     .hero .sticky-title {
         max-width: none;
-        font-size: clamp(43px, 11vw, 54px) !important;
+        font-size: clamp(46px, 12vw, 58px) !important;
         line-height: 1.01 !important;
         margin-bottom: 8px !important;
     }
@@ -215,20 +259,28 @@
     }
 
     .circular-reveal {
-        width: 66px !important;
-        height: 66px !important;
-        right: 10px !important;
-        bottom: max(10px, env(safe-area-inset-bottom)) !important;
-        opacity: .96 !important;
+        width: 78px !important;
+        height: 78px !important;
+        right: 11px !important;
+        bottom: max(12px, env(safe-area-inset-bottom)) !important;
+        opacity: .98 !important;
+        box-shadow:
+            0 10px 28px rgba(3,8,15,.27),
+            0 2px 7px rgba(3,8,15,.12),
+            inset 0 1px 0 rgba(255,255,255,.9) !important;
     }
 
-    .circular-inner-1 { inset: 5px !important; }
-    .circular-inner-2 { inset: 11px !important; }
-    .circular-center-name { font-size: 7.4px !important; }
-    .portal-orbit { inset: 3px; }
-    .portal-orbit text {
-        font-size: 5.6px;
-        letter-spacing: .32px;
+    .circular-inner-1 { inset: 6px !important; }
+    .circular-inner-2 { inset: 13px !important; }
+    .circular-center-name {
+        font-size: 10.5px !important;
+        line-height: 1.08 !important;
+        padding: 0 2px;
+    }
+
+    /* The circle carries the identity on small screens; avoid covering reading space with a label. */
+    .portal-label {
+        display: none !important;
     }
 }
 
@@ -240,10 +292,19 @@
     .hero-role-sep {
         margin: 0 .25em;
     }
+
+    .circular-reveal {
+        width: 74px !important;
+        height: 74px !important;
+    }
+
+    .circular-center-name {
+        font-size: 10px !important;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .portal-orbit,
+    .portal-label,
     .circular-reveal {
         transition: none !important;
     }
