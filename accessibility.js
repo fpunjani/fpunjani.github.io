@@ -1,4 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    if (!document.querySelector('link[data-bawa-object-v2]')) {
+        const bawaStyles = document.createElement('link');
+        bawaStyles.rel = 'stylesheet';
+        bawaStyles.href = './bawa-object-v2.css';
+        bawaStyles.dataset.bawaObjectV2 = '';
+        document.head.appendChild(bawaStyles);
+    }
+
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML = 'Farish<br>Punjani';
