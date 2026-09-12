@@ -1,0 +1,250 @@
+/* Final hierarchy + interaction polish. Kept isolated for easy visual rollback. */
+
+/* Hero: stronger introduction, slightly wider reading column. */
+.hero {
+    grid-template-columns: 250px minmax(0, 1fr) !important;
+    gap: 50px !important;
+}
+
+.hero .sticky-title {
+    font-size: clamp(58px, 5.4vw, 74px) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -0.062em !important;
+    max-width: 250px;
+}
+
+.hero .profile-stack {
+    gap: 30px;
+}
+
+.hero-intro {
+    max-width: 690px !important;
+}
+
+.hero-role {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0;
+    font-size: clamp(23px, 1.75vw, 27px) !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.035em;
+    margin-bottom: 22px !important;
+}
+
+.hero-role span:not(.hero-role-sep) {
+    font-weight: 700;
+}
+
+.hero-role-sep {
+    margin: 0 .34em;
+    color: rgba(255,255,255,.52);
+    font-weight: 400 !important;
+}
+
+.hero .bio-text {
+    max-width: 675px !important;
+    font-size: 17px !important;
+    line-height: 1.66 !important;
+}
+
+.hero-story p + p {
+    margin-top: 16px;
+}
+
+.hero-imdb-link {
+    margin-top: 18px;
+    font-size: 14.5px;
+}
+
+/* Work: role first, then quieter company/date metadata. */
+#work .role-row {
+    margin-bottom: 3px;
+}
+
+.work-meta-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 12px;
+}
+
+.work-meta-row .company {
+    margin: 0;
+    color: #DDE2EE !important;
+    font-size: 14.5px;
+    font-weight: 500;
+}
+
+.work-meta-row .timeline-date {
+    flex: 0 0 auto;
+}
+
+/* Writing: let the line feel more editorial. */
+.writing-tagline {
+    margin-top: 8px !important;
+    margin-bottom: 18px !important;
+    line-height: 1.55 !important;
+}
+
+/* Contact: make the pigeon action the primary human CTA. */
+.contact-link[data-email-link] {
+    color: #FFFFFF !important;
+    font-weight: 700;
+}
+
+/* Bawa ki Duniya: a tactile little portal/seal, not a utility button. */
+.circular-reveal {
+    width: 94px !important;
+    height: 94px !important;
+    background: #F3EFE4 !important;
+    border: 1px solid rgba(2, 29, 49, .12) !important;
+    box-shadow:
+        0 9px 28px rgba(3, 8, 15, .23),
+        inset 0 1px 0 rgba(255,255,255,.82) !important;
+    overflow: visible !important;
+    transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease, opacity .28s ease !important;
+}
+
+.circular-reveal:hover,
+.circular-reveal:focus-visible {
+    transform: scale(1.045) !important;
+    box-shadow:
+        0 13px 34px rgba(3, 8, 15, .29),
+        inset 0 1px 0 rgba(255,255,255,.9) !important;
+}
+
+.circular-inner-1 {
+    inset: 7px !important;
+    background: #F3EFE4 !important;
+    border: 1px solid rgba(2,29,49,.13);
+    box-shadow: none !important;
+}
+
+.circular-inner-2 {
+    inset: 16px !important;
+    background: #F3EFE4 !important;
+    border: 1px solid rgba(2,29,49,.08);
+    box-shadow: none !important;
+}
+
+.circular-center-inner {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 4px !important;
+}
+
+.circular-center-name {
+    color: #08253A !important;
+    font-family: 'Manrope', sans-serif !important;
+    font-size: 10.5px !important;
+    line-height: 1.18 !important;
+    letter-spacing: -0.025em;
+}
+
+.portal-orbit {
+    position: absolute;
+    inset: 4px;
+    z-index: 8;
+    pointer-events: none;
+    transition: transform .65s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+}
+
+.portal-orbit svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.portal-orbit text {
+    fill: #08253A;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 5.8px;
+    font-weight: 500;
+    letter-spacing: .55px;
+    text-transform: uppercase;
+}
+
+.circular-reveal:hover .portal-orbit,
+.circular-reveal:focus-visible .portal-orbit {
+    transform: rotate(16deg);
+}
+
+.circular-reveal[data-state="fusing"] .portal-orbit,
+.circular-reveal[data-state="launching"] .portal-orbit {
+    opacity: 0;
+}
+
+/* Keep the subject protection broad and soft rather than visibly traced. */
+
+@media (max-width: 800px) {
+    .hero {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+    }
+
+    .hero .sticky-title {
+        max-width: none;
+        font-size: clamp(43px, 11vw, 54px) !important;
+        line-height: 1.01 !important;
+        margin-bottom: 8px !important;
+    }
+
+    .hero-role {
+        font-size: 19px !important;
+        line-height: 1.32 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .hero .bio-text {
+        font-size: 16px !important;
+        line-height: 1.61 !important;
+    }
+
+    .work-meta-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+        margin-bottom: 11px;
+    }
+
+    .work-meta-row .company {
+        font-size: 14px;
+    }
+
+    .circular-reveal {
+        width: 66px !important;
+        height: 66px !important;
+        right: 10px !important;
+        bottom: max(10px, env(safe-area-inset-bottom)) !important;
+        opacity: .96 !important;
+    }
+
+    .circular-inner-1 { inset: 5px !important; }
+    .circular-inner-2 { inset: 11px !important; }
+    .circular-center-name { font-size: 7.4px !important; }
+    .portal-orbit { inset: 3px; }
+    .portal-orbit text {
+        font-size: 5.6px;
+        letter-spacing: .32px;
+    }
+}
+
+@media (max-width: 440px) {
+    .hero-role {
+        max-width: 330px;
+    }
+
+    .hero-role-sep {
+        margin: 0 .25em;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .portal-orbit,
+    .circular-reveal {
+        transition: none !important;
+    }
+}
