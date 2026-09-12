@@ -17,13 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
         fab.classList.add('bawa-firecracker-object');
         fab.setAttribute('aria-label', 'Light the fuse — Bawa ki Duniya');
 
-        // Give the control its own floating stage. The shell handles the idle
-        // drift and moving shadow; the button itself remains the original
-        // launcher wired to the existing firecracker animation.
-        let shell = fab.parentElement && fab.parentElement.classList.contains('bawa-float-shell')
-            ? fab.parentElement
-            : null;
+        // Remove the previous side-by-side comparison wrapper if it exists.
+        const oldCluster = fab.closest('.bawa-compare-cluster');
+        if (oldCluster) {
+            oldCluster.parentNode.insertBefore(fab, oldCluster);
+            oldCluster.remove();
+        }
+        document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
 
+        // Stage = fixed position + shadow. Drift wrapper = slow idle movement.
+        // Button = cursor tilt + original click wiring.
+        let shell = fab.closest('.bawa-float-shell');
         if (!shell) {
             shell = document.createElement('div');
             shell.className = 'bawa-float-shell';
@@ -31,12 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
             shell.appendChild(fab);
         }
 
-        // Remove any comparison trigger left from the previous experiment.
-        document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
-        const oldCluster = document.querySelector('.bawa-compare-cluster');
-        if (oldCluster && oldCluster !== shell) {
-            while (oldCluster.firstChild) oldCluster.parentNode.insertBefore(oldCluster.firstChild, oldCluster);
-            oldCluster.remove();
+        let drift = fab.closest('.bawa-float-body');
+        if (!drift) {
+            drift = document.createElement('div');
+            drift.className = 'bawa-float-body';
+            fab.parentNode.insertBefore(drift, fab);
+            drift.appendChild(fab);
         }
 
         // Native button keyboard semantics; stop the legacy anonymous handler
@@ -55,9 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 const rect = fab.getBoundingClientRect();
                 const x = (event.clientX - rect.left) / rect.width - 0.5;
                 const y = (event.clientY - rect.top) / rect.height - 0.5;
-                fab.style.setProperty('--bawa-ry', `${(x * 7).toFixed(2)}deg`);
-                fab.style.setProperty('--bawa-rx', `${(-y * 6).toFixed(2)}deg`);
-                shell.style.setProperty('--shadow-x', `${(x * -7).toFixed(1)}px`);
+                fab.style.setProperty('--bawa-ry', `${(x * 8).toFixed(2)}deg`);
+                fab.style.setProperty('--bawa-rx', `${(-y * 7).toFixed(2)}deg`);
+                shell.style.setProperty('--shadow-x', `${(x * -8).toFixed(1)}px`);
             });
 
             fab.addEventListener('pointerleave', () => {
