@@ -1,4 +1,4 @@
-/* Focused final hierarchy + Bawa treatment. */
+/* Focused final hierarchy + Bawa comparison. */
 
 /* Hero: calmer editorial scale. */
 .hero {
@@ -14,13 +14,8 @@
     font-weight: 640 !important;
 }
 
-.hero .profile-stack {
-    gap: 26px;
-}
-
-.hero-intro {
-    max-width: 680px !important;
-}
+.hero .profile-stack { gap: 26px; }
+.hero-intro { max-width: 680px !important; }
 
 .hero-role {
     display: flex;
@@ -78,30 +73,90 @@
 }
 
 /* --------------------------------------------------------------------------
-   Bawa ki Duniya experiments
-   Default: postage stamp. Add ?bawa=portal to preview the arched portal.
+   Bawa ki Duniya: two trigger concepts shown together for direct comparison.
+   Both call the same existing firecracker / rocket sequence.
    -------------------------------------------------------------------------- */
-.circular-reveal {
-    right: 26px !important;
-    bottom: 24px !important;
-    border: 0 !important;
-    padding: 0 !important;
-    opacity: .99 !important;
-    overflow: visible !important;
-    cursor: pointer !important;
-    transition: transform .22s cubic-bezier(.2,.8,.2,1), filter .22s ease, opacity .2s ease, box-shadow .22s ease !important;
-    transform-origin: 70% 100%;
+.bawa-compare-cluster {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 1250;
+    display: flex;
+    align-items: flex-end;
+    gap: 18px;
+    pointer-events: none;
+}
+
+.bawa-concept {
+    pointer-events: auto;
+    cursor: pointer;
     -webkit-tap-highlight-color: transparent;
 }
 
-.circular-inner-1,
-.circular-inner-2,
-.portal-orbit,
-.portal-label {
+.bawa-concept:focus-visible {
+    outline: 3px solid rgba(255,255,255,.96) !important;
+    outline-offset: 5px !important;
+}
+
+/* Reset the legacy floating-circle positioning while keeping its click wiring. */
+.circular-reveal.bawa-firecracker-label {
+    position: relative !important;
+    inset: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 164px !important;
+    height: 98px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 2px solid #7C211C !important;
+    border-radius: 3px !important;
+    background:
+        linear-gradient(rgba(255,255,255,.025), rgba(255,255,255,.025)),
+        repeating-linear-gradient(0deg, rgba(93,58,24,.025) 0 1px, transparent 1px 4px),
+        #EFE0BE !important;
+    color: #071E2E !important;
+    box-shadow: 0 8px 19px rgba(0,10,20,.24), 3px 4px 0 rgba(70,25,14,.11) !important;
+    overflow: hidden !important;
+    opacity: 1 !important;
+    transform: rotate(-1.2deg) !important;
+    transform-origin: 50% 80%;
+    animation: none !important;
+    transition: transform .2s cubic-bezier(.2,.8,.2,1), box-shadow .2s ease, filter .2s ease, opacity .2s ease !important;
+}
+
+.circular-reveal.bawa-firecracker-label::before {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(124,33,28,.58);
+    box-shadow: inset 0 0 0 3px rgba(7,30,46,.055);
+    pointer-events: none;
+}
+
+.circular-reveal.bawa-firecracker-label::after {
+    content: 'BAWA FIREWORKS · INTERNET DEPT.';
+    position: absolute;
+    top: 10px;
+    left: 13px;
+    right: 13px;
+    color: rgba(124,33,28,.82);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.4px;
+    line-height: 1;
+    font-weight: 700;
+    letter-spacing: .09em;
+    text-align: center;
+    pointer-events: none;
+}
+
+.circular-reveal.bawa-firecracker-label .circular-inner-1,
+.circular-reveal.bawa-firecracker-label .circular-inner-2,
+.circular-reveal.bawa-firecracker-label .portal-orbit,
+.circular-reveal.bawa-firecracker-label .portal-label {
     display: none !important;
 }
 
-.circular-center {
+.circular-reveal.bawa-firecracker-label .circular-center {
     position: absolute !important;
     inset: 0 !important;
     display: grid !important;
@@ -109,7 +164,19 @@
     pointer-events: none;
 }
 
-.circular-center-inner {
+.circular-reveal.bawa-firecracker-label .circular-center::after {
+    content: '✦';
+    position: absolute;
+    right: 15px;
+    top: 32px;
+    color: #B12B20;
+    font-size: 13px;
+    line-height: 1;
+    transform: rotate(-10deg);
+    transition: transform .2s ease, text-shadow .2s ease;
+}
+
+.circular-reveal.bawa-firecracker-label .circular-center-inner {
     position: static !important;
     width: 100% !important;
     height: 100% !important;
@@ -117,177 +184,150 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 7px;
-    padding: 14px 12px 12px !important;
+    gap: 8px;
+    padding: 24px 16px 10px !important;
     background: transparent !important;
     box-shadow: none !important;
 }
 
-.circular-center-name {
+.circular-reveal.bawa-firecracker-label .circular-center-name {
     display: block;
-    color: #001C31 !important;
+    color: #071E2E !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
     font-size: 20px !important;
-    line-height: 1.08 !important;
-    font-weight: 780 !important;
-    letter-spacing: -0.035em;
+    line-height: 1.04 !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.04em;
     text-align: center !important;
     text-shadow: none !important;
     white-space: normal;
 }
 
-.circular-center-name::after { content: none !important; }
+.circular-reveal.bawa-firecracker-label .circular-center-name::after { content: none !important; }
 
-.circular-reveal:focus-visible {
-    outline: 3px solid rgba(255,255,255,.95) !important;
-    outline-offset: 5px !important;
-}
-
-.circular-reveal[data-state="fusing"],
-.circular-reveal[data-state="launching"] {
-    transform: translateY(4px) scale(.94) !important;
-    opacity: .14 !important;
-}
-
-/* Option A: arched doorway / portal. */
-html[data-bawa="portal"] .circular-reveal {
-    width: 108px !important;
-    height: 132px !important;
-    background: #F3EFE2 !important;
-    border: 2px solid #001C31 !important;
-    border-radius: 54px 54px 9px 9px / 62px 62px 9px 9px !important;
-    box-shadow: 0 7px 18px rgba(0, 10, 20, .22), inset 0 0 0 1px rgba(255,255,255,.72) !important;
-}
-
-html[data-bawa="portal"] .circular-reveal::before {
-    content: '';
-    position: absolute;
-    inset: 9px 9px 12px;
-    border: 1px solid rgba(0, 28, 49, .42);
-    border-radius: 45px 45px 5px 5px / 52px 52px 5px 5px;
-    pointer-events: none;
-}
-
-html[data-bawa="portal"] .circular-reveal::after {
-    content: '';
-    position: absolute;
-    left: 15px;
-    right: 15px;
-    bottom: 10px;
-    height: 3px;
-    border-radius: 99px;
-    background: #001C31;
-    opacity: .82;
-    pointer-events: none;
-}
-
-html[data-bawa="portal"] .circular-center-inner::after {
-    content: 'ENTER  ↗';
-    color: rgba(0, 28, 49, .7);
+.circular-reveal.bawa-firecracker-label .circular-center-inner::after {
+    content: 'LIGHT THE FUSE  ↗';
+    color: #7C211C;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
+    font-size: 7.2px;
     line-height: 1;
-    font-weight: 600;
-    letter-spacing: .11em;
+    font-weight: 800;
+    letter-spacing: .095em;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(124,33,28,.55);
 }
 
-html[data-bawa="portal"] .circular-reveal:hover,
-html[data-bawa="portal"] .circular-reveal:focus-visible {
-    transform: translate(-4px, -3px) rotate(-.7deg) !important;
-    filter: drop-shadow(0 10px 18px rgba(0, 12, 24, .24));
+.circular-reveal.bawa-firecracker-label:hover,
+.circular-reveal.bawa-firecracker-label:focus-visible {
+    transform: translateY(-5px) rotate(.25deg) !important;
+    box-shadow: 0 14px 25px rgba(0,10,20,.3), 4px 6px 0 rgba(70,25,14,.12) !important;
 }
 
-/* Option B / default: a tactile postage stamp with integrated action cues. */
-@keyframes bawa-stamp-arrive {
-    0%   { opacity: 0; transform: translateY(18px) rotate(-7deg) scale(.9); }
-    68%  { opacity: 1; transform: translateY(-2px) rotate(-.2deg) scale(1.025); }
-    100% { opacity: 1; transform: translateY(0) rotate(-1.4deg) scale(1); }
+.circular-reveal.bawa-firecracker-label:hover .circular-center::after,
+.circular-reveal.bawa-firecracker-label:focus-visible .circular-center::after {
+    transform: rotate(10deg) scale(1.3);
+    text-shadow: 0 0 8px rgba(190,46,30,.42);
 }
 
-html[data-bawa="stamp"] .circular-reveal {
-    width: 148px !important;
-    height: 108px !important;
-    background: #F1EBDD !important;
-    border: 2px dashed rgba(0, 28, 49, .82) !important;
-    border-radius: 2px !important;
-    outline: 5px solid #F1EBDD;
-    outline-offset: -1px;
-    box-shadow: 0 7px 18px rgba(0, 10, 20, .22), 2px 3px 0 rgba(0,28,49,.08) !important;
-    transform: rotate(-1.4deg) !important;
-    animation: bawa-stamp-arrive .52s cubic-bezier(.16,1,.3,1) .16s;
+/* Rocket launch tag: narrower, more mechanical, with a hanging-tag silhouette. */
+.bawa-launch-tag {
+    position: relative;
+    width: 112px;
+    height: 126px;
+    padding: 23px 12px 12px;
+    border: 0;
+    background: #EDE6D6;
+    color: #071E2E;
+    clip-path: polygon(16px 0, calc(100% - 16px) 0, 100% 17px, 100% 100%, 0 100%, 0 17px);
+    box-shadow: 0 8px 19px rgba(0,10,20,.24);
+    transform: rotate(1.2deg);
+    transform-origin: 50% 100%;
+    transition: transform .2s cubic-bezier(.2,.8,.2,1), filter .2s ease, opacity .2s ease;
+    font-family: 'Manrope', sans-serif;
 }
 
-/* Printed inset border. */
-html[data-bawa="stamp"] .circular-reveal::before {
+.bawa-launch-tag::before {
     content: '';
     position: absolute;
-    inset: 8px;
-    border: 1px solid rgba(0, 28, 49, .34);
+    inset: 7px;
+    border: 1px solid rgba(7,30,46,.38);
     pointer-events: none;
-    transition: border-color .2s ease;
 }
 
-/* Tiny postal heading reinforces that this is an object, not a card. */
-html[data-bawa="stamp"] .circular-reveal::after {
-    content: 'INTERNET POST · ONE WAY';
+.bawa-launch-tag::after {
+    content: '01';
     position: absolute;
     right: 11px;
-    top: 9px;
-    color: rgba(0, 28, 49, .58);
+    top: 11px;
+    color: rgba(7,30,46,.5);
     font-family: 'JetBrains Mono', monospace;
-    font-size: 6.5px;
-    font-weight: 600;
-    letter-spacing: .11em;
-    pointer-events: none;
-}
-
-html[data-bawa="stamp"] .circular-center-inner {
-    gap: 9px;
-    padding: 20px 14px 13px !important;
-}
-
-/* The action is printed into the stamp itself so clickability is discoverable. */
-html[data-bawa="stamp"] .circular-center-inner::after {
-    content: 'ENTER  ↗';
-    color: #001C31;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 8px;
-    line-height: 1;
+    font-size: 6px;
     font-weight: 700;
-    letter-spacing: .11em;
-    padding-bottom: 3px;
-    border-bottom: 1px solid rgba(0,28,49,.55);
+    letter-spacing: .1em;
 }
 
-/* Small folded paper corner: a physical cue that the stamp can be picked up. */
-html[data-bawa="stamp"] .circular-center::after {
-    content: '';
+.launch-tag-eyelet {
     position: absolute;
-    right: 7px;
-    bottom: 7px;
-    width: 15px;
-    height: 15px;
-    background: linear-gradient(135deg, rgba(0,28,49,.08) 0 49%, #FAF6EB 50% 100%);
-    box-shadow: -1px -1px 0 rgba(0,28,49,.12);
-    transform-origin: 100% 100%;
-    transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s ease;
+    top: 8px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #071E2E;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,.42);
+    box-shadow: inset 0 0 0 2px rgba(7,30,46,.08);
 }
 
-html[data-bawa="stamp"] .circular-reveal:hover,
-html[data-bawa="stamp"] .circular-reveal:focus-visible {
-    transform: translate(-4px, -5px) rotate(.15deg) !important;
-    box-shadow: 0 13px 24px rgba(0, 10, 20, .28), 3px 5px 0 rgba(0,28,49,.1) !important;
+.launch-tag-kicker,
+.launch-tag-title,
+.launch-tag-action {
+    display: block;
+    position: relative;
+    z-index: 1;
 }
 
-html[data-bawa="stamp"] .circular-reveal:hover::before,
-html[data-bawa="stamp"] .circular-reveal:focus-visible::before {
-    border-color: rgba(0,28,49,.55);
+.launch-tag-kicker {
+    margin-top: 9px;
+    color: rgba(7,30,46,.58);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.4px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: .09em;
 }
 
-html[data-bawa="stamp"] .circular-reveal:hover .circular-center::after,
-html[data-bawa="stamp"] .circular-reveal:focus-visible .circular-center::after {
-    transform: rotate(-10deg) translate(-1px, -1px) scale(1.12);
-    box-shadow: -2px -2px 2px rgba(0,28,49,.12);
+.launch-tag-title {
+    margin-top: 15px;
+    color: #071E2E;
+    font-size: 18px;
+    line-height: 1.02;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+}
+
+.launch-tag-action {
+    margin-top: 13px;
+    color: #7C211C;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7.2px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: .095em;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.bawa-launch-tag:hover,
+.bawa-launch-tag:focus-visible {
+    transform: translateY(-5px) rotate(-.25deg);
+    filter: drop-shadow(0 9px 10px rgba(0,10,20,.16));
+}
+
+.bawa-concept[data-state="fusing"],
+.bawa-concept[data-state="launching"] {
+    transform: translateY(4px) scale(.95) !important;
+    opacity: .16 !important;
 }
 
 @media (max-width: 800px) {
@@ -318,68 +358,78 @@ html[data-bawa="stamp"] .circular-reveal:focus-visible .circular-center::after {
     }
     .work-meta-row .company { font-size: 14px; }
 
-    .circular-reveal {
-        right: 14px !important;
-        bottom: max(14px, env(safe-area-inset-bottom)) !important;
+    .bawa-compare-cluster {
+        right: 12px;
+        bottom: max(12px, env(safe-area-inset-bottom));
+        gap: 10px;
     }
 
-    .circular-center-name {
+    .circular-reveal.bawa-firecracker-label {
+        width: 122px !important;
+        height: 76px !important;
+    }
+
+    .circular-reveal.bawa-firecracker-label::after {
+        top: 8px;
+        left: 9px;
+        right: 9px;
+        font-size: 4.8px;
+    }
+
+    .circular-reveal.bawa-firecracker-label .circular-center-inner {
+        gap: 5px;
+        padding: 19px 10px 8px !important;
+    }
+
+    .circular-reveal.bawa-firecracker-label .circular-center-name {
         font-size: 15px !important;
     }
 
-    html[data-bawa="portal"] .circular-reveal {
-        width: 76px !important;
-        height: 92px !important;
-        border-radius: 38px 38px 7px 7px / 45px 45px 7px 7px !important;
-    }
-    html[data-bawa="portal"] .circular-reveal::before {
-        inset: 7px 7px 9px;
-        border-radius: 31px 31px 4px 4px / 37px 37px 4px 4px;
-    }
-    html[data-bawa="portal"] .circular-reveal::after {
-        left: 11px;
-        right: 11px;
-        bottom: 7px;
-        height: 2px;
-    }
-    html[data-bawa="portal"] .circular-center-inner::after {
-        font-size: 6px;
+    .circular-reveal.bawa-firecracker-label .circular-center-inner::after {
+        content: 'TAP TO LIGHT  ↗';
+        font-size: 5.4px;
+        letter-spacing: .06em;
     }
 
-    html[data-bawa="stamp"] .circular-reveal {
-        width: 112px !important;
-        height: 82px !important;
-        outline-width: 4px;
-        animation-duration: .46s;
+    .circular-reveal.bawa-firecracker-label .circular-center::after {
+        right: 11px;
+        top: 25px;
+        font-size: 9px;
     }
-    html[data-bawa="stamp"] .circular-reveal::after {
-        content: 'INTERNET POST';
-        right: 8px;
-        top: 7px;
-        font-size: 5px;
+
+    .bawa-launch-tag {
+        width: 86px;
+        height: 96px;
+        padding: 18px 9px 9px;
+        clip-path: polygon(12px 0, calc(100% - 12px) 0, 100% 13px, 100% 100%, 0 100%, 0 13px);
     }
-    html[data-bawa="stamp"] .circular-center-inner {
-        gap: 6px;
-        padding: 16px 10px 10px !important;
+
+    .launch-tag-eyelet {
+        top: 6px;
+        width: 8px;
+        height: 8px;
     }
-    html[data-bawa="stamp"] .circular-center-inner::after {
-        content: 'TAP TO ENTER  ↗';
-        font-size: 5.8px;
-        letter-spacing: .065em;
-        padding-bottom: 2px;
+
+    .launch-tag-kicker {
+        margin-top: 7px;
+        font-size: 4.7px;
     }
-    html[data-bawa="stamp"] .circular-center::after {
-        right: 5px;
-        bottom: 5px;
-        width: 11px;
-        height: 11px;
+
+    .launch-tag-title {
+        margin-top: 11px;
+        font-size: 14px;
+    }
+
+    .launch-tag-action {
+        margin-top: 10px;
+        font-size: 5.4px;
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .circular-reveal {
+    .bawa-concept,
+    .circular-reveal.bawa-firecracker-label .circular-center::after {
         transition: none !important;
         animation: none !important;
     }
-    .circular-center::after { transition: none !important; }
 }
