@@ -5,10 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         heroTitle.setAttribute('aria-label', 'Farish Punjani');
     }
 
-    // Bawa visual experiments. Stamp is the default; ?bawa=portal keeps the alternate available.
-    const bawaParam = new URLSearchParams(window.location.search).get('bawa');
-    document.documentElement.dataset.bawa = bawaParam === 'portal' ? 'portal' : 'stamp';
-
     const fab = document.getElementById('circular-reveal');
 
     if (fab) {
@@ -18,9 +14,37 @@ document.addEventListener('DOMContentLoaded', () => {
         const oldLabel = fab.querySelector('.portal-label');
         if (oldLabel) oldLabel.remove();
 
-        fab.setAttribute('aria-label', 'Enter Bawa ki Duniya — a strange corner of the internet');
+        fab.classList.add('bawa-concept', 'bawa-firecracker-label');
+        fab.setAttribute('aria-label', 'Light the fuse — Bawa ki Duniya');
 
-        // Native button keyboard semantics; stop the legacy anonymous handler from firing twice.
+        // Show both trigger concepts together while preserving the existing
+        // firecracker animation and its original trigger wiring.
+        const cluster = document.createElement('div');
+        cluster.className = 'bawa-compare-cluster';
+        cluster.setAttribute('aria-label', 'Bawa ki Duniya trigger concepts');
+        fab.parentNode.insertBefore(cluster, fab);
+        cluster.appendChild(fab);
+
+        const launchTag = document.createElement('button');
+        launchTag.type = 'button';
+        launchTag.className = 'bawa-concept bawa-launch-tag';
+        launchTag.setAttribute('aria-label', 'Launch Bawa ki Duniya');
+        launchTag.innerHTML = `
+            <span class="launch-tag-eyelet" aria-hidden="true"></span>
+            <span class="launch-tag-kicker" aria-hidden="true">BAWA LAUNCH PASS</span>
+            <span class="launch-tag-title">बावा की<br>दुनिया</span>
+            <span class="launch-tag-action" aria-hidden="true">LAUNCH ↗</span>
+        `;
+        cluster.appendChild(launchTag);
+
+        // The alternate concept calls the exact same existing launcher.
+        // playRocketAnimation() and the firecracker sequence remain untouched.
+        launchTag.addEventListener('click', () => {
+            if (typeof triggerRandomSite === 'function') triggerRandomSite();
+        });
+
+        // Native button keyboard semantics; stop the legacy anonymous handler
+        // on the original control from firing twice.
         fab.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.stopImmediatePropagation();
@@ -29,10 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const syncState = () => {
             fab.removeAttribute('aria-pressed');
-            if (fab.dataset.state && fab.dataset.state !== 'idle') {
+            const state = fab.dataset.state || 'idle';
+            launchTag.dataset.state = state;
+
+            if (state !== 'idle') {
                 fab.setAttribute('aria-busy', 'true');
+                launchTag.setAttribute('aria-busy', 'true');
+                launchTag.setAttribute('aria-disabled', 'true');
             } else {
                 fab.removeAttribute('aria-busy');
+                launchTag.removeAttribute('aria-busy');
+                launchTag.removeAttribute('aria-disabled');
             }
         };
 
