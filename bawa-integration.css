@@ -1,0 +1,277 @@
+/* Bawa integration pass: make the physical object belong to the photographic/pixel portfolio. */
+
+@keyframes bawa-flame-flicker {
+    0%, 100% {
+        transform: translate(-50%, -78%) rotate(38deg) scale(.92, 1.02);
+        filter: brightness(1) saturate(1);
+    }
+    28% {
+        transform: translate(-50%, -81%) rotate(36deg) scale(1.04, .94);
+        filter: brightness(1.08) saturate(1.08);
+    }
+    56% {
+        transform: translate(-50%, -76%) rotate(40deg) scale(.88, 1.1);
+        filter: brightness(.98) saturate(1.02);
+    }
+    78% {
+        transform: translate(-50%, -82%) rotate(37deg) scale(1.02, 1.04);
+        filter: brightness(1.05) saturate(1.06);
+    }
+}
+
+@keyframes bawa-flame-core {
+    0%, 100% { opacity: .9; transform: translate(-50%, -80%) rotate(38deg) scale(.9); }
+    50%      { opacity: 1; transform: translate(-50%, -84%) rotate(37deg) scale(1.05); }
+}
+
+/* The object is colour-graded toward the page rather than reading like a pasted illustration. */
+.circular-reveal.bawa-firecracker-object {
+    filter: saturate(.82) contrast(.96) brightness(.985);
+    opacity: .96 !important;
+    box-shadow:
+        3px 4px 0 rgba(4, 23, 36, .9),
+        0 14px 30px rgba(0, 8, 16, .28),
+        inset 0 0 0 1px rgba(255,255,255,.035) !important;
+    transition:
+        transform .18s cubic-bezier(.2,.8,.2,1),
+        box-shadow .22s ease,
+        filter .22s ease,
+        opacity .22s ease !important;
+}
+
+.circular-reveal.bawa-firecracker-object:hover,
+.circular-reveal.bawa-firecracker-object:focus-visible {
+    filter: saturate(.98) contrast(1) brightness(1.025);
+    opacity: 1 !important;
+    box-shadow:
+        4px 5px 0 rgba(4, 23, 36, .92),
+        0 20px 38px rgba(0, 8, 16, .34),
+        inset 0 0 0 1px rgba(255,255,255,.05) !important;
+}
+
+/* Softer sleeve faces and paper tones borrow from the cool beach palette. */
+.circular-reveal.bawa-firecracker-object {
+    background:
+        linear-gradient(90deg, rgba(255,255,255,.065), transparent 13%, transparent 86%, rgba(255,255,255,.02)),
+        linear-gradient(145deg, #12364A 0%, #0C2D40 57%, #081E2D 100%) !important;
+}
+
+.circular-reveal.bawa-firecracker-object::before {
+    background: linear-gradient(90deg, #1A4355, #102D3E 72%, #0A2232) !important;
+    border-color: rgba(6,24,34,.62) !important;
+}
+
+.circular-reveal.bawa-firecracker-object::after {
+    background: linear-gradient(90deg, #071A26, #0A2230 70%, #0C2736) !important;
+    border-color: rgba(2,14,22,.68) !important;
+}
+
+.circular-reveal.bawa-firecracker-object .circular-center {
+    border-color: rgba(102,66,56,.52) !important;
+    background:
+        radial-gradient(circle at 22% 16%, rgba(255,255,255,.42), transparent 25%),
+        repeating-linear-gradient(0deg, rgba(68,70,66,.018) 0 1px, transparent 1px 4px),
+        linear-gradient(145deg, #EEE8D9, #D9D0BD) !important;
+    box-shadow:
+        inset 0 0 0 3px rgba(54,78,89,.035),
+        inset 0 0 14px rgba(28,44,54,.055),
+        1px 1px 0 rgba(255,255,255,.32) !important;
+}
+
+.circular-reveal.bawa-firecracker-object .circular-center-name {
+    color: #0B293A !important;
+}
+
+.circular-reveal.bawa-firecracker-object .circular-center-inner::before,
+.circular-reveal.bawa-firecracker-object .circular-center-inner::after {
+    color: #71473E !important;
+}
+
+.circular-reveal.bawa-firecracker-object .bawa-box-emblem {
+    border-color: rgba(113,71,62,.5) !important;
+    color: #71473E !important;
+    background: rgba(244,239,222,.28) !important;
+}
+
+.circular-reveal.bawa-firecracker-object .bawa-box-emblem span {
+    background: #E4DCC8 !important;
+}
+
+/* Tray/cardboard stays warm, though less orange and less cartoon-like. */
+.circular-reveal.bawa-firecracker-object .bawa-box-tray {
+    border-color: rgba(76,50,39,.72) !important;
+    background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 4px),
+        linear-gradient(180deg, #A97B5E 0%, #87604B 64%, #6B493B 100%) !important;
+    box-shadow:
+        inset 10px 0 11px rgba(38,24,18,.2),
+        2px 4px 0 rgba(43,30,25,.14),
+        0 10px 18px rgba(0,0,0,.17) !important;
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+.circular-reveal.bawa-firecracker-object .bawa-box-tray::before {
+    background: linear-gradient(180deg, #594037, #3E2D28 75%) !important;
+    border-color: rgba(48,34,29,.58) !important;
+}
+
+.circular-reveal.bawa-firecracker-object .bawa-box-tray::after {
+    background: linear-gradient(180deg, #BD9270, #8B6753 72%, #715040) !important;
+}
+
+.bawa-tray-match {
+    background: linear-gradient(90deg, #C5AA78, #DAC493 78%, #AF8B5E) !important;
+}
+
+.bawa-tray-match::after {
+    background: radial-gradient(circle at 36% 30%, #955845, #62352C 72%, #40241F) !important;
+}
+
+.circular-reveal.bawa-firecracker-object .bawa-box-striker {
+    background:
+        repeating-linear-gradient(135deg, rgba(244,226,203,.13) 0 1px, transparent 1px 3px),
+        linear-gradient(#79504A, #563835) !important;
+}
+
+/* A lit match is visible at all times. The head is charred; the flame sits above it. */
+.circular-reveal.bawa-firecracker-object .bawa-matchstick {
+    pointer-events: auto !important;
+    cursor: pointer;
+}
+
+.circular-reveal.bawa-firecracker-object .bawa-match-head {
+    width: 13px !important;
+    height: 14px !important;
+    top: -7px !important;
+    background: radial-gradient(circle at 40% 32%, #7E3B2B 0 24%, #54271F 25% 62%, #2C1714 63% 100%) !important;
+    box-shadow:
+        0 0 5px rgba(255,151,36,.36),
+        0 0 13px rgba(245,96,18,.16) !important;
+    animation: none !important;
+    filter: none !important;
+}
+
+/* Outer flame: permanent orange/yellow fire rather than a glowing orb. */
+.circular-reveal.bawa-firecracker-object .bawa-match-head::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: -5px !important;
+    width: 13px !important;
+    height: 22px !important;
+    inset: auto !important;
+    border-radius: 70% 36% 68% 42% !important;
+    background:
+        radial-gradient(ellipse at 50% 76%,
+            #FFF6C9 0 13%,
+            #FFD65A 14% 29%,
+            #FF9A25 30% 52%,
+            #ED6418 53% 68%,
+            rgba(200,63,10,.78) 69% 76%,
+            transparent 77%) !important;
+    box-shadow:
+        0 0 6px rgba(255,218,108,.9),
+        0 0 14px rgba(255,151,38,.72),
+        0 0 26px rgba(241,82,14,.34) !important;
+    filter: drop-shadow(0 0 3px rgba(255,181,54,.72)) !important;
+    transform-origin: 50% 100% !important;
+    animation: bawa-flame-flicker .62s ease-in-out infinite !important;
+    pointer-events: none;
+}
+
+/* Inner hot core keeps the flame readable against both sky and water. */
+.circular-reveal.bawa-firecracker-object .bawa-match-head::after {
+    content: '' !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: -2px !important;
+    width: 6px !important;
+    height: 13px !important;
+    border-radius: 65% 40% 66% 45% !important;
+    background: linear-gradient(180deg, #FFFCE8 0%, #FFE98F 46%, rgba(255,181,45,.2) 100%) !important;
+    box-shadow: 0 0 5px rgba(255,245,193,.8) !important;
+    transform-origin: 50% 100% !important;
+    animation: bawa-flame-core .7s ease-in-out infinite !important;
+    pointer-events: none;
+}
+
+/* Hover/press turns up the flame and keeps the existing crackle sparks. */
+.circular-reveal.bawa-firecracker-object:hover .bawa-match-head::before,
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-head::before,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-match-head::before {
+    width: 15px !important;
+    height: 25px !important;
+    animation-duration: .34s !important;
+    box-shadow:
+        0 0 8px rgba(255,228,132,1),
+        0 0 18px rgba(255,159,38,.9),
+        0 0 34px rgba(241,82,14,.5) !important;
+}
+
+.circular-reveal.bawa-firecracker-object:hover .bawa-match-head::after,
+.circular-reveal.bawa-firecracker-object:focus-visible .bawa-match-head::after,
+.circular-reveal.bawa-firecracker-object.bawa-touch-ignite .bawa-match-head::after {
+    height: 15px !important;
+    animation-duration: .38s !important;
+}
+
+/* The shadow feels like the same soft photographic light as the background. */
+.bawa-float-shell::after {
+    background: rgba(0, 10, 18, .48) !important;
+    opacity: .22 !important;
+    filter: blur(11px) !important;
+}
+
+/* Warm orange becomes a tiny interaction accent elsewhere, connecting Bawa to the page. */
+.hero-imdb-link span[aria-hidden="true"],
+.text-link span[aria-hidden="true"],
+.contact-link span[aria-hidden="true"] {
+    transition: color .18s ease, text-shadow .18s ease, transform .18s ease;
+    display: inline-block;
+}
+
+.hero-imdb-link:hover span[aria-hidden="true"],
+.text-link:hover span[aria-hidden="true"],
+.contact-link:hover span[aria-hidden="true"],
+.hero-imdb-link:focus-visible span[aria-hidden="true"],
+.text-link:focus-visible span[aria-hidden="true"],
+.contact-link:focus-visible span[aria-hidden="true"] {
+    color: #FFB25A;
+    text-shadow: 0 0 9px rgba(245,126,31,.2);
+    transform: translate(1px, -1px);
+}
+
+.nav-logo img {
+    transition: box-shadow .2s ease, filter .2s ease;
+}
+
+.nav-logo:hover img,
+.nav-logo:focus-visible img {
+    box-shadow: 0 0 0 1px rgba(255,190,100,.42), 0 0 11px rgba(243,126,36,.16);
+    filter: saturate(1.04) brightness(1.03);
+}
+
+@media (max-width: 800px) {
+    .circular-reveal.bawa-firecracker-object .bawa-match-head::before {
+        width: 10px !important;
+        height: 17px !important;
+        top: -4px !important;
+        box-shadow:
+            0 0 5px rgba(255,218,108,.82),
+            0 0 11px rgba(255,151,38,.62),
+            0 0 20px rgba(241,82,14,.28) !important;
+    }
+
+    .circular-reveal.bawa-firecracker-object .bawa-match-head::after {
+        width: 5px !important;
+        height: 10px !important;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .circular-reveal.bawa-firecracker-object .bawa-match-head::before,
+    .circular-reveal.bawa-firecracker-object .bawa-match-head::after {
+        animation: none !important;
+    }
+}
