@@ -5,20 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
         heroTitle.setAttribute('aria-label', 'Farish Punjani');
     }
 
+    // Bawa visual experiments. Portal is the default; ?bawa=stamp previews the stamp.
+    const bawaParam = new URLSearchParams(window.location.search).get('bawa');
+    document.documentElement.dataset.bawa = bawaParam === 'stamp' ? 'stamp' : 'portal';
+
     const fab = document.getElementById('circular-reveal');
 
     if (fab) {
-        // Replace the tiny circular instruction with a readable attached portal label.
         const orbit = fab.querySelector('.portal-orbit');
         if (orbit) orbit.setAttribute('aria-hidden', 'true');
 
-        if (!fab.querySelector('.portal-label')) {
-            const label = document.createElement('span');
-            label.className = 'portal-label';
-            label.setAttribute('aria-hidden', 'true');
-            label.innerHTML = '<span class="portal-label-kicker">Bawa ki duniya</span><span class="portal-label-copy">open a strange corner of the internet <span class="portal-label-arrow">↗</span></span>';
-            fab.appendChild(label);
-        }
+        const oldLabel = fab.querySelector('.portal-label');
+        if (oldLabel) oldLabel.remove();
+
+        fab.setAttribute('aria-label', 'Open Bawa ki Duniya — a strange corner of the internet');
 
         // The control is now a native button. Stop the legacy anonymous key handler
         // and let the browser generate the standard click for Enter/Space.
