@@ -39,6 +39,12 @@
     <div class="bg-overlay" aria-hidden="true"></div>
 
     <button class="circular-reveal" id="circular-reveal" type="button" data-state="idle" aria-label="Open a strange corner of the internet">
+        <span class="portal-orbit" aria-hidden="true">
+            <svg viewBox="0 0 100 100" focusable="false">
+                <defs><path id="portal-ring-path" d="M50,50 m-39,0 a39,39 0 1,1 78,0 a39,39 0 1,1 -78,0"/></defs>
+                <text><textPath href="#portal-ring-path" startOffset="0%">OPEN A STRANGE CORNER OF THE INTERNET · </textPath></text>
+            </svg>
+        </span>
         <span class="circular-inner-1" aria-hidden="true"></span>
         <span class="circular-inner-2" aria-hidden="true"></span>
         <span class="circular-center" aria-hidden="true"><span class="circular-center-inner" id="circular-center-text"><span class="circular-center-name">बावा की<br>दुनिया</span></span></span>
@@ -52,17 +58,16 @@
 
     <main id="main-content" class="container">
         <section class="section-layout hero" aria-labelledby="hero-title">
-            <div class="section-title-col"><h1 class="sticky-title" id="hero-title">Farish Punjani</h1></div>
+            <div class="section-title-col"><h1 class="sticky-title" id="hero-title">Hi, I’m Farish.</h1></div>
             <div class="profile-stack">
                 <div class="hero-intro">
-                    <p class="hero-role">Founder · Software Engineer · Filmmaker</p>
+                    <p class="hero-role"><span>Founder</span><span class="hero-role-sep">·</span><span>Software Engineer</span><span class="hero-role-sep">·</span><span>Filmmaker</span></p>
                     <div class="bio-text hero-story">
-                        <p>I’m Farish.</p>
                         <p>At Manulife Bank, I build and maintain systems behind everyday banking. I also founded SettleWorth to help Canadians find settlement claims and understand how to take part.</p>
                         <p>I am also a filmmaker. I like human stories, however they come.</p>
                         <p>You can often find me re-watching 2000s Indian TV ads, anything to do with test cricket, and the movie Agent Vinod. Fun fact, I actually am Agent Vinod.</p>
                     </div>
-                    <a class="hero-imdb-link" href="https://www.imdb.com/name/nm14102321/" target="_blank" rel="noopener noreferrer">IMDb <span aria-hidden="true">↗</span></a>
+                    <a class="hero-imdb-link" href="https://www.imdb.com/name/nm14102321/" target="_blank" rel="noopener noreferrer">Film credits — IMDb <span aria-hidden="true">↗</span></a>
                 </div>
 
                 <dl class="info-grid hero-meta">
@@ -86,24 +91,28 @@
         <section class="section-layout" id="work" aria-labelledby="work-title">
             <div class="section-title-col"><h2 class="sticky-title" id="work-title">Work</h2></div>
             <div class="timeline-list">
-                <article class="timeline-item">
-                    <div class="role-row"><span class="role">Founder — SettleWorth</span><span class="timeline-date">2026–Present</span></div>
+                <article class="timeline-item company-settleworth">
+                    <div class="role-row"><span class="role">Founder</span></div>
+                    <div class="work-meta-row"><span class="company">SettleWorth</span><span class="timeline-date">2026–Present</span></div>
                     <p class="description">I took SettleWorth from an idea to a live product, handling research, design and development. I decide what to build, work through the claim requirements, and maintain the application after release.</p>
                 </article>
 
-                <article class="timeline-item">
-                    <div class="role-row"><span class="role">Software Engineer II — Manulife Bank</span><span class="timeline-date">Aug 2025–Present</span></div>
+                <article class="timeline-item company-manulife">
+                    <div class="role-row"><span class="role">Software Engineer II</span></div>
+                    <div class="work-meta-row"><span class="company">Manulife Bank</span><span class="timeline-date">Aug 2025–Present</span></div>
                     <p class="description">I improve banking workflows and investigate failures across applications, cloud infrastructure and legacy systems.</p>
                     <p class="description">I also extend GitHub Copilot workflows for investigation, testing and release preparation, turning recurring engineering tasks into reusable procedures.</p>
                 </article>
 
-                <article class="timeline-item">
-                    <div class="role-row"><span class="role">Software Engineer — Manulife Bank</span><span class="timeline-date">Jan 2023–Aug 2025</span></div>
+                <article class="timeline-item company-manulife">
+                    <div class="role-row"><span class="role">Software Engineer</span></div>
+                    <div class="work-meta-row"><span class="company">Manulife Bank</span><span class="timeline-date">Jan 2023–Aug 2025</span></div>
                     <p class="description">I built C# automation to generate and distribute application-health reports, improved monitoring for banking services, and migrated financial file workflows to managed file transfer. I worked with vendors and internal teams to test changes and bring them into production.</p>
                 </article>
 
-                <article class="timeline-item">
-                    <div class="role-row"><span class="role">Associate Platform Reliability Engineer — Manulife Bank</span><span class="timeline-date">Dec 2021–Jan 2023</span></div>
+                <article class="timeline-item company-manulife">
+                    <div class="role-row"><span class="role">Associate Platform Reliability Engineer</span></div>
+                    <div class="work-meta-row"><span class="company">Manulife Bank</span><span class="timeline-date">Dec 2021–Jan 2023</span></div>
                     <p class="description">I supported banking applications and scheduled processing, investigated failed jobs, and helped restore service during on-call shifts.</p>
                 </article>
             </div>
@@ -132,21 +141,21 @@
 
         <section class="section-layout" aria-labelledby="education-title">
             <div class="section-title-col"><h2 class="sticky-title" id="education-title">Education</h2></div>
-            <div class="timeline-list"><article class="timeline-item"><div class="role-row"><span class="role">B.Sc. Computer Science, Minor in Film Studies</span><span class="timeline-date">2017–2021</span></div><span class="company">University of Alberta</span></article></div>
+            <div class="timeline-list"><article class="timeline-item"><div class="role-row"><span class="role">B.Sc. Computer Science, Minor in Film Studies</span></div><div class="work-meta-row"><span class="company">University of Alberta</span><span class="timeline-date">2017–2021</span></div></article></div>
         </section>
 
         <section class="section-layout" id="writing" aria-labelledby="newsletter-title">
             <div class="section-title-col"><h2 class="sticky-title" id="newsletter-title">Writing</h2></div>
             <div class="newsletter-editorial">
                 <div class="newsletter-copy"><h3>main, aur bawa</h3><p class="writing-tagline">‘I am, so I must.’</p></div>
-                <div class="newsletter-actions"><a class="text-link text-link-primary" href="https://agentvinod.substack.com/archive" target="_blank" rel="noopener noreferrer">Read my writing <span aria-hidden="true">↗</span></a><a class="text-link" href="https://agentvinod.substack.com" target="_blank" rel="noopener noreferrer">Subscribe</a></div>
+                <div class="newsletter-actions"><a class="text-link text-link-primary" href="https://agentvinod.substack.com/archive" target="_blank" rel="noopener noreferrer">Read main, aur bawa <span aria-hidden="true">↗</span></a><a class="text-link" href="https://agentvinod.substack.com" target="_blank" rel="noopener noreferrer">Subscribe</a></div>
             </div>
         </section>
 
         <section class="section-layout connect-section" id="connect" aria-labelledby="connect-title">
             <div class="section-title-col"><h2 class="sticky-title" id="connect-title">Get in touch</h2></div>
             <div class="contact-block">
-                <p>If you’re hiring, have a project in mind, or would like to talk about something I’ve built, I’d be happy to hear from you.</p>
+                <p>If you’re hiring, have a project in mind, want to talk about something I’ve built, or have any weird, crazy stories to tell me, send me a pigeon right away.</p>
                 <div class="contact-links"><a href="https://linkedin.com/in/farishh" target="_blank" rel="noopener noreferrer" class="contact-link">LinkedIn <span aria-hidden="true">↗</span></a><a href="https://github.com/fpunjani" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub <span aria-hidden="true">↗</span></a><a href="https://www.imdb.com/name/nm14102321/" target="_blank" rel="noopener noreferrer" class="contact-link">IMDb <span aria-hidden="true">↗</span></a></div>
             </div>
         </section>
