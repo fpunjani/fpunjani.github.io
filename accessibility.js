@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         emailLink.href = `mailto:${localPart}@${domain}`;
         emailLink.className = 'contact-link';
         emailLink.dataset.emailLink = '';
-        emailLink.innerHTML = 'Email <span aria-hidden="true">↗</span>';
+        emailLink.innerHTML = 'Send a pigeon <span aria-hidden="true">↗</span>';
         contactLinks.prepend(emailLink);
     }
 });
