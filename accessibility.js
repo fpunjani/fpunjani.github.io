@@ -14,56 +14,68 @@ document.addEventListener('DOMContentLoaded', () => {
         const oldLabel = fab.querySelector('.portal-label');
         if (oldLabel) oldLabel.remove();
 
-        fab.classList.add('bawa-concept', 'bawa-firecracker-label');
+        fab.classList.add('bawa-firecracker-object');
         fab.setAttribute('aria-label', 'Light the fuse — Bawa ki Duniya');
 
-        // Show both trigger concepts together while preserving the existing
-        // firecracker animation and its original trigger wiring.
-        const cluster = document.createElement('div');
-        cluster.className = 'bawa-compare-cluster';
-        cluster.setAttribute('aria-label', 'Bawa ki Duniya trigger concepts');
-        fab.parentNode.insertBefore(cluster, fab);
-        cluster.appendChild(fab);
+        // Give the control its own floating stage. The shell handles the idle
+        // drift and moving shadow; the button itself remains the original
+        // launcher wired to the existing firecracker animation.
+        let shell = fab.parentElement && fab.parentElement.classList.contains('bawa-float-shell')
+            ? fab.parentElement
+            : null;
 
-        const launchTag = document.createElement('button');
-        launchTag.type = 'button';
-        launchTag.className = 'bawa-concept bawa-launch-tag';
-        launchTag.setAttribute('aria-label', 'Launch Bawa ki Duniya');
-        launchTag.innerHTML = `
-            <span class="launch-tag-eyelet" aria-hidden="true"></span>
-            <span class="launch-tag-kicker" aria-hidden="true">BAWA LAUNCH PASS</span>
-            <span class="launch-tag-title">बावा की<br>दुनिया</span>
-            <span class="launch-tag-action" aria-hidden="true">LAUNCH ↗</span>
-        `;
-        cluster.appendChild(launchTag);
+        if (!shell) {
+            shell = document.createElement('div');
+            shell.className = 'bawa-float-shell';
+            fab.parentNode.insertBefore(shell, fab);
+            shell.appendChild(fab);
+        }
 
-        // The alternate concept calls the exact same existing launcher.
-        // playRocketAnimation() and the firecracker sequence remain untouched.
-        launchTag.addEventListener('click', () => {
-            if (typeof triggerRandomSite === 'function') triggerRandomSite();
-        });
+        // Remove any comparison trigger left from the previous experiment.
+        document.querySelectorAll('.bawa-launch-tag').forEach((node) => node.remove());
+        const oldCluster = document.querySelector('.bawa-compare-cluster');
+        if (oldCluster && oldCluster !== shell) {
+            while (oldCluster.firstChild) oldCluster.parentNode.insertBefore(oldCluster.firstChild, oldCluster);
+            oldCluster.remove();
+        }
 
         // Native button keyboard semantics; stop the legacy anonymous handler
-        // on the original control from firing twice.
+        // from firing twice for Enter/Space.
         fab.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.stopImmediatePropagation();
             }
         }, true);
 
+        const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (finePointer.matches && !reducedMotion.matches) {
+            fab.addEventListener('pointermove', (event) => {
+                const rect = fab.getBoundingClientRect();
+                const x = (event.clientX - rect.left) / rect.width - 0.5;
+                const y = (event.clientY - rect.top) / rect.height - 0.5;
+                fab.style.setProperty('--bawa-ry', `${(x * 7).toFixed(2)}deg`);
+                fab.style.setProperty('--bawa-rx', `${(-y * 6).toFixed(2)}deg`);
+                shell.style.setProperty('--shadow-x', `${(x * -7).toFixed(1)}px`);
+            });
+
+            fab.addEventListener('pointerleave', () => {
+                fab.style.removeProperty('--bawa-rx');
+                fab.style.removeProperty('--bawa-ry');
+                shell.style.removeProperty('--shadow-x');
+            });
+        }
+
         const syncState = () => {
             fab.removeAttribute('aria-pressed');
             const state = fab.dataset.state || 'idle';
-            launchTag.dataset.state = state;
+            shell.dataset.state = state;
 
             if (state !== 'idle') {
                 fab.setAttribute('aria-busy', 'true');
-                launchTag.setAttribute('aria-busy', 'true');
-                launchTag.setAttribute('aria-disabled', 'true');
             } else {
                 fab.removeAttribute('aria-busy');
-                launchTag.removeAttribute('aria-busy');
-                launchTag.removeAttribute('aria-disabled');
             }
         };
 
