@@ -7,6 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(bawaStyles);
     }
 
+    if (!document.querySelector('link[data-bawa-integration]')) {
+        const integrationStyles = document.createElement('link');
+        integrationStyles.rel = 'stylesheet';
+        integrationStyles.href = './bawa-integration.css';
+        integrationStyles.dataset.bawaIntegration = '';
+        document.head.appendChild(integrationStyles);
+    }
+
     const heroTitle = document.getElementById('hero-title');
     if (heroTitle) {
         heroTitle.innerHTML = 'Farish<br>Punjani';
