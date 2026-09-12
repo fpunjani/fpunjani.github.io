@@ -32,4 +32,17 @@
 
         return nativeAddEventListener(type, throttledListener, options);
     };
+
+    // Load the final Bawa/photo integration layer after the other DOMContentLoaded
+    // handlers have appended their Bawa styles, so this remains the final visual pass.
+    document.addEventListener('DOMContentLoaded', () => {
+        window.setTimeout(() => {
+            if (document.querySelector('link[data-bawa-scene-integration]')) return;
+            const sceneStyles = document.createElement('link');
+            sceneStyles.rel = 'stylesheet';
+            sceneStyles.href = './bawa-scene-integration.css';
+            sceneStyles.dataset.bawaSceneIntegration = '';
+            document.head.appendChild(sceneStyles);
+        }, 0);
+    });
 })();
